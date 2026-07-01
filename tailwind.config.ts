@@ -21,7 +21,12 @@ const config: Config = {
         border: 'var(--color-border)',
         accent: 'var(--color-accent)',
         'accent-secondary': 'var(--color-accent-secondary)',
+        'accent-subtle': 'var(--color-accent-subtle)',
         highlight: 'var(--color-highlight)',
+        // Translucent border roles (Tailwind v3 drops the `/opacity` modifier on
+        // var()-based colors, so these are dedicated tokens rather than `/40`).
+        divider: 'var(--color-divider)',
+        'divider-faint': 'var(--color-divider-faint)',
       },
       fontFamily: {
         sans: ['var(--font-kalam)', ...defaultTheme.fontFamily.sans],

@@ -38,7 +38,7 @@ export default function ContactSection() {
               href={link.href}
               target={link.href.startsWith('http') ? '_blank' : undefined}
               rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              className={`glass rounded-xl p-4 flex flex-col gap-1 hover:border-accent/30 transition-colors group ${i % 2 ? 'tilt-b' : 'tilt-a'}`}
+              className={`glass rounded-xl p-4 flex flex-col gap-1 hover:!border-accent-subtle transition-colors group ${i % 2 ? 'tilt-b' : 'tilt-a'}`}
               variants={prefersReduced ? {} : fadeUp}
             >
               <span className="text-xs text-muted uppercase tracking-wider">{link.label}</span>

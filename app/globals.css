@@ -37,6 +37,9 @@
   --color-marker: color-mix(in srgb, var(--color-highlight) 45%, transparent); /* selection + text highlight */
   --color-contour: color-mix(in srgb, var(--color-accent) 20%, transparent); /* cartographic rings */
   --color-route: color-mix(in srgb, var(--color-accent) 34%, transparent); /* pencil draft passes */
+  --color-divider: color-mix(in srgb, var(--color-border) 40%, transparent); /* dashed section dividers */
+  --color-divider-faint: color-mix(in srgb, var(--color-border) 20%, transparent); /* subtler header rule */
+  --color-accent-subtle: color-mix(in srgb, var(--color-accent) 30%, transparent); /* hover border tint */
 }
 
 @layer base {

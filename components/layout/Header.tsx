@@ -19,7 +19,7 @@ export default function Header() {
     // Trade-off: no scroll-up reveal; the header returns only when at page top.
     // This is the same trade-off agentafk-landing intentionally makes.
     <header
-      className="relative z-40 w-full border-b-2 border-dashed border-foreground/20 bg-background"
+      className="relative z-40 w-full border-b-2 border-dashed border-divider-faint bg-background"
       style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
       role="banner"
     >
@@ -58,7 +58,7 @@ export default function Header() {
 
       {/* Mobile nav panel */}
       {mobileOpen && (
-        <div id="mobile-nav" className="md:hidden px-4 pb-4 pt-2 border-t-2 border-dashed border-foreground/40">
+        <div id="mobile-nav" className="md:hidden px-4 pb-4 pt-2 border-t-2 border-dashed border-divider">
           <Nav mobile onClose={() => setMobileOpen(false)} />
         </div>
       )}
