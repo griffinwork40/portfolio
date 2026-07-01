@@ -315,6 +315,9 @@
 @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
   .contour-field {
     animation: contour-breathe 16s ease-in-out infinite;
+    /* Promote to its own GPU layer so animating the transform doesn't force the
+       feTurbulence/feDisplacementMap filter to re-rasterize every compositor frame. */
+    will-change: transform;
   }
 }
 
@@ -355,5 +358,16 @@
      feTurbulence/feDisplacementMap filter can still cause jank. */
   .contour-field {
     filter: none !important;
+  }
+  /* Neutralize the translate-on-hover/active micro-motions (the JS-layer Framer
+     animations already respect reduced-motion; these CSS transforms were the gap).
+     The hand-placed rotate/tilt uses the `rotate` property, so it is preserved. */
+  .sketch-btn,
+  .sketch-btn:hover,
+  .sketch-btn:active,
+  .polaroid,
+  .polaroid:hover {
+    transition: none;
+    transform: none;
   }
 }
