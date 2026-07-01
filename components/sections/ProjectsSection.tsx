@@ -4,16 +4,16 @@ import Card from '@/components/ui/Card'
 import Badge from '@/components/ui/Badge'
 import MetricBadge from '@/components/ui/MetricBadge'
 import SectionHeading from '@/components/ui/SectionHeading'
-import { projects, sweBenchResult } from '@/data/content'
-import { staggerContainer, fadeUp } from '@/lib/utils'
+import { projects, sweBenchResult, getProjectById } from '@/data/content'
+import { cn, staggerContainer, fadeUp } from '@/lib/utils'
 
 export default function ProjectsSection() {
   const prefersReduced = useReducedMotion()
   const mcpServers = projects.filter((p) => p.id.startsWith('mcp-'))
   const other = projects.filter((p) => !p.featured && !p.id.startsWith('mcp-'))
 
-  const agentAfk = projects.find(p => p.id === 'agent-afk')!
-  const agentGrai = projects.find(p => p.id === 'agent-grai')!
+  const agentAfk = getProjectById('agent-afk')
+  const agentGrai = getProjectById('agent-grai')
 
   return (
     <section id="projects" className="section-padding px-4" aria-labelledby="projects-heading">
@@ -35,14 +35,16 @@ export default function ProjectsSection() {
             <Card className="h-full flex flex-col gap-4 tilt-a">
               <div className="flex items-start justify-between">
                 <h3 className="text-xl font-bold text-foreground">agent-afk</h3>
-                <a href="https://agentafk.com" target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline">agentafk.com ↗</a>
+                <a href="https://agentafk.com" target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline">
+                  agentafk.com ↗<span className="sr-only"> (opens in new tab)</span>
+                </a>
               </div>
               {/* CANONICAL description — never "framework" */}
               <p className="text-muted text-sm">{agentAfk.description}</p>
               <div className="grid grid-cols-2 gap-3">
                 {agentAfk.metrics!.map((m) => (
                   <div key={m.label} className="glass rounded-lg p-3">
-                    <p className="text-[10px] text-muted uppercase tracking-wider">{m.label}</p>
+                    <p className="text-xs text-muted uppercase tracking-wider">{m.label}</p>
                     <p className="text-lg font-bold text-foreground">{m.value}</p>
                   </div>
                 ))}
@@ -71,7 +73,7 @@ export default function ProjectsSection() {
               <div className="grid grid-cols-3 gap-2">
                 {agentGrai.metrics!.map((m) => (
                   <div key={m.label} className="glass rounded-lg p-2 text-center">
-                    <p className="text-[10px] text-muted uppercase">{m.label}</p>
+                    <p className="text-xs text-muted uppercase">{m.label}</p>
                     <p className="font-bold text-foreground text-sm">{m.value}</p>
                   </div>
                 ))}
@@ -96,7 +98,7 @@ export default function ProjectsSection() {
         >
           {mcpServers.map((p, i) => (
             <motion.div key={p.id} variants={prefersReduced ? {} : fadeUp}>
-              <Card hover className={`p-4 ${['tilt-a', 'tilt-b', 'tilt-c', 'tilt-d'][i % 4]}`}>
+              <Card hover className={cn('p-4', ['tilt-a', 'tilt-b', 'tilt-c', 'tilt-d'][i % 4])}>
                 <p className="font-medium text-foreground text-sm">{p.name}</p>
                 {p.metrics?.[0] && (
                   <p className="text-xs text-muted mt-1">{p.metrics[0].label}: {p.metrics[0].value}</p>
@@ -116,7 +118,7 @@ export default function ProjectsSection() {
         >
           {other.map((p, i) => (
             <motion.div key={p.id} variants={prefersReduced ? {} : fadeUp}>
-              <Card className={`h-full flex flex-col gap-3 ${i % 2 ? 'tilt-b' : 'tilt-a'}`}>
+              <Card className={cn('h-full flex flex-col gap-3', i % 2 ? 'tilt-b' : 'tilt-a')}>
                 <h3 className="font-semibold text-foreground">{p.name}</h3>
                 <p className="text-sm text-muted flex-1">{p.description}</p>
                 <div className="flex flex-wrap gap-1.5 mt-auto">

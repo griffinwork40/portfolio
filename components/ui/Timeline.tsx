@@ -1,8 +1,7 @@
 'use client'
 import { motion, useReducedMotion } from 'framer-motion'
-import { cn } from '@/lib/utils'
+import { cn, staggerContainer, fadeUp } from '@/lib/utils'
 import type { ExperienceEntry } from '@/data/content'
-import { staggerContainer, fadeUp } from '@/lib/utils'
 
 interface TimelineProps {
   entries: readonly ExperienceEntry[]
@@ -43,6 +42,7 @@ export default function Timeline({ entries }: TimelineProps) {
                   {entry.companyUrl ? (
                     <a href={entry.companyUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
                       {entry.company}
+                      <span className="sr-only"> (opens in new tab)</span>
                     </a>
                   ) : (
                     entry.company

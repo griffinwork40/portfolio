@@ -1,4 +1,3 @@
-'use client'
 import { cn } from '@/lib/utils'
 
 type ButtonVariant = 'primary' | 'secondary' | 'ghost'
@@ -19,21 +18,23 @@ const variants: Record<ButtonVariant, string> = {
 
 export default function Button({ variant = 'primary', href, icon, children, className, ...props }: ButtonProps) {
   const classes = cn(
-    'inline-flex items-center gap-1.5 px-5 py-2 font-display text-lg leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+    'inline-flex min-h-[44px] items-center gap-1.5 px-5 py-3 font-display text-lg leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
     variants[variant],
     className,
   )
 
   if (href) {
+    const external = href.startsWith('http')
     return (
       <a
         href={href}
         className={classes}
-        target={href.startsWith('http') ? '_blank' : undefined}
-        rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+        target={external ? '_blank' : undefined}
+        rel={external ? 'noopener noreferrer' : undefined}
       >
         {icon && <span aria-hidden="true">{icon}</span>}
         {children}
+        {external && <span className="sr-only"> (opens in new tab)</span>}
       </a>
     )
   }

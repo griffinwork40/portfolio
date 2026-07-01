@@ -1,5 +1,6 @@
 'use client'
 import { motion, useReducedMotion } from 'framer-motion'
+import { cn } from '@/lib/utils'
 
 // earned-path — repeated pencil passes compressing into one confident inked route.
 // emerge: signal begins its descent · compress: passes converge · arrive: route resolves into a node.
@@ -26,7 +27,7 @@ export default function EarnedPath({
 }) {
   const reduce = useReducedMotion()
   return (
-    <div aria-hidden="true" className={`flex justify-center ${className}`}>
+    <div aria-hidden="true" className={cn('flex justify-center', className)}>
       <svg width="60" height="122" viewBox="0 0 60 122" fill="none">
         {/* faint pencil passes — the repeated attempts */}
         {PASSES[stage].map((d, i) => (
