@@ -91,9 +91,6 @@ export const viewport: Viewport = {
   themeColor: '#f6f1e6',
   width: 'device-width',
   initialScale: 1,
-  // Match agentafk-landing's iOS Safari fix: render edge-to-edge behind the
-  // notch/status bar so the root background fills the dynamic viewport.
-  viewportFit: 'cover',
 }
 
 const personSchema = {
