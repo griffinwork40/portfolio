@@ -31,8 +31,8 @@ export default function ContourField({ id = 'cf', className = '', node = true }:
       </g>
       {node && (
         <>
-          <circle cx="220" cy="220" r="9" fill="none" stroke="var(--color-accent-secondary)" strokeWidth="1.4" style={{ opacity: 0.55 }} />
-          <circle cx="220" cy="220" r="3.6" fill="var(--color-accent-secondary)" />
+          <circle cx="220" cy="220" r="6" fill="none" stroke="var(--color-accent-secondary)" strokeWidth="1.2" style={{ opacity: 0.4 }} />
+          <circle cx="220" cy="220" r="2.6" fill="var(--color-accent-secondary)" style={{ opacity: 0.85 }} />
         </>
       )}
     </svg>
