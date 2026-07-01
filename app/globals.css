@@ -58,7 +58,8 @@
   }
 
   section[id] {
-    scroll-margin-top: 5rem;
+    /* Header is in-flow (not fixed), so sections only need a small breathing gap */
+    scroll-margin-top: 1rem;
   }
 
   ::selection {

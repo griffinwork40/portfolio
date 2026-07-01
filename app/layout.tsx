@@ -91,6 +91,11 @@ export const viewport: Viewport = {
   themeColor: '#f6f1e6',
   width: 'device-width',
   initialScale: 1,
+  // viewport-fit=cover spans the notch / Dynamic Island pill so page content
+  // and background fill edge-to-edge. env(safe-area-inset-top) in the header
+  // then pushes nav content below the pill while the bg bleeds up into it.
+  // Mirrors the working agentafk-landing setup (Navbar.module.css + layout.tsx).
+  viewportFit: 'cover',
 }
 
 const personSchema = {

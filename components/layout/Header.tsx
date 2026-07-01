@@ -1,24 +1,20 @@
 'use client'
-import { useState, useEffect } from 'react'
-import { cn } from '@/lib/utils'
+import { useState } from 'react'
 import Nav from './Nav'
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
 
-  useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', handler, { passive: true })
-    return () => window.removeEventListener('scroll', handler)
-  }, [])
-
   return (
+    // iOS 26 Safari: keeping the header in normal document flow (not fixed/sticky)
+    // lets the page background show through the Dynamic Island pill and status bar,
+    // giving the "content flows through top" effect. viewportFit=cover (layout.tsx)
+    // spans the notch; padding-top: env(safe-area-inset-top) pushes nav links below
+    // the safe area while the bar's background fills up behind the pill.
+    // Mirrors the agentafk-landing Navbar .flow pattern (Navbar.module.css).
     <header
-      className={cn(
-        'fixed top-0 left-0 right-0 z-40 transition-all duration-300',
-        scrolled ? 'border-b-2 border-dashed border-[--color-text]/40 bg-[--color-bg]/95 py-3' : 'py-5',
-      )}
+      className="relative z-40 w-full border-b-2 border-dashed border-[--color-text]/20 bg-[--color-bg] py-4"
+      style={{ paddingTop: 'max(1rem, env(safe-area-inset-top, 1rem))' }}
       role="banner"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
