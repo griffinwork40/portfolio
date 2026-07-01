@@ -23,9 +23,18 @@
   /* Safari viewport fix, mirrored from agentafk-landing: fill the dynamic
      viewport from the root so iOS Safari samples a solid page background at
      the status/toolbar edges, while keeping horizontal overflow clipped. */
+  /* iOS 26 Safari ("Liquid Glass") samples the html element's background near the
+     top/bottom viewport edges to tint the status bar / Dynamic Island pill and
+     home-indicator bar. Setting background on BOTH html AND body (not just body)
+     is the lever that makes the pill adapt to the page color rather than rendering
+     as a solid grey band. overflow-x:clip (NOT hidden) keeps horizontal content
+     clipped without turning body into a scroll container, which would break
+     position:fixed on iOS. Mirrors agentafk-landing globals.css. */
   html {
+    background-color: var(--color-bg);
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
     width: 100%;
     max-width: 100%;
     min-height: 100vh;
@@ -34,13 +43,13 @@
   }
 
   body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
     width: 100%;
     max-width: 100%;
     min-height: 100vh;
     min-height: -webkit-fill-available;
     overflow-x: clip;
-    background-color: var(--color-bg);
-    color: var(--color-text);
   }
 
   @supports (height: 100dvh) {
@@ -58,8 +67,8 @@
   }
 
   section[id] {
-    /* Header is in-flow (not fixed), so sections only need a small breathing gap */
-    scroll-margin-top: 1rem;
+    /* Header is fixed — sections need enough offset to clear it on anchor jump */
+    scroll-margin-top: 5rem;
   }
 
   ::selection {

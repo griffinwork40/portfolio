@@ -1,23 +1,33 @@
 'use client'
 import { useState } from 'react'
+import { cn } from '@/lib/utils'
 import Nav from './Nav'
+import { useHideOnScroll } from '@/lib/hooks/useHideOnScroll'
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const hidden = useHideOnScroll()
 
   return (
-    // iOS 26 Safari: keeping the header in normal document flow (not fixed/sticky)
-    // lets the page background show through the Dynamic Island pill and status bar,
-    // giving the "content flows through top" effect. viewportFit=cover (layout.tsx)
-    // spans the notch; padding-top: env(safe-area-inset-top) pushes nav links below
-    // the safe area while the bar's background fills up behind the pill.
-    // Mirrors the agentafk-landing Navbar .flow pattern (Navbar.module.css).
+    // iOS 26 Safari "flowing through top" pattern (mirrored from agentafk-landing):
+    //   • viewportFit=cover (layout.tsx) spans the Dynamic Island pill edge-to-edge
+    //   • header is position:fixed but slides OUT on scroll-down (translateY(-100%))
+    //     so when scrolled, iOS 26 samples the hero content at the top edge → liquid
+    //     glass / pill adapts to the page background instead of the nav bar color
+    //   • padding-top: env(safe-area-inset-top) pushes nav links below the pill
+    //     while the bar's bg fills up behind it (resolves 0 on non-notched devices)
+    //   • useHideOnScroll: hide on down, reveal on up, always reveal in top 64px
     <header
-      className="relative z-40 w-full border-b-2 border-dashed border-[--color-text]/20 bg-[--color-bg] py-4"
-      style={{ paddingTop: 'max(1rem, env(safe-area-inset-top, 1rem))' }}
+      className={cn(
+        'fixed left-0 right-0 top-0 z-40 w-full',
+        'border-b-2 border-dashed border-[--color-text]/20 bg-[--color-bg]',
+        'transition-transform duration-300 ease-in-out',
+        hidden ? '-translate-y-full' : 'translate-y-0',
+      )}
+      style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
       role="banner"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <a
           href="#hero"
           className="font-display text-3xl font-bold text-[--color-text] transition-colors hover:text-[--color-accent] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[--color-accent] rounded"
