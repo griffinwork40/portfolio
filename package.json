@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "gen-og": "node scripts/generate-og.mjs",
     "gen-icons": "node scripts/generate-icons.mjs"
   },
@@ -14,7 +14,7 @@
     "clsx": "^2.1.1",
     "framer-motion": "^12.42.2",
     "geist": "^1.7.2",
-    "next": "15.3.9",
+    "next": "16.2.9",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "tailwind-merge": "^2.6.0"
@@ -26,7 +26,7 @@
     "@types/react-dom": "^19",
     "autoprefixer": "^10.4.0",
     "eslint": "^9",
-    "eslint-config-next": "15.3.9",
+    "eslint-config-next": "16.2.9",
     "png-to-ico": "^3.0.1",
     "postcss": "^8.4.0",
     "satori": "^0.26.0",
