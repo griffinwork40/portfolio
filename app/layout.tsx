@@ -129,6 +129,18 @@ const personSchema = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${caveat.variable} ${kalam.variable}`}>
+      <head>
+        {/* Sync .dark with the OS/browser color-scheme preference before paint,
+            so it applies on load and follows live changes (no manual toggle
+            exists — see .dark rules in globals.css). Runs synchronously in
+            <head>, ahead of hydration, to avoid a flash of the wrong theme. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){var m=window.matchMedia('(prefers-color-scheme: dark)');var apply=function(isDark){document.documentElement.classList.toggle('dark',isDark)};apply(m.matches);m.addEventListener('change',function(e){apply(e.matches)})})();",
+          }}
+        />
+      </head>
       {/* No bg utility here on purpose: the cream lives on <html> (globals.css)
           so the fixed -z-10 SiteBackground grid stays visible and iOS 26 Safari
           samples a solid root color for its toolbar chrome. */}
