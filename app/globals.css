@@ -80,7 +80,16 @@
      body transparent, the grid stays visible AND Safari has a solid cream root
      to sample for the toolbar chrome. (Painting cream on body instead would sit
      above the -z-10 grid and hide it — the original reason html was left bare,
-     but that left the root transparent for iOS 26 to fall back to white.) */
+     but that left the root transparent for iOS 26 to fall back to white.)
+
+     The graph grid lives HERE (as the root's background-image) rather than in a
+     position:fixed overlay. A fixed overlay sized to viewport units (100lvh)
+     stops short of the bottom on iOS Safari when the toolbars are visible,
+     leaving a grid-less cream band behind the bottom toolbar. The root
+     background, by contrast, is propagated to the viewport canvas and paints
+     across the entire painting area — the same region the cream fills — so the
+     grid is guaranteed to reach wherever the cream reaches, in every toolbar
+     state. Two tile sizes: a fine 26px grid and a heavier 130px grid. */
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -90,6 +99,11 @@
        jarring grey rectangle on tap. */
     -webkit-tap-highlight-color: transparent;
     background-color: var(--color-background);
+    background-image: linear-gradient(var(--color-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid) 1px, transparent 1px),
+      linear-gradient(var(--color-grid-strong) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid-strong) 1px, transparent 1px);
+    background-size: 26px 26px, 26px 26px, 130px 130px, 130px 130px;
     width: 100%;
     max-width: 100%;
     min-height: 100vh;
