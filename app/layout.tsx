@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Caveat, Kalam } from 'next/font/google'
 import './globals.css'
-import { siteMetadata } from '@/data/content'
+import { siteMetadata, identity, contact, skills } from '@/data/content'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import SiteBackground from '@/components/ui/SiteBackground'
@@ -24,13 +24,44 @@ export const metadata: Metadata = {
   title: siteMetadata.title,
   description: siteMetadata.description,
   metadataBase: new URL(siteMetadata.url),
+  keywords: [
+    'Agentic AI Engineer',
+    'Technical Founder',
+    'MCP',
+    'Model Context Protocol',
+    'Claude Agent SDK',
+    'multi-agent systems',
+    'LLM evals',
+    'agentic orchestration',
+    'TypeScript',
+    'Python',
+    'Rust',
+    'agent-afk',
+    'AI GTM automation',
+    'prompt engineering',
+    'open-source agent runtime',
+  ],
+  authors: [{ name: 'Griffin Long', url: 'https://griffinlong.dev' }],
+  creator: 'Griffin Long',
+  publisher: 'Griffin Long',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: siteMetadata.title,
     description: siteMetadata.description,
     url: siteMetadata.url,
     siteName: 'Griffin Long',
-    images: [{ url: siteMetadata.ogImage, width: 1200, height: 630 }],
+    images: [
+      {
+        url: siteMetadata.ogImage,
+        width: 1200,
+        height: 630,
+        alt: 'Griffin Long — Agentic AI Engineer',
+      },
+    ],
     type: 'website',
+    locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
@@ -38,10 +69,18 @@ export const metadata: Metadata = {
     description: siteMetadata.description,
     images: [siteMetadata.ogImage],
   },
-  robots: { index: true, follow: true },
-  icons: {
-    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
   },
+  manifest: '/site.webmanifest',
 }
 
 export const viewport: Viewport = {
@@ -50,10 +89,40 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: identity.name,
+  url: siteMetadata.url,
+  jobTitle: 'Agentic AI Engineer',
+  email: `mailto:${contact.email}`,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Daytona Beach',
+    addressRegion: 'FL',
+    addressCountry: 'US',
+  },
+  sameAs: [
+    identity.github,
+    identity.linkedin,
+    identity.agentAfkUrl,
+    identity.graisolUrl,
+  ],
+  knowsAbout: [
+    ...skills.languages,
+    ...skills.aiAndAgents,
+  ],
+  description: siteMetadata.description,
+}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${caveat.variable} ${kalam.variable}`}>
       <body className="font-sans bg-[--color-bg] text-[--color-text] min-h-screen antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[--color-accent] focus:text-white focus:rounded"

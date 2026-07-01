@@ -1,0 +1,13 @@
+{
+  "name": "Griffin Long — Agentic AI Engineer",
+  "short_name": "Griffin Long",
+  "description": "I'm Griffin — a self-taught AI engineer who went from line cook to shipping production agent systems. I build the tooling that lets one person ship at team scale.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f1e6",
+  "theme_color": "#f6f1e6",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

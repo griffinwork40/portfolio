@@ -1,28 +1,125 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#0a0a0f"/>
-  <!-- Gradient overlays -->
   <defs>
-    <radialGradient id="g1" cx="50%" cy="0%" r="60%">
-      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#0a0a0f" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="g2" cx="80%" cy="80%" r="40%">
-      <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.10"/>
-      <stop offset="100%" stop-color="#0a0a0f" stop-opacity="0"/>
-    </radialGradient>
+    <!-- Slight paper texture via feTurbulence -->
+    <filter id="paper-texture" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
+      <feBlend in="SourceGraphic" in2="grayNoise" mode="multiply" result="blended"/>
+      <feComponentTransfer in="blended">
+        <feFuncA type="linear" slope="1"/>
+      </feComponentTransfer>
+    </filter>
+    <!-- Stamp border filter: roughen edges slightly -->
+    <filter id="stamp-rough" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="turbulence" baseFrequency="0.05" numOctaves="2" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
   </defs>
-  <rect width="1200" height="630" fill="url(#g1)"/>
-  <rect width="1200" height="630" fill="url(#g2)"/>
-  <!-- Monogram -->
-  <text x="80" y="160" font-family="system-ui, -apple-system, sans-serif" font-size="120" font-weight="700" fill="#6366f1" opacity="0.3">GL</text>
-  <!-- Name -->
-  <text x="80" y="320" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" fill="#f1f5f9">Griffin Long</text>
-  <!-- Title -->
-  <text x="80" y="400" font-family="system-ui, -apple-system, sans-serif" font-size="36" font-weight="400" fill="#94a3b8">Agentic AI Engineer | Technical Founder</text>
-  <!-- URLs -->
-  <text x="80" y="530" font-family="ui-monospace, monospace" font-size="22" fill="#6366f1">agentafk.com</text>
-  <text x="320" y="530" font-family="ui-monospace, monospace" font-size="22" fill="#94a3b8"> · </text>
-  <text x="360" y="530" font-family="ui-monospace, monospace" font-size="22" fill="#0ea5e9">graisol.com</text>
-  <!-- Border accent -->
-  <rect x="0" y="0" width="6" height="630" fill="#6366f1" opacity="0.6"/>
+
+  <!-- Paper background -->
+  <rect width="1200" height="630" fill="#f6f1e6"/>
+
+  <!-- Subtle paper texture overlay -->
+  <rect width="1200" height="630" fill="#ede6d4" opacity="0.18" filter="url(#paper-texture)"/>
+
+  <!-- Faint graph grid lines -->
+  <line x1="0" y1="0" x2="0" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="40" y1="0" x2="40" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="80" y1="0" x2="80" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="120" y1="0" x2="120" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="160" y1="0" x2="160" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="200" y1="0" x2="200" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="240" y1="0" x2="240" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="280" y1="0" x2="280" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="320" y1="0" x2="320" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="360" y1="0" x2="360" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="400" y1="0" x2="400" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="440" y1="0" x2="440" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="480" y1="0" x2="480" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="520" y1="0" x2="520" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="560" y1="0" x2="560" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="600" y1="0" x2="600" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="640" y1="0" x2="640" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="680" y1="0" x2="680" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="720" y1="0" x2="720" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="760" y1="0" x2="760" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="800" y1="0" x2="800" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="840" y1="0" x2="840" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="880" y1="0" x2="880" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="920" y1="0" x2="920" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="960" y1="0" x2="960" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="1000" y1="0" x2="1000" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="1040" y1="0" x2="1040" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="1080" y1="0" x2="1080" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="1120" y1="0" x2="1120" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="1160" y1="0" x2="1160" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="1200" y1="0" x2="1200" y2="630" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="0" x2="1200" y2="0" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="40" x2="1200" y2="40" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="80" x2="1200" y2="80" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="120" x2="1200" y2="120" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="160" x2="1200" y2="160" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="200" x2="1200" y2="200" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="240" x2="1200" y2="240" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="280" x2="1200" y2="280" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="320" x2="1200" y2="320" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="360" x2="1200" y2="360" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="400" x2="1200" y2="400" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="440" x2="1200" y2="440" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="480" x2="1200" y2="480" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="520" x2="1200" y2="520" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="560" x2="1200" y2="560" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+  <line x1="0" y1="600" x2="1200" y2="600" stroke="#c8c0a8" stroke-width="0.6" opacity="0.5"/>
+
+  <!-- Red margin rule (notebook left margin line, classic red) -->
+  <line x1="100" y1="0" x2="100" y2="630" stroke="#c0452f" stroke-width="2.5" opacity="0.75"/>
+
+  <!-- Top horizontal rule (like a ruled notebook header) -->
+  <line x1="0" y1="80" x2="1200" y2="80" stroke="#c0452f" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- Header area label (muted pencil, top-left, like a date/label on notes) -->
+  <text x="110" y="58" font-family="Georgia, 'Times New Roman', serif" font-size="18" fill="#5b574e" opacity="0.7" letter-spacing="1">portfolio · 2025</text>
+
+  <!-- "Griffin Long" — main name in ink, large -->
+  <text x="120" y="210" font-family="Georgia, 'Times New Roman', serif" font-size="86" font-weight="700" fill="#2b2a26" letter-spacing="-1">Griffin Long</text>
+
+  <!-- Blue ballpoint marker underline below name -->
+  <rect x="120" y="222" width="540" height="5" fill="#2f5aa8" rx="2" opacity="0.85"/>
+
+  <!-- Slight wobbly underline extension (hand-drawn feel) -->
+  <path d="M 120 226 Q 300 229 540 225 Q 580 224 625 226" stroke="#2f5aa8" stroke-width="2" fill="none" opacity="0.4"/>
+
+  <!-- Title line: "Agentic AI Engineer · Technical Founder" in ink/muted -->
+  <text x="120" y="290" font-family="Georgia, 'Times New Roman', serif" font-size="34" fill="#2b2a26" letter-spacing="0.3">Agentic AI Engineer · Technical Founder</text>
+
+  <!-- Tagline line 1 (shorter wrapping) in muted pencil -->
+  <text x="120" y="355" font-family="Georgia, 'Times New Roman', serif" font-size="24" fill="#5b574e" font-style="italic">I don&#x2019;t out-type teams &#x2014; I build and direct the AI agent</text>
+
+  <!-- Tagline line 2 -->
+  <text x="120" y="386" font-family="Georgia, 'Times New Roman', serif" font-size="24" fill="#5b574e" font-style="italic">tooling that lets one person ship at team scale.</text>
+
+  <!-- Faint horizontal rule above URLs -->
+  <line x1="120" y1="430" x2="1080" y2="430" stroke="#2b2a26" stroke-width="1" opacity="0.3" stroke-dasharray="6 3"/>
+
+  <!-- URLs in monospace-ish ink -->
+  <text x="120" y="470" font-family="'Courier New', Courier, monospace" font-size="26" fill="#2f5aa8" letter-spacing="0.5">agentafk.com</text>
+  <text x="364" y="470" font-family="Georgia, serif" font-size="26" fill="#5b574e" opacity="0.7"> · </text>
+  <text x="400" y="470" font-family="'Courier New', Courier, monospace" font-size="26" fill="#2f5aa8" letter-spacing="0.5">graisol.com</text>
+
+  <!-- Highlighter swipe behind URLs (gold highlighter motif) -->
+  <rect x="115" y="451" width="596" height="28" fill="#e0b400" opacity="0.18" rx="2"/>
+
+  <!-- "SHIPPED IT ✓" rubber stamp in corner — rotated, red outlined box -->
+  <g transform="translate(1000, 530) rotate(-18)">
+    <!-- Stamp outer box -->
+    <rect x="-92" y="-44" width="184" height="62" fill="none" stroke="#c0452f" stroke-width="3.5" rx="4" opacity="0.82" filter="url(#stamp-rough)"/>
+    <!-- Stamp inner box (double-border stamp look) -->
+    <rect x="-86" y="-38" width="172" height="50" fill="none" stroke="#c0452f" stroke-width="1.2" rx="2" opacity="0.6"/>
+    <!-- Stamp text -->
+    <text x="0" y="-12" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="700" fill="#c0452f" text-anchor="middle" letter-spacing="2" opacity="0.9">SHIPPED IT</text>
+    <text x="0" y="8" font-family="Georgia, 'Times New Roman', serif" font-size="18" fill="#c0452f" text-anchor="middle" opacity="0.9">&#x2713;</text>
+  </g>
+
+  <!-- Thin ink border around the whole card -->
+  <rect x="2" y="2" width="1196" height="626" fill="none" stroke="#2b2a26" stroke-width="2" opacity="0.25"/>
 </svg>
