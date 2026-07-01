@@ -24,7 +24,11 @@ export default function Nav({ mobile, onClose }: NavProps) {
             <a
               href={item.href}
               onClick={onClose}
-              className="relative font-display text-xl text-[--color-text] transition-colors hover:text-[--color-accent] after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:bg-[--color-accent] after:transition-all hover:after:w-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-[--color-accent] rounded"
+              className={cn(
+                'relative font-display text-xl text-[--color-text] transition-colors hover:text-[--color-accent] after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:bg-[--color-accent] after:transition-all hover:after:w-full focus-visible:after:w-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-[--color-accent] rounded',
+                // On mobile give each link a full-width, ≥44px-tall tap target.
+                mobile && 'flex min-h-11 items-center',
+              )}
             >
               {item.label}
             </a>

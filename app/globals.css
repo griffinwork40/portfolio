@@ -279,4 +279,10 @@
   html {
     scroll-behavior: auto;
   }
+  /* Drop the expensive hand-drawn wobble filter entirely for reduced-motion
+     users — the breathe animation is already gated off, but the static
+     feTurbulence/feDisplacementMap filter can still cause jank. */
+  .contour-field {
+    filter: none !important;
+  }
 }

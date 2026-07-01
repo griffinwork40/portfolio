@@ -35,10 +35,13 @@ export default function HeroSection() {
         </svg>
       </div>
 
-      {/* "shipped it" stamp */}
+      {/* "shipped it" stamp — desktop/tablet only. On phones it collided with
+          the availability badge and its rotated right edge clipped off-screen
+          (worse under iOS Safari's wider Caveat rendering), so it's gated to
+          md+ where the hero has room for it. */}
       <div
         aria-hidden="true"
-        className="absolute right-5 top-28 rotate-[8deg] select-none border-[3px] border-[--color-accent-2] px-4 py-1.5 font-display text-2xl font-bold tracking-wide text-[--color-accent-2] opacity-80 sm:right-16"
+        className="hidden md:block absolute right-16 top-28 rotate-[8deg] select-none border-[3px] border-[--color-accent-2] px-4 py-1.5 font-display text-2xl font-bold tracking-wide text-[--color-accent-2] opacity-80"
         style={{ borderRadius: '14px 8px 16px 8px / 8px 16px 8px 14px' }}
       >
         SHIPPED IT ✓

@@ -1,9 +1,24 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Nav from './Nav'
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+
+  // Close the mobile menu on Escape and return focus to the toggle button —
+  // standard disclosure-menu keyboard behavior that was missing.
+  useEffect(() => {
+    if (!mobileOpen) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileOpen(false)
+        menuButtonRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [mobileOpen])
 
   return (
     // iOS 26 Safari flow-through pattern — mirrored from agentafk-landing Navbar .flow:
@@ -37,9 +52,11 @@ export default function Header() {
           <Nav />
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile hamburger — min 44x44 tap target (WCAG 2.5.5); -mr-2 keeps the
+            icon optically aligned to the edge despite the larger hit area. */}
         <button
-          className="md:hidden p-2 text-[--color-text] transition-colors hover:text-[--color-accent]"
+          ref={menuButtonRef}
+          className="md:hidden -mr-2 inline-flex min-h-11 min-w-11 items-center justify-center text-[--color-text] transition-colors hover:text-[--color-accent]"
           onClick={() => setMobileOpen((o) => !o)}
           aria-expanded={mobileOpen}
           aria-controls="mobile-nav"
