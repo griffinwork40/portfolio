@@ -13,7 +13,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative isolate flex min-h-screen items-center justify-center overflow-hidden px-4 pb-16 pt-24"
+      className="relative isolate flex min-h-[100dvh] items-center justify-center overflow-hidden px-4 pb-16 pt-24"
       aria-labelledby="hero-heading"
     >
       {/* signal over depth — a small signal, vast submerged structure */}

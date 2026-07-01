@@ -91,6 +91,9 @@ export const viewport: Viewport = {
   themeColor: '#f6f1e6',
   width: 'device-width',
   initialScale: 1,
+  // Match agentafk-landing's iOS Safari fix: render edge-to-edge behind the
+  // notch/status bar so the root background fills the dynamic viewport.
+  viewportFit: 'cover',
 }
 
 const personSchema = {
@@ -122,7 +125,7 @@ const personSchema = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${caveat.variable} ${kalam.variable}`}>
-      <body className="font-sans bg-[--color-bg] text-[--color-text] min-h-screen antialiased">
+      <body className="font-sans bg-[--color-bg] text-[--color-text] antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}

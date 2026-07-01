@@ -20,20 +20,34 @@
 }
 
 @layer base {
+  /* Safari viewport fix, mirrored from agentafk-landing: fill the dynamic
+     viewport from the root so iOS Safari samples a solid page background at
+     the status/toolbar edges, while keeping horizontal overflow clipped. */
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     width: 100%;
     max-width: 100%;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
     overflow-x: clip;
   }
 
   body {
     width: 100%;
     max-width: 100%;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
     overflow-x: clip;
     background-color: var(--color-bg);
     color: var(--color-text);
+  }
+
+  @supports (height: 100dvh) {
+    html,
+    body {
+      min-height: 100dvh;
+    }
   }
 
   @supports not (overflow: clip) {
