@@ -49,7 +49,7 @@ const [
   stampText,
 ] = await Promise.all([
   renderText({
-    text: 'portfolio · 2025',
+    text: 'portfolio · 2026',
     fontFamily: 'Kalam',
     fontWeight: 400,
     fontSize: 18,
