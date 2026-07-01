@@ -6,6 +6,7 @@
  *   app/apple-icon.png    — 180×180 Apple Touch Icon
  *   public/icon-192.png   — 192×192 PWA icon (referenced by web manifest)
  *   public/icon-512.png   — 512×512 PWA icon (maskable-safe center glyph)
+ *   app/favicon.ico       — 16/32/48 multi-size .ico for legacy /favicon.ico
  *
  * Design: ink "GL" monogram on a blue-ballpoint (#2f5aa8) rounded square,
  * cream "GL" letters (#f6f1e6). Blue-on-cream reads better at 16px than the
@@ -21,6 +22,7 @@ import { writeFileSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { default as sharp } from 'sharp'
+import pngToIco from 'png-to-ico'
 import { renderText } from './lib/render-text.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -120,5 +122,18 @@ await svgToPng(
   512,
   512,
 )
+
+// ---------------------------------------------------------------------------
+// 5. app/favicon.ico — 16/32/48 multi-size .ico for the default /favicon.ico
+//    path (browsers + crawlers request it directly). sharp can't write .ico,
+//    so rasterize the monogram to 16/32/48 PNG buffers and pack them with
+//    png-to-ico.
+// ---------------------------------------------------------------------------
+const icoSizes = [16, 32, 48]
+const icoBuffers = await Promise.all(
+  icoSizes.map((s) => sharp(Buffer.from(monogram512)).resize(s, s).png().toBuffer()),
+)
+writeFileSync(join(root, 'app', 'favicon.ico'), await pngToIco(icoBuffers))
+console.log(`✓ app/favicon.ico written (${icoSizes.join('/')})`)
 
 console.log('\nAll icon assets generated successfully.')
