@@ -47,8 +47,9 @@
    Repoints Tier 2 semantic tokens only — every derived token above (marker,
    contour, divider, grid, …) is a color-mix() that resolves var(--color-*)
    live wherever it's used, so it retheme automatically with no extra rules.
-   Activate by adding class="dark" to <html> (darkMode: 'class' in
-   tailwind.config.ts) — no toggle control is wired up yet. */
+   Activated by adding class="dark" to <html> (darkMode: 'class' in
+   tailwind.config.ts). An inline script in app/layout.tsx toggles it to
+   match the OS/browser prefers-color-scheme — there's no manual UI toggle. */
 .dark {
   --palette-slate: #201e1a; /* dark "paper": warm near-black */
   --palette-slate-raised: #2a2823; /* card stock, one step lighter */
