@@ -18,11 +18,8 @@ const config: Config = {
         surface: 'var(--color-surface)',
         foreground: 'var(--color-foreground)',
         muted: 'var(--color-muted)',
-        border: 'var(--color-border)',
         accent: 'var(--color-accent)',
         'accent-secondary': 'var(--color-accent-secondary)',
-        'accent-subtle': 'var(--color-accent-subtle)',
-        highlight: 'var(--color-highlight)',
         // Translucent border roles (Tailwind v3 drops the `/opacity` modifier on
         // var()-based colors, so these are dedicated tokens rather than `/40`).
         divider: 'var(--color-divider)',

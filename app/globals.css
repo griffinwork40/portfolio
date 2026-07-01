@@ -39,9 +39,33 @@
   --color-route: color-mix(in srgb, var(--color-accent) 34%, transparent); /* pencil draft passes */
   --color-divider: color-mix(in srgb, var(--color-border) 40%, transparent); /* dashed section dividers */
   --color-divider-faint: color-mix(in srgb, var(--color-border) 20%, transparent); /* subtler header rule */
-  --color-accent-subtle: color-mix(in srgb, var(--color-accent) 30%, transparent); /* hover border tint */
   --color-grid: color-mix(in srgb, var(--color-accent) 7%, transparent); /* graph-paper fine grid */
   --color-grid-strong: color-mix(in srgb, var(--color-accent) 12%, transparent); /* heavier grid */
+}
+
+/* ── Dark theme ─────────────────────────────────────────────────────────
+   Repoints Tier 2 semantic tokens only — every derived token above (marker,
+   contour, divider, grid, …) is a color-mix() that resolves var(--color-*)
+   live wherever it's used, so it retheme automatically with no extra rules.
+   Activate by adding class="dark" to <html> (darkMode: 'class' in
+   tailwind.config.ts) — no toggle control is wired up yet. */
+.dark {
+  --palette-slate: #201e1a; /* dark "paper": warm near-black */
+  --palette-slate-raised: #2a2823; /* card stock, one step lighter */
+  --palette-chalk: #f0ead9; /* ink, inverted: warm off-white */
+  --palette-chalk-dim: #a39c8c; /* faded graphite on dark paper */
+  --palette-ballpoint-bright: #79a6e8; /* blue ballpoint, lightened for contrast */
+  --palette-red-pen-bright: #e2775f; /* red pen, lightened for contrast */
+  --palette-highlighter-bright: #f0c419; /* highlighter, slightly softened */
+
+  --color-background: var(--palette-slate);
+  --color-surface: var(--palette-slate-raised);
+  --color-foreground: var(--palette-chalk);
+  --color-muted: var(--palette-chalk-dim);
+  --color-border: var(--palette-chalk);
+  --color-accent: var(--palette-ballpoint-bright);
+  --color-accent-secondary: var(--palette-red-pen-bright);
+  --color-highlight: var(--palette-highlighter-bright);
 }
 
 @layer base {
