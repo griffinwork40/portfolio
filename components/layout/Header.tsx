@@ -19,15 +19,8 @@ export default function Header() {
     // Trade-off: no scroll-up reveal; the header returns only when at page top.
     // This is the same trade-off agentafk-landing intentionally makes.
     <header
-      className="relative z-40 w-full border-b-2 border-dashed border-[--color-text]/20 backdrop-blur-[2px]"
-      style={{
-        paddingTop: 'env(safe-area-inset-top, 0px)',
-        // Semi-transparent paper tint (not solid --color-bg) so the fixed graph
-        // grid behind the header stays visible and the paper reads as continuous.
-        // rgba is used directly because Tailwind can't inject an alpha channel
-        // into an arbitrary CSS-var color (bg-[--color-bg]/90 wouldn't work).
-        backgroundColor: 'rgba(246, 241, 230, 0.72)',
-      }}
+      className="relative z-40 w-full border-b-2 border-dashed border-[--color-text]/20"
+      style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
       role="banner"
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
@@ -67,8 +60,7 @@ export default function Header() {
       {mobileOpen && (
         <div
           id="mobile-nav"
-          className="md:hidden px-4 pb-4 pt-2 border-t-2 border-dashed border-[--color-text]/40 backdrop-blur-[2px]"
-          style={{ backgroundColor: 'rgba(246, 241, 230, 0.72)' }}
+          className="md:hidden px-4 pb-4 pt-2 border-t-2 border-dashed border-[--color-text]/40"
         >
           <Nav mobile onClose={() => setMobileOpen(false)} />
         </div>
