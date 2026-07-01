@@ -90,7 +90,17 @@
      background, by contrast, is propagated to the viewport canvas and paints
      across the entire painting area — the same region the cream fills — so the
      grid is guaranteed to reach wherever the cream reaches, in every toolbar
-     state. Two tile sizes: a fine 26px grid and a heavier 130px grid. */
+     state. Two tile sizes: a fine 26px grid and a heavier 130px grid.
+
+     background-attachment: fixed would be the obvious way to keep the grid
+     stationary while content scrolls, but iOS/iPadOS Safari has a long-standing
+     unresolved bug (WebKit #275247) where fixed backgrounds silently fall back
+     to scrolling — it would work on desktop/Android and silently no-op on
+     iOS. Instead the grid stays attached (background-attachment: scroll, the
+     default) and --scroll-y (set by the inline script in layout.tsx) shifts
+     background-position by the scroll offset every frame, so the pattern
+     reads as pinned to the viewport on every platform without relying on
+     attachment:fixed at all. */
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -105,6 +115,7 @@
       linear-gradient(var(--color-grid-strong) 1px, transparent 1px),
       linear-gradient(90deg, var(--color-grid-strong) 1px, transparent 1px);
     background-size: 26px 26px, 26px 26px, 130px 130px, 130px 130px;
+    background-position: 0 var(--scroll-y, 0px);
     width: 100%;
     max-width: 100%;
     min-height: 100vh;

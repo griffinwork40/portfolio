@@ -140,6 +140,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "(function(){var m=window.matchMedia('(prefers-color-scheme: dark)');var apply=function(isDark){document.documentElement.classList.toggle('dark',isDark)};apply(m.matches);m.addEventListener('change',function(e){apply(e.matches)})})();",
           }}
         />
+        {/* Keeps the graph-paper grid (html background, see globals.css) visually
+            pinned to the viewport while content scrolls. background-attachment:
+            fixed can't be used for this — iOS Safari has an unresolved bug
+            (WebKit #275247) where it silently falls back to scrolling — so this
+            drives --scroll-y from the real scroll offset each frame instead.
+            Runs synchronously pre-hydration so a reload mid-scroll doesn't show
+            a one-frame jump before the listener attaches. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "(function(){var r=document.documentElement;var ticking=false;function sync(){r.style.setProperty('--scroll-y',window.scrollY+'px');ticking=false}sync();function onScroll(){if(!ticking){ticking=true;requestAnimationFrame(sync)}}window.addEventListener('scroll',onScroll,{passive:true});window.addEventListener('resize',onScroll)})();",
+          }}
+        />
       </head>
       {/* No bg utility here on purpose: the cream lives on <html> (globals.css)
           so the fixed -z-10 SiteBackground grid stays visible and iOS 26 Safari
