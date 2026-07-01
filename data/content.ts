@@ -175,7 +175,7 @@ export const skills = {
   languages: ['TypeScript', 'JavaScript', 'Python', 'Rust', 'Swift', 'SQL'],
   frameworks: ['Node.js', 'Next.js', 'React', 'Astro', 'Fastify', 'Tailwind CSS'],
   aiAndAgents: [
-    'Claude Agent SDK', 'OpenAI API', 'Model Context Protocol (MCP)',
+    'agent-afk', 'Claude Agent SDK', 'OpenAI API', 'Model Context Protocol (MCP)',
     'Agentic orchestration', 'Multi-agent systems', 'Prompt engineering',
     'LLM evals', 'Playwright automation', 'Local models (MLX, llama.cpp, Ollama, LM Studio)',
   ],
