@@ -48,6 +48,9 @@ export const metadata: Metadata = {
   authors: [{ name: 'Griffin Long', url: 'https://griffinlong.dev' }],
   creator: 'Griffin Long',
   publisher: 'Griffin Long',
+  // Phone number appears in structured data; stop iOS from auto-linking stray
+  // digits in page copy as tel: links.
+  formatDetection: { telephone: false },
   alternates: {
     canonical: '/',
   },
@@ -100,13 +103,15 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 }
 
+// JSON-LD identity graph: a Person (the entity), a WebSite (the named site), and a
+// ProfilePage that ties this URL to the Person. @id cross-links them into one graph.
 const personSchema = {
-  '@context': 'https://schema.org',
   '@type': 'Person',
+  '@id': `${siteMetadata.url}/#person`,
   name: identity.name,
   url: siteMetadata.url,
   jobTitle: 'Agentic AI Engineer',
-  email: `mailto:${contact.email}`,
+  email: contact.email,
   address: {
     '@type': 'PostalAddress',
     addressLocality: 'Daytona Beach',
@@ -116,14 +121,34 @@ const personSchema = {
   sameAs: [
     identity.github,
     identity.linkedin,
+    identity.threads,
     identity.agentAfkUrl,
     identity.graisolUrl,
   ],
-  knowsAbout: [
-    ...skills.languages,
-    ...skills.aiAndAgents,
-  ],
+  knowsAbout: [...skills.languages, ...skills.aiAndAgents],
   description: siteMetadata.description,
+}
+
+const websiteSchema = {
+  '@type': 'WebSite',
+  '@id': `${siteMetadata.url}/#website`,
+  url: siteMetadata.url,
+  name: 'Griffin Long',
+  publisher: { '@id': `${siteMetadata.url}/#person` },
+}
+
+const profilePageSchema = {
+  '@type': 'ProfilePage',
+  '@id': `${siteMetadata.url}/#profilepage`,
+  url: siteMetadata.url,
+  name: siteMetadata.title,
+  isPartOf: { '@id': `${siteMetadata.url}/#website` },
+  mainEntity: { '@id': `${siteMetadata.url}/#person` },
+}
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [personSchema, websiteSchema, profilePageSchema],
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -140,6 +165,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "(function(){var m=window.matchMedia('(prefers-color-scheme: dark)');var apply=function(isDark){document.documentElement.classList.toggle('dark',isDark)};apply(m.matches);m.addEventListener('change',function(e){apply(e.matches)})})();",
           }}
         />
+        {/* rel=me completes the bidirectional IndieWeb identity link — the Threads
+            profile already points rel=me back at this site. */}
+        <link rel="me" href={identity.threads} />
       </head>
       {/* No bg utility here on purpose: the cream lives on <html> (globals.css)
           so the fixed -z-10 SiteBackground grid stays visible and iOS 26 Safari
@@ -147,7 +175,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-sans text-foreground antialiased">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <a
           href="#main-content"
