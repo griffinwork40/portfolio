@@ -4,6 +4,11 @@
 .pnp.js
 .yarn/install-state.gz
 
+# This is a pnpm project (pnpm-lock.yaml is the source of truth) — ignore stray
+# npm/yarn lockfiles so they can't drift out of sync with package.json.
+/package-lock.json
+/yarn.lock
+
 # Testing
 /coverage
 

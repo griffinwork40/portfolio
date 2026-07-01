@@ -38,6 +38,7 @@ describe('content: agent-afk is a runtime/harness, never a framework', () => {
     const afkBullet = graisol?.bullets.find((b) => /agent-afk/i.test(b))
     expect(afkBullet).toBeDefined()
     expect(afkBullet!.toLowerCase()).toMatch(/runtime|harness/)
+    expect(afkBullet!.toLowerCase()).not.toContain('framework')
   })
 })
 

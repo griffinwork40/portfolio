@@ -8,10 +8,10 @@ export default function Footer() {
         <p>© {year} Griffin Long · Drawn in Daytona Beach, FL — then shipped.</p>
         <div className="flex items-center gap-4">
           <a href={identity.graisolUrl} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-accent hover:underline">
-            graisol.com
+            graisol.com<span className="sr-only"> (opens in new tab)</span>
           </a>
           <a href={identity.agentAfkUrl} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-accent hover:underline">
-            agentafk.com
+            agentafk.com<span className="sr-only"> (opens in new tab)</span>
           </a>
         </div>
       </div>

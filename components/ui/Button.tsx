@@ -24,15 +24,17 @@ export default function Button({ variant = 'primary', href, icon, children, clas
   )
 
   if (href) {
+    const external = href.startsWith('http')
     return (
       <a
         href={href}
         className={classes}
-        target={href.startsWith('http') ? '_blank' : undefined}
-        rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
+        target={external ? '_blank' : undefined}
+        rel={external ? 'noopener noreferrer' : undefined}
       >
         {icon && <span aria-hidden="true">{icon}</span>}
         {children}
+        {external && <span className="sr-only"> (opens in new tab)</span>}
       </a>
     )
   }
