@@ -66,8 +66,8 @@
   }
 
   section[id] {
-    /* Header is fixed — sections need enough offset to clear it on anchor jump */
-    scroll-margin-top: 5rem;
+    /* Header is in-flow (scrolls away) — only a small breathing gap needed */
+    scroll-margin-top: 1rem;
   }
 
   ::selection {

@@ -1,29 +1,25 @@
 'use client'
 import { useState } from 'react'
-import { cn } from '@/lib/utils'
 import Nav from './Nav'
-import { useHideOnScroll } from '@/lib/hooks/useHideOnScroll'
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const hidden = useHideOnScroll()
 
   return (
-    // iOS 26 Safari "flowing through top" pattern (mirrored from agentafk-landing):
-    //   • viewportFit=cover (layout.tsx) spans the Dynamic Island pill edge-to-edge
-    //   • header is position:fixed but slides OUT on scroll-down (translateY(-100%))
-    //     so when scrolled, iOS 26 samples the hero content at the top edge → liquid
-    //     glass / pill adapts to the page background instead of the nav bar color
-    //   • padding-top: env(safe-area-inset-top) pushes nav links below the pill
-    //     while the bar's bg fills up behind it (resolves 0 on non-notched devices)
-    //   • useHideOnScroll: hide on down, reveal on up, always reveal in top 64px
+    // iOS 26 Safari flow-through pattern — mirrored from agentafk-landing Navbar .flow:
+    //
+    // KEY INSIGHT: position:fixed (even with translateY(-100%)) keeps the element
+    // at CSS y=0. iOS 26 sees it as the "top edge element" and blocks content from
+    // flowing behind the Dynamic Island pill. position:relative puts the header in
+    // normal document flow, so it scrolls away completely — leaving truly nothing at
+    // the top edge — and iOS 26 shows the page background/content through the pill.
+    //
+    // viewport-fit=cover (layout.tsx) spans the notch. padding-top:env(safe-area-inset-top)
+    // pushes nav links below the pill while the bar bg fills behind it.
+    // Trade-off: no scroll-up reveal; the header returns only when at page top.
+    // This is the same trade-off agentafk-landing intentionally makes.
     <header
-      className={cn(
-        'fixed left-0 right-0 top-0 z-40 w-full',
-        'border-b-2 border-dashed border-[--color-text]/20 bg-[--color-bg]',
-        'transition-transform duration-300 ease-in-out',
-        hidden ? '-translate-y-full' : 'translate-y-0',
-      )}
+      className="relative z-40 w-full border-b-2 border-dashed border-[--color-text]/20 bg-[--color-bg]"
       style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
       role="banner"
     >
