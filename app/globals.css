@@ -20,20 +20,27 @@
 }
 
 @layer base {
-  /* Safari viewport fix, mirrored from agentafk-landing: fill the dynamic
-     viewport from the root so iOS Safari samples a solid page background at
-     the status/toolbar edges, while keeping horizontal overflow clipped. */
-  /* overflow-x:clip (NOT hidden) keeps horizontal content clipped without turning
-     body into a scroll container, which would break position:fixed on iOS Safari.
-     NOTE: do NOT set background-color on html — the body background propagates to
-     the canvas (viewport) only when html has no explicit background. That canvas
-     paint is behind z-index:-10 elements (SiteBackground grid), so the grid is
-     visible. Adding background to html causes body to paint at stacking-context
-     level instead, covering the SiteBackground. */
+  /* iOS 26 (Safari 26 "Liquid Glass") viewport fix.
+     Safari 26 tints its floating toolbars by sampling the page's root
+     background and any position:fixed/sticky element near a viewport edge. A
+     *transparent* root falls back to white, which is the cream-less bleed seen
+     behind the bottom toolbar. So the cream MUST live on the root element.
+     We put it on html (not body) and keep body transparent: the SiteBackground
+     grid is a fixed child of body at z-index:-10, which paints above the html
+     root background but below body's own background. With cream on html and
+     body transparent, the grid stays visible AND Safari has a solid cream root
+     to sample for the toolbar chrome. (Painting cream on body instead would sit
+     above the -z-10 grid and hide it — the original reason html was left bare,
+     but that left the root transparent for iOS 26 to fall back to white.) */
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: 100%;
+    /* Kill iOS Safari's default grey tap-flash. It inherits, so setting it here
+       covers every link/button — the wobbly-bordered contact cards flashed a
+       jarring grey rectangle on tap. */
+    -webkit-tap-highlight-color: transparent;
+    background-color: var(--color-bg);
     width: 100%;
     max-width: 100%;
     min-height: 100vh;
@@ -42,7 +49,9 @@
   }
 
   body {
-    background-color: var(--color-bg);
+    /* transparent — the cream lives on html (see note above) so the fixed
+       -z-10 SiteBackground grid is not covered. */
+    background-color: transparent;
     color: var(--color-text);
     width: 100%;
     max-width: 100%;
@@ -269,5 +278,11 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  /* Drop the expensive hand-drawn wobble filter entirely for reduced-motion
+     users — the breathe animation is already gated off, but the static
+     feTurbulence/feDisplacementMap filter can still cause jank. */
+  .contour-field {
+    filter: none !important;
   }
 }
