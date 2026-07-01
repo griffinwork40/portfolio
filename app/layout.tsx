@@ -129,7 +129,10 @@ const personSchema = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${caveat.variable} ${kalam.variable}`}>
-      <body className="font-sans bg-background text-foreground antialiased">
+      {/* No bg utility here on purpose: the cream lives on <html> (globals.css)
+          so the fixed -z-10 SiteBackground grid stays visible and iOS 26 Safari
+          samples a solid root color for its toolbar chrome. */}
+      <body className="font-sans text-foreground antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
@@ -148,8 +151,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             aria-hidden="true"
             className="pointer-events-none absolute inset-0 -z-10"
             style={{
+              // Warm arrival peaks around the contact CTA (~88%) then returns to
+              // transparent at 100%, so the gradient element's bottom edge (which
+              // sits right above the footer) fades out instead of clipping the
+              // warm tint into a hard horizontal line.
               background:
-                'linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 5%, transparent) 0%, color-mix(in srgb, var(--color-accent) 2.5%, transparent) 16%, transparent 42%, transparent 74%, color-mix(in srgb, var(--color-highlight) 6%, transparent) 100%)',
+                'linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 5%, transparent) 0%, color-mix(in srgb, var(--color-accent) 2.5%, transparent) 16%, transparent 42%, transparent 74%, color-mix(in srgb, var(--color-highlight) 6%, transparent) 88%, transparent 100%)',
             }}
           />
           {children}

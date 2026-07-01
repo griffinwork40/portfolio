@@ -1,9 +1,24 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Nav from './Nav'
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
+
+  // Close the mobile menu on Escape and return focus to the toggle button —
+  // standard disclosure-menu keyboard behavior that was missing.
+  useEffect(() => {
+    if (!mobileOpen) return
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileOpen(false)
+        menuButtonRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [mobileOpen])
 
   return (
     // iOS 26 Safari flow-through pattern — mirrored from agentafk-landing Navbar .flow:
@@ -18,8 +33,12 @@ export default function Header() {
     // pushes nav links below the pill while the bar bg fills behind it.
     // Trade-off: no scroll-up reveal; the header returns only when at page top.
     // This is the same trade-off agentafk-landing intentionally makes.
+    //
+    // No bg utility on purpose: the header is transparent so the fixed graph-paper
+    // grid (SiteBackground) reads as continuous through it — only the dashed
+    // border separates it from the page.
     <header
-      className="relative z-40 w-full border-b-2 border-dashed border-divider-faint bg-background"
+      className="relative z-40 w-full border-b-2 border-dashed border-divider-faint"
       style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
       role="banner"
     >
@@ -37,9 +56,11 @@ export default function Header() {
           <Nav />
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile hamburger — min 44x44 tap target (WCAG 2.5.5); -mr-2 keeps the
+            icon optically aligned to the edge despite the larger hit area. */}
         <button
-          className="md:hidden p-2 text-foreground transition-colors hover:text-accent"
+          ref={menuButtonRef}
+          className="md:hidden -mr-2 inline-flex min-h-11 min-w-11 items-center justify-center text-foreground transition-colors hover:text-accent"
           onClick={() => setMobileOpen((o) => !o)}
           aria-expanded={mobileOpen}
           aria-controls="mobile-nav"
