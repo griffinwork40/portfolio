@@ -1,6 +1,7 @@
 import { writeFileSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { renderText } from './lib/render-text.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -14,6 +15,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 //   tagline: "I don't out-type teams — I build and direct the AI agent
 //             tooling that lets one person ship at team scale."
 //   URLs:    agentafk.com · graisol.com
+// All text is rendered with the app's own fonts (Caveat/Kalam, see
+// app/layout.tsx) via satori, so the OG card matches the site instead of
+// falling back to Georgia/Courier system fonts.
 // ---------------------------------------------------------------------------
 
 // Grid lines: faint blue-grey, 40px apart
@@ -29,6 +33,106 @@ function gridLines() {
   }
   return lines.join('\n  ')
 }
+
+const INK = '#2b2a26'
+const MUTED = '#5b574e'
+const BLUE = '#2f5aa8'
+const RED = '#c0452f'
+
+const [
+  label,
+  name,
+  title,
+  taglineLine1,
+  taglineLine2,
+  urls,
+  stampText,
+] = await Promise.all([
+  renderText({
+    text: 'portfolio · 2025',
+    fontFamily: 'Kalam',
+    fontWeight: 400,
+    fontSize: 18,
+    color: MUTED,
+    letterSpacing: 1,
+    x: 110,
+    y: 32,
+    width: 300,
+    height: 30,
+  }),
+  renderText({
+    text: 'Griffin Long',
+    fontFamily: 'Caveat',
+    fontWeight: 700,
+    fontSize: 96,
+    color: INK,
+    letterSpacing: -1,
+    x: 112,
+    y: 116,
+    width: 700,
+    height: 108,
+  }),
+  renderText({
+    text: 'Agentic AI Engineer · Technical Founder',
+    fontFamily: 'Kalam',
+    fontWeight: 400,
+    fontSize: 32,
+    color: INK,
+    letterSpacing: 0.3,
+    x: 120,
+    y: 254,
+    width: 900,
+    height: 44,
+  }),
+  renderText({
+    text: 'I don’t out-type teams — I build and direct the AI agent',
+    fontFamily: 'Kalam',
+    fontWeight: 400,
+    fontSize: 22,
+    color: MUTED,
+    x: 120,
+    y: 328,
+    width: 900,
+    height: 32,
+  }),
+  renderText({
+    text: 'tooling that lets one person ship at team scale.',
+    fontFamily: 'Kalam',
+    fontWeight: 400,
+    fontSize: 22,
+    color: MUTED,
+    x: 120,
+    y: 358,
+    width: 900,
+    height: 32,
+  }),
+  renderText({
+    text: 'agentafk.com · graisol.com',
+    fontFamily: 'Kalam',
+    fontWeight: 700,
+    fontSize: 26,
+    color: BLUE,
+    letterSpacing: 0.3,
+    x: 120,
+    y: 438,
+    width: 600,
+    height: 36,
+  }),
+  renderText({
+    text: 'SHIPPED IT',
+    fontFamily: 'Kalam',
+    fontWeight: 700,
+    fontSize: 15,
+    color: RED,
+    letterSpacing: 2,
+    x: -86,
+    y: -30,
+    width: 172,
+    height: 22,
+    align: 'center',
+    verticalAlign: 'center',
+  }),
+])
 
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
@@ -64,10 +168,10 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
   <line x1="0" y1="80" x2="1200" y2="80" stroke="#c0452f" stroke-width="1.5" opacity="0.5"/>
 
   <!-- Header area label (muted pencil, top-left, like a date/label on notes) -->
-  <text x="110" y="58" font-family="Georgia, 'Times New Roman', serif" font-size="18" fill="#5b574e" opacity="0.7" letter-spacing="1">portfolio · 2025</text>
+  ${label}
 
   <!-- "Griffin Long" — main name in ink, large -->
-  <text x="120" y="210" font-family="Georgia, 'Times New Roman', serif" font-size="86" font-weight="700" fill="#2b2a26" letter-spacing="-1">Griffin Long</text>
+  ${name}
 
   <!-- Blue ballpoint marker underline below name -->
   <rect x="120" y="222" width="540" height="5" fill="#2f5aa8" rx="2" opacity="0.85"/>
@@ -75,25 +179,23 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
   <!-- Slight wobbly underline extension (hand-drawn feel) -->
   <path d="M 120 226 Q 300 229 540 225 Q 580 224 625 226" stroke="#2f5aa8" stroke-width="2" fill="none" opacity="0.4"/>
 
-  <!-- Title line: "Agentic AI Engineer · Technical Founder" in ink/muted -->
-  <text x="120" y="290" font-family="Georgia, 'Times New Roman', serif" font-size="34" fill="#2b2a26" letter-spacing="0.3">Agentic AI Engineer · Technical Founder</text>
+  <!-- Title line: "Agentic AI Engineer · Technical Founder" in ink -->
+  ${title}
 
   <!-- Tagline line 1 (shorter wrapping) in muted pencil -->
-  <text x="120" y="355" font-family="Georgia, 'Times New Roman', serif" font-size="24" fill="#5b574e" font-style="italic">I don&#x2019;t out-type teams &#x2014; I build and direct the AI agent</text>
+  ${taglineLine1}
 
   <!-- Tagline line 2 -->
-  <text x="120" y="386" font-family="Georgia, 'Times New Roman', serif" font-size="24" fill="#5b574e" font-style="italic">tooling that lets one person ship at team scale.</text>
+  ${taglineLine2}
 
   <!-- Faint horizontal rule above URLs -->
   <line x1="120" y1="430" x2="1080" y2="430" stroke="#2b2a26" stroke-width="1" opacity="0.3" stroke-dasharray="6 3"/>
 
-  <!-- URLs in monospace-ish ink -->
-  <text x="120" y="470" font-family="'Courier New', Courier, monospace" font-size="26" fill="#2f5aa8" letter-spacing="0.5">agentafk.com</text>
-  <text x="364" y="470" font-family="Georgia, serif" font-size="26" fill="#5b574e" opacity="0.7"> · </text>
-  <text x="400" y="470" font-family="'Courier New', Courier, monospace" font-size="26" fill="#2f5aa8" letter-spacing="0.5">graisol.com</text>
-
   <!-- Highlighter swipe behind URLs (gold highlighter motif) -->
-  <rect x="115" y="451" width="596" height="28" fill="#e0b400" opacity="0.18" rx="2"/>
+  <rect x="115" y="451" width="360" height="28" fill="#e0b400" opacity="0.18" rx="2"/>
+
+  <!-- URLs, hand-written in ballpoint blue -->
+  ${urls}
 
   <!-- "SHIPPED IT ✓" rubber stamp in corner — rotated, red outlined box -->
   <g transform="translate(1000, 530) rotate(-18)">
@@ -102,8 +204,9 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
     <!-- Stamp inner box (double-border stamp look) -->
     <rect x="-86" y="-38" width="172" height="50" fill="none" stroke="#c0452f" stroke-width="1.2" rx="2" opacity="0.6"/>
     <!-- Stamp text -->
-    <text x="0" y="-12" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-weight="700" fill="#c0452f" text-anchor="middle" letter-spacing="2" opacity="0.9">SHIPPED IT</text>
-    <text x="0" y="8" font-family="Georgia, 'Times New Roman', serif" font-size="18" fill="#c0452f" text-anchor="middle" opacity="0.9">&#x2713;</text>
+    ${stampText}
+    <!-- Hand-drawn checkmark (avoids relying on a ✓ glyph the font may lack) -->
+    <path d="M -10 6 L -2 14 L 12 -6" stroke="${RED}" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
   </g>
 
   <!-- Thin ink border around the whole card -->
