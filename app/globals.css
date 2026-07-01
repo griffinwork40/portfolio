@@ -90,17 +90,19 @@
      background, by contrast, is propagated to the viewport canvas and paints
      across the entire painting area — the same region the cream fills — so the
      grid is guaranteed to reach wherever the cream reaches, in every toolbar
-     state. Two tile sizes: a fine 26px grid and a heavier 130px grid.
+     state.
 
-     background-attachment: fixed would be the obvious way to keep the grid
-     stationary while content scrolls, but iOS/iPadOS Safari has a long-standing
-     unresolved bug (WebKit #275247) where fixed backgrounds silently fall back
-     to scrolling — it would work on desktop/Android and silently no-op on
-     iOS. Instead the grid stays attached (background-attachment: scroll, the
-     default) and --scroll-y (set by the inline script in layout.tsx) shifts
-     background-position by the scroll offset every frame, so the pattern
-     reads as pinned to the viewport on every platform without relying on
-     attachment:fixed at all. */
+     Only the CREAM lives here now — the grid itself is a composited
+     position:fixed layer in SiteBackground. Keeping cream on the root is still
+     required (iOS 26 samples it for toolbar chrome; it also backstops the whole
+     scroll canvas so no state can ever reveal a paper-less band). The grid was
+     moved to a fixed layer so it can stay visually pinned to the viewport while
+     content scrolls WITHOUT any per-frame work: a fixed layer is held by the
+     compositor, so it costs nothing on scroll and never lags behind iOS
+     momentum-scroll. (background-attachment: fixed would express the same intent
+     in one line but silently no-ops on iOS/iPadOS Safari — WebKit #275247 — and
+     driving background-position from a scroll listener repaints the root every
+     frame and visibly chases the scroll. The fixed layer avoids both.) */
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -110,12 +112,6 @@
        jarring grey rectangle on tap. */
     -webkit-tap-highlight-color: transparent;
     background-color: var(--color-background);
-    background-image: linear-gradient(var(--color-grid) 1px, transparent 1px),
-      linear-gradient(90deg, var(--color-grid) 1px, transparent 1px),
-      linear-gradient(var(--color-grid-strong) 1px, transparent 1px),
-      linear-gradient(90deg, var(--color-grid-strong) 1px, transparent 1px);
-    background-size: 26px 26px, 26px 26px, 130px 130px, 130px 130px;
-    background-position: 0 var(--scroll-y, 0px);
     width: 100%;
     max-width: 100%;
     min-height: 100vh;
