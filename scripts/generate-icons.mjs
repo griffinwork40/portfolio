@@ -21,19 +21,38 @@ import { writeFileSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { default as sharp } from 'sharp'
+import { renderText } from './lib/render-text.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = join(__dirname, '..')
 
 // ---------------------------------------------------------------------------
 // SVG monogram builder — size-agnostic viewBox, scale via width/height attrs
+// "GL" is rendered in Caveat (the app's signature/display font, see
+// app/layout.tsx) via satori so the favicon matches the hand-drawn "Griffin
+// Long" wordmark used elsewhere instead of falling back to a system serif.
 // ---------------------------------------------------------------------------
-function monogramSVG(size = 512) {
-  // For sizes ≤ 64 use a simpler (no border detail) version
+async function monogramSVG(size = 512) {
   const cornerRadius = Math.round(size * 0.18)
   const padding = Math.round(size * 0.1)
   const bgInset = Math.round(size * 0.04)   // thin ink outline gap
-  const fontSize = Math.round(size * 0.46)
+  const fontSize = Math.round(size * 0.5)
+  const innerSize = size - padding * 2
+
+  const glyph = await renderText({
+    text: 'GL',
+    fontFamily: 'Caveat',
+    fontWeight: 700,
+    fontSize,
+    color: '#f6f1e6',
+    letterSpacing: -Math.round(size * 0.02),
+    x: padding,
+    y: padding,
+    width: innerSize,
+    height: innerSize,
+    align: 'center',
+    verticalAlign: 'center',
+  })
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
   <!-- Ink outline (subtle dark border for definition) -->
@@ -41,26 +60,21 @@ function monogramSVG(size = 512) {
         rx="${cornerRadius}" ry="${cornerRadius}"
         fill="#2b2a26" opacity="0.18"/>
   <!-- Blue ballpoint background square -->
-  <rect x="${padding}" y="${padding}" width="${size - padding * 2}" height="${size - padding * 2}"
+  <rect x="${padding}" y="${padding}" width="${innerSize}" height="${innerSize}"
         rx="${Math.round(cornerRadius * 0.85)}" ry="${Math.round(cornerRadius * 0.85)}"
         fill="#2f5aa8"/>
   <!-- GL monogram in cream -->
-  <text x="${size / 2}" y="${size / 2 + fontSize * 0.36}"
-        font-family="Georgia, 'Times New Roman', serif"
-        font-size="${fontSize}"
-        font-weight="700"
-        fill="#f6f1e6"
-        text-anchor="middle"
-        dominant-baseline="auto"
-        letter-spacing="-${Math.round(size * 0.02)}">GL</text>
+  ${glyph}
 </svg>`
 }
+
+const monogram512 = await monogramSVG(512)
 
 // ---------------------------------------------------------------------------
 // 1. app/icon.svg — Next.js App Router convention (auto <link rel="icon">)
 // ---------------------------------------------------------------------------
 const iconSvgPath = join(root, 'app', 'icon.svg')
-writeFileSync(iconSvgPath, monogramSVG(512))
+writeFileSync(iconSvgPath, monogram512)
 console.log('✓ app/icon.svg written')
 
 // ---------------------------------------------------------------------------
@@ -78,7 +92,7 @@ async function svgToPng(svgString, outPath, width, height) {
 // 2. app/apple-icon.png — 180×180
 // ---------------------------------------------------------------------------
 await svgToPng(
-  monogramSVG(512),
+  monogram512,
   join(root, 'app', 'apple-icon.png'),
   180,
   180,
@@ -88,7 +102,7 @@ await svgToPng(
 // 3. public/icon-192.png — PWA manifest icon
 // ---------------------------------------------------------------------------
 await svgToPng(
-  monogramSVG(512),
+  monogram512,
   join(root, 'public', 'icon-192.png'),
   192,
   192,
@@ -101,7 +115,7 @@ await svgToPng(
 // For 512 maskable: the "safe zone" is the inner 80% circle (409px dia).
 // Our monogram square at inset 10% (51px) already sits well within that.
 await svgToPng(
-  monogramSVG(512),
+  monogram512,
   join(root, 'public', 'icon-512.png'),
   512,
   512,
