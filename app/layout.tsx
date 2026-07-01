@@ -6,16 +6,20 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import SiteBackground from '@/components/ui/SiteBackground'
 
+// Only the weights actually used are requested — the hero heading (the LCP
+// element) is Caveat 700, body is Kalam 400/700. Trimming 7 weight-files to 4
+// halves the font payload and gets the heading's font into the preload set,
+// so the hero stops waiting ~5s on a late web font on real phones.
 const caveat = Caveat({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '700'],
   variable: '--font-caveat',
   display: 'swap',
 })
 
 const kalam = Kalam({
   subsets: ['latin'],
-  weight: ['300', '400', '700'],
+  weight: ['400', '700'],
   variable: '--font-kalam',
   display: 'swap',
 })

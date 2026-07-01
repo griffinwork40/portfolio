@@ -17,7 +17,7 @@ export default function Header() {
     <header
       className={cn(
         'fixed top-0 left-0 right-0 z-40 transition-all duration-300',
-        scrolled ? 'border-b-2 border-dashed border-[--color-text]/40 bg-[--color-bg]/95 py-3 backdrop-blur' : 'py-5',
+        scrolled ? 'border-b-2 border-dashed border-[--color-text]/40 bg-[--color-bg]/95 py-3' : 'py-5',
       )}
       role="banner"
     >

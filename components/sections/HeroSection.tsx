@@ -52,19 +52,23 @@ export default function HeroSection() {
         className="absolute left-6 top-28 hidden w-[208px] lg:block xl:left-16"
       >
         <Polaroid
-          src="/photos/memory-oom.jpg"
+          src="/photos/memory-oom.webp"
           alt="A monitor mid-session showing the macOS 'your system has run out of application memory' dialog"
           caption="out of memory again"
           rotate={-6}
-          width={1000}
-          height={920}
+          width={500}
+          height={460}
         />
       </motion.div>
 
+      {/* Hero renders VISIBLE by default so it paints from static HTML — never
+          gated behind JS hydration. On a slow phone, gating the hero on
+          framer-motion left it blank for seconds. Below-the-fold sections keep
+          their scroll-triggered (whileInView) reveals. */}
       <motion.div
         className="relative z-10 mx-auto max-w-4xl text-center"
         variants={staggerContainer}
-        initial={prefersReduced ? 'visible' : 'hidden'}
+        initial="visible"
         animate="visible"
       >
         {/* availability tag */}
