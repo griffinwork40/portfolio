@@ -1,0 +1,25 @@
+# Griffin Long
+
+> A self-taught AI engineer who went from line cook to shipping production agent systems.
+
+I taught myself to build with AI while working as a line cook and taking college classes. In March 2025 I founded GRAIsol, and in the months since have shipped an open-source agent runtime (agent-afk), a 369K-LOC AI GTM-automation platform (AgentGRAI), and 9 published open-source packages. I build and direct the AI agent tooling that lets one person ship at team scale.
+
+## Projects
+
+- [agent-afk](https://agentafk.com): open-source TypeScript agentic coding-agent runtime/harness (~308K LOC, 408 npm versions, Apache-2.0)
+- [AgentGRAI](https://graisol.com): Modular Next.js / React AI lead-intelligence and outbound platform with multi-stage enrichment, async queue architecture, Gmail outbound engine, and AI SDR layer (~369K LOC)
+- [ElevenLabs Voice MCP](https://github.com/griffinwork40): MCP server for ElevenLabs voice synthesis (23 tools)
+- [ClickUp MCP](https://github.com/griffinwork40): MCP server for ClickUp task management (19 tools)
+- [Cursor Agent MCP](https://github.com/griffinwork40): MCP server for Cursor Agent with SSE on Vercel (40 merged PRs)
+- [gadscli](https://github.com/griffinwork40): Async Rust CLI for the Google Ads API, published to npm
+
+## Links
+
+- [GitHub](https://github.com/griffinwork40)
+- [LinkedIn](https://linkedin.com/in/griffindev)
+- [agent-afk](https://agentafk.com)
+- [GRAIsol](https://graisol.com)
+
+## Contact
+
+- Email: griffinwork40@gmail.com

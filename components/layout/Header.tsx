@@ -1,27 +1,29 @@
 'use client'
-import { useState, useEffect } from 'react'
-import { cn } from '@/lib/utils'
+import { useState } from 'react'
 import Nav from './Nav'
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
 
-  useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 20)
-    window.addEventListener('scroll', handler, { passive: true })
-    return () => window.removeEventListener('scroll', handler)
-  }, [])
-
   return (
+    // iOS 26 Safari flow-through pattern — mirrored from agentafk-landing Navbar .flow:
+    //
+    // KEY INSIGHT: position:fixed (even with translateY(-100%)) keeps the element
+    // at CSS y=0. iOS 26 sees it as the "top edge element" and blocks content from
+    // flowing behind the Dynamic Island pill. position:relative puts the header in
+    // normal document flow, so it scrolls away completely — leaving truly nothing at
+    // the top edge — and iOS 26 shows the page background/content through the pill.
+    //
+    // viewport-fit=cover (layout.tsx) spans the notch. padding-top:env(safe-area-inset-top)
+    // pushes nav links below the pill while the bar bg fills behind it.
+    // Trade-off: no scroll-up reveal; the header returns only when at page top.
+    // This is the same trade-off agentafk-landing intentionally makes.
     <header
-      className={cn(
-        'fixed top-0 left-0 right-0 z-40 transition-all duration-300',
-        scrolled ? 'border-b-2 border-dashed border-[--color-text]/40 bg-[--color-bg]/95 py-3 backdrop-blur' : 'py-5',
-      )}
+      className="relative z-40 w-full border-b-2 border-dashed border-[--color-text]/20 bg-[--color-bg]"
+      style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
       role="banner"
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <a
           href="#hero"
           className="font-display text-3xl font-bold text-[--color-text] transition-colors hover:text-[--color-accent] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[--color-accent] rounded"

@@ -71,19 +71,19 @@ export default function AboutSection() {
 
           <div className="flex flex-wrap justify-center gap-8 sm:justify-start">
             <Polaroid
-              src="/photos/desk-night.jpg"
+              src="/photos/desk-night.webp"
               alt="Dual monitors glowing in a dim room — the workspace where the agent tooling gets built"
               caption="where the work happens"
               rotate={-3}
               className="w-[min(78vw,320px)]"
             />
             <Polaroid
-              src="/photos/desk-mess.jpg"
+              src="/photos/desk-mess.webp"
               alt="A desk lit by a monitor at night — notes and papers scattered across it, mid-build"
               caption="deep in it"
               rotate={2}
-              width={1200}
-              height={1600}
+              width={640}
+              height={854}
               className="mt-6 w-[min(78vw,320px)]"
             />
           </div>

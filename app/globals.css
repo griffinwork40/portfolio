@@ -20,18 +20,54 @@
 }
 
 @layer base {
+  /* Safari viewport fix, mirrored from agentafk-landing: fill the dynamic
+     viewport from the root so iOS Safari samples a solid page background at
+     the status/toolbar edges, while keeping horizontal overflow clipped. */
+  /* overflow-x:clip (NOT hidden) keeps horizontal content clipped without turning
+     body into a scroll container, which would break position:fixed on iOS Safari.
+     NOTE: do NOT set background-color on html — the body background propagates to
+     the canvas (viewport) only when html has no explicit background. That canvas
+     paint is behind z-index:-10 elements (SiteBackground grid), so the grid is
+     visible. Adding background to html causes body to paint at stacking-context
+     level instead, covering the SiteBackground. */
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    overflow-x: clip;
   }
 
   body {
     background-color: var(--color-bg);
     color: var(--color-text);
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    overflow-x: clip;
+  }
+
+  @supports (height: 100dvh) {
+    html,
+    body {
+      min-height: 100dvh;
+    }
+  }
+
+  @supports not (overflow: clip) {
+    html,
+    body {
+      overflow-x: hidden;
+    }
   }
 
   section[id] {
-    scroll-margin-top: 5rem;
+    /* Header is in-flow (scrolls away) — only a small breathing gap needed */
+    scroll-margin-top: 1rem;
   }
 
   ::selection {
@@ -193,9 +229,21 @@
     transform: scale(1.04);
   }
 }
-@media (prefers-reduced-motion: no-preference) {
+/* Breathe only on non-touch pointers (desktop). On phones, animating a
+   transform on a *filtered* SVG forces per-frame filter re-rasterization —
+   a major source of sustained scroll jank / battery drain on iOS Safari. */
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
   .contour-field {
     animation: contour-breathe 16s ease-in-out infinite;
+  }
+}
+
+/* The feTurbulence + feDisplacementMap filter is very expensive to rasterize
+   on mobile GPUs (slow first paint on real iPhones). Drop the hand-drawn
+   wobble on small screens — the contour rings still render, just clean. */
+@media (max-width: 767px) {
+  .contour-field {
+    filter: none !important;
   }
 }
 
