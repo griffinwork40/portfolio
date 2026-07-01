@@ -30,20 +30,6 @@ const config: Config = {
         mono: ['var(--font-kalam)', ...defaultTheme.fontFamily.mono],
         display: ['var(--font-caveat)', 'cursive'],
       },
-      animation: {
-        'gradient-shift': 'gradient-shift 8s ease infinite',
-        'fade-up': 'fade-up 0.6s ease forwards',
-      },
-      keyframes: {
-        'gradient-shift': {
-          '0%, 100%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
-        },
-        'fade-up': {
-          from: { opacity: '0', transform: 'translateY(24px)' },
-          to: { opacity: '1', transform: 'translateY(0)' },
-        },
-      },
     },
   },
   plugins: [],

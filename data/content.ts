@@ -2,6 +2,52 @@
 // All content drawn verbatim from profile.md verified 2026-06-20.
 // NEVER edit metrics here without re-verifying against profile.md.
 
+// --- Named contracts for the plain content objects. `satisfies` verifies shape
+// without widening the `as const` literal types the components rely on.
+// (projects / experience / sweBenchResult already carry explicit types below.) ---
+type Identity = {
+  name: string
+  title: string
+  location: string
+  email: string
+  phone: string
+  github: string
+  linkedin: string
+  threads: string
+  agentAfkUrl: string
+  graisolUrl: string
+  greeting: string
+  hook: string
+  tagline: string
+}
+
+type About = { paragraphs: readonly string[] }
+
+type Skills = {
+  languages: readonly string[]
+  frameworks: readonly string[]
+  aiAndAgents: readonly string[]
+  dataAndInfra: readonly string[]
+}
+
+type Contact = {
+  email: string
+  phone: string
+  github: string
+  linkedin: string
+  threads: string
+  agentAfk: string
+  graisol: string
+}
+
+type SiteMetadata = {
+  title: string
+  description: string
+  url: string
+  ogImage: string
+  twitterHandle?: string
+}
+
 export const identity = {
   name: 'Griffin Long',
   title: 'Agentic AI Engineer | Technical Founder',
@@ -10,6 +56,7 @@ export const identity = {
   phone: '(978) 806-6657',
   github: 'https://github.com/griffinwork40',
   linkedin: 'https://linkedin.com/in/griffindev',
+  threads: 'https://www.threads.com/@griffinlong.dev',
   agentAfkUrl: 'https://agentafk.com',
   graisolUrl: 'https://graisol.com',
   greeting: "Hey, I'm",
@@ -17,7 +64,7 @@ export const identity = {
   hook: 'A self-taught AI engineer who went from line cook to shipping production agent systems.',
   // Voice line, verbatim from profile.md Positioning Summary B.
   tagline: "I don't out-type teams — I build and direct the AI agent tooling that lets one person ship at team scale.",
-} as const
+} as const satisfies Identity
 
 // About — first-person story, drawn STRICTLY from profile.md (self-taught, line-cook
 // origin, GRAIsol founded Mar 2025). No invented personal details; metrics match profile.
@@ -27,7 +74,7 @@ export const about = {
     "In March 2025 I turned that into GRAIsol. In the ~15 months since, it's grown into roughly 10,800 commits across 100+ repos: an open-source agent runtime (agent-afk), a 369K-LOC AI GTM-automation platform, and 9 published open-source packages.",
     "The throughline: I don't out-type teams — I build and direct the AI agent tooling that lets one person ship at team scale. Same energy I brought to the kitchen — high tempo, reliable under pressure — now pointed at shipping software end to end.",
   ],
-} as const
+} as const satisfies About
 
 // SWE-bench result — qualifier is structurally inseparable from the numbers.
 // NEVER render sonnet or kimiQwen without also rendering qualifier.
@@ -171,6 +218,14 @@ export const projects: readonly Project[] = [
   },
 ] as const
 
+// Typed lookup for featured projects — throws a descriptive error at build time
+// if an id is renamed/removed, instead of the silent `find(...)!` non-null assertion.
+export function getProjectById(id: string): Project {
+  const project = projects.find((p) => p.id === id)
+  if (!project) throw new Error(`content: no project found with id "${id}"`)
+  return project
+}
+
 export const skills = {
   languages: ['TypeScript', 'JavaScript', 'Python', 'Rust', 'Swift', 'SQL'],
   frameworks: ['Node.js', 'Next.js', 'React', 'Astro', 'Fastify', 'Tailwind CSS'],
@@ -184,7 +239,7 @@ export const skills = {
     'Docker', 'Vercel', 'Railway', 'Stripe', 'Twilio', 'ElevenLabs',
     'Google APIs', 'Sentry', 'PostHog', 'Self-hosted CI/CD',
   ],
-} as const
+} as const satisfies Skills
 
 export type ExperienceStatus = 'current' | 'past'
 
@@ -248,9 +303,10 @@ export const contact = {
   phone: '(978) 806-6657',
   github: 'https://github.com/griffinwork40',
   linkedin: 'https://linkedin.com/in/griffindev',
+  threads: 'https://www.threads.com/@griffinlong.dev',
   agentAfk: 'https://agentafk.com',
   graisol: 'https://graisol.com',
-} as const
+} as const satisfies Contact
 
 export const siteMetadata = {
   title: 'Griffin Long — Agentic AI Engineer',
@@ -258,4 +314,4 @@ export const siteMetadata = {
   url: 'https://griffinlong.dev',
   ogImage: '/og.png',
   twitterHandle: undefined,
-} as const
+} as const satisfies SiteMetadata

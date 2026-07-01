@@ -1,4 +1,3 @@
-'use client'
 // MetricBadge renders a metric value + qualifier as an inseparable unit.
 // NEVER render SWE-bench numbers without the qualifier — this component enforces that structurally.
 import { cn } from '@/lib/utils'
