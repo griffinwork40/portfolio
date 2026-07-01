@@ -1,38 +1,18 @@
-// Graph-paper background: cream paper + faint blue grid + a red notebook margin line.
+// Background accents drawn over the graph grid. The cream paper + blue graph
+// grid now live on the <html> root (see globals.css) so they paint across the
+// full canvas — including behind iOS Safari's toolbars — in every toolbar
+// state. This fixed layer adds only the decorative accents: a red notebook
+// margin line and a soft edge-darkening so the paper feels physical.
 export default function SiteBackground() {
   return (
     // fixed layer anchored at the top edge. Height is the LARGE viewport (100lvh,
-    // with 100vh fallback) rather than `inset-0`: an inset-0 fixed element is sized
-    // to iOS Safari's *initial* (toolbar-visible) viewport, so when the bottom
-    // toolbar retracts the newly revealed strip is left uncovered and the body's
-    // cream canvas bleeds through below the grid. Sizing to 100lvh spans the tallest
-    // viewport, so the grid always reaches the bottom regardless of toolbar state.
+    // with 100vh fallback). The grid no longer lives here, so if this overlay
+    // stops short of the bottom on iOS Safari (toolbar visible) it only means an
+    // accent falls off the bottom edge — the grid itself, on <html>, still fills.
     <div
       aria-hidden="true"
       className="pointer-events-none fixed inset-x-0 top-0 min-h-screen h-[100lvh] -z-10 overflow-hidden"
     >
-      {/* paper */}
-      <div className="absolute inset-0" style={{ backgroundColor: 'var(--color-background)' }} />
-
-      {/* fine graph grid */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            'linear-gradient(var(--color-grid) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid) 1px, transparent 1px)',
-          backgroundSize: '26px 26px',
-        }}
-      />
-      {/* heavier grid every ~130px */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            'linear-gradient(var(--color-grid-strong) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid-strong) 1px, transparent 1px)',
-          backgroundSize: '130px 130px',
-        }}
-      />
-
       {/* red notebook margin line */}
       <div
         className="absolute bottom-0 left-14 top-0 w-px sm:left-20"
