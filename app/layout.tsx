@@ -88,6 +88,8 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
+  // Browser-chrome color, emitted as a <meta> tag at build time — it cannot
+  // reference a runtime CSS var, so keep it in sync with --palette-paper.
   themeColor: '#f6f1e6',
   width: 'device-width',
   initialScale: 1,
@@ -127,14 +129,14 @@ const personSchema = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${caveat.variable} ${kalam.variable}`}>
-      <body className="font-sans bg-[--color-bg] text-[--color-text] antialiased">
+      <body className="font-sans bg-background text-foreground antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
         />
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[--color-accent] focus:text-white focus:rounded"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-white focus:rounded"
         >
           Skip to main content
         </a>
@@ -147,7 +149,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             className="pointer-events-none absolute inset-0 -z-10"
             style={{
               background:
-                'linear-gradient(180deg, rgba(47,90,168,0.05) 0%, rgba(47,90,168,0.025) 16%, transparent 42%, transparent 74%, rgba(224,180,0,0.06) 100%)',
+                'linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 5%, transparent) 0%, color-mix(in srgb, var(--color-accent) 2.5%, transparent) 16%, transparent 42%, transparent 74%, color-mix(in srgb, var(--color-highlight) 6%, transparent) 100%)',
             }}
           />
           {children}

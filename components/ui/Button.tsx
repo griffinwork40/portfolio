@@ -11,15 +11,15 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants: Record<ButtonVariant, string> = {
-  primary: 'sketch-btn bg-[--color-text] text-[--color-bg]',
-  secondary: 'sketch-btn bg-[--color-surface] text-[--color-text]',
+  primary: 'sketch-btn bg-foreground text-background',
+  secondary: 'sketch-btn bg-surface text-foreground',
   ghost:
-    'text-[--color-text] underline decoration-2 decoration-transparent underline-offset-4 hover:text-[--color-accent] hover:decoration-[--color-accent]',
+    'text-foreground underline decoration-2 decoration-transparent underline-offset-4 hover:text-accent hover:decoration-accent',
 }
 
 export default function Button({ variant = 'primary', href, icon, children, className, ...props }: ButtonProps) {
   const classes = cn(
-    'inline-flex items-center gap-1.5 px-5 py-2 font-display text-lg leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[--color-accent]',
+    'inline-flex items-center gap-1.5 px-5 py-2 font-display text-lg leading-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
     variants[variant],
     className,
   )

@@ -32,8 +32,8 @@ export default function AboutSection() {
               variants={prefersReduced ? {} : fadeUp}
               className={
                 i === 0
-                  ? 'text-lg sm:text-xl text-[--color-text] leading-relaxed'
-                  : 'text-base sm:text-lg text-[--color-muted] leading-relaxed'
+                  ? 'text-lg sm:text-xl text-foreground leading-relaxed'
+                  : 'text-base sm:text-lg text-muted leading-relaxed'
               }
             >
               {paragraph}
@@ -50,7 +50,7 @@ export default function AboutSection() {
           viewport={{ once: true, margin: '-80px' }}
         >
           {/* hand-drawn label + arrow pointing at the photos */}
-          <div aria-hidden="true" className="mb-3 flex items-end gap-2 text-[--color-accent]">
+          <div aria-hidden="true" className="mb-3 flex items-end gap-2 text-accent">
             <span className="-rotate-2 font-display text-xl">real desk, real mess :)</span>
             <svg className="h-10 w-12 shrink-0" viewBox="0 0 48 40" fill="none">
               <path

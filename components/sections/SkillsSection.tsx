@@ -30,7 +30,7 @@ export default function SkillsSection() {
         >
           {categories.map((cat) => (
             <motion.div key={cat.label} variants={prefersReduced ? {} : fadeUp}>
-              <h3 className="text-xs font-mono text-[--color-muted] uppercase tracking-widest mb-3">{cat.label}</h3>
+              <h3 className="text-xs font-mono text-muted uppercase tracking-widest mb-3">{cat.label}</h3>
               <div className="flex flex-wrap gap-2">
                 {cat.items.map((skill) => (
                   <Badge key={skill} variant={cat.variant}>{skill}</Badge>

@@ -22,7 +22,7 @@ There is no test framework — `pnpm lint` + `pnpm build` are the gates. Always 
 |------|---------|
 | `app/layout.tsx` | Root layout: fonts (next/font), `<Metadata>`/OpenGraph, Header, Footer, SiteBackground, skip-link |
 | `app/page.tsx` | The single page — composes section components + `EarnedPath` transitions |
-| `app/globals.css` | Design tokens (CSS custom props) + the hand-drawn design system (`.glass` paper cards, etc.) |
+| `app/globals.css` | Semantic design tokens (two-tier: `--palette-*` primitives → `--color-*` roles) + the hand-drawn design system (`.glass` paper cards, etc.) |
 | `components/sections/` | Page sections: Hero, About, Projects, Skills, Experience, Contact |
 | `components/layout/` | Header, Nav, Footer |
 | `components/ui/` | Reusable primitives: Card, MetricBadge, EarnedPath, Timeline, Polaroid, ContourField, SiteBackground, Button, Badge, AnimatedText, SectionHeading |
@@ -47,7 +47,7 @@ Build artifacts (`.next/`, `out/`, `.vercel/`) are git-ignored — never edit th
 
 - **TypeScript strict mode** on; path alias `@/*` maps to the project root (e.g. `@/data/content`, `@/components/ui/Card`).
 - Components using Framer Motion or browser APIs are marked `'use client'`; keep static content in server components where possible.
-- **Styling:** Tailwind utilities + CSS custom properties defined in `globals.css` (`--color-bg`, `--color-accent`, etc.). Use the `bg`/`surface`/`accent`/`text`/`muted`/`border` theme tokens rather than raw hex. Compose classes with `cn()`.
+- **Styling — semantic design tokens (two-tier):** all color lives in `app/globals.css` as **Tier 1 primitives** (`--palette-paper`, `--palette-ink`, `--palette-ballpoint`, …) — the *only* place literal hex appears — repointed by **Tier 2 semantic tokens** (`--color-background`, `--color-surface`, `--color-foreground`, `--color-muted`, `--color-border`, `--color-accent`, `--color-accent-secondary`, `--color-highlight`). Consume them via the matching Tailwind classes (`bg-background`, `text-foreground`, `text-muted`, `border-accent`, `text-accent-secondary`, …) — **never raw hex/rgba** in components. For a one-off translucent shade, use `color-mix(in srgb, var(--color-…) N%, transparent)` against a semantic token, not a literal `rgba()`. Compose classes with `cn()`.
 - The paper design system (`.glass` cards, wobbly borders, hard offset shadows) lives in un-layered CSS in `globals.css` so it intentionally overrides Tailwind utilities — respect that when adjusting card styling.
 - **Fonts:** `--font-caveat` (display/headings) and `--font-kalam` (sans/mono body) via `next/font/google` — do not hardcode font families.
 - **Animations:** reuse the shared variants in `lib/utils.ts` rather than defining ad-hoc motion configs.

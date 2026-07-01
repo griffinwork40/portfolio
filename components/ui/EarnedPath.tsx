@@ -33,7 +33,7 @@ export default function EarnedPath({
           <path
             key={i}
             d={d}
-            stroke="var(--route-pencil)"
+            stroke="var(--color-route)"
             strokeWidth="1"
             strokeLinecap="round"
             style={{ opacity: 0.45 }}
@@ -42,7 +42,7 @@ export default function EarnedPath({
         {/* the earned route — inked, revealed on scroll */}
         <motion.path
           d={INK}
-          stroke="var(--route-ink)"
+          stroke="var(--color-foreground)"
           strokeWidth="2.25"
           strokeLinecap="round"
           initial={reduce ? { pathLength: 1 } : { pathLength: 0 }}
@@ -50,8 +50,8 @@ export default function EarnedPath({
           viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 1.1, ease: 'easeInOut' }}
         />
-        {stage === 'emerge' && <circle cx="30" cy="8" r="3" fill="var(--color-accent-2)" style={{ opacity: 0.75 }} />}
-        {stage === 'arrive' && <circle cx="30" cy="116" r="4.5" fill="var(--color-accent-2)" />}
+        {stage === 'emerge' && <circle cx="30" cy="8" r="3" fill="var(--color-accent-secondary)" style={{ opacity: 0.75 }} />}
+        {stage === 'arrive' && <circle cx="30" cy="116" r="4.5" fill="var(--color-accent-secondary)" />}
       </svg>
     </div>
   )

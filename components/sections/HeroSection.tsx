@@ -38,7 +38,7 @@ export default function HeroSection() {
       {/* "shipped it" stamp */}
       <div
         aria-hidden="true"
-        className="absolute right-5 top-28 rotate-[8deg] select-none border-[3px] border-[--color-accent-2] px-4 py-1.5 font-display text-2xl font-bold tracking-wide text-[--color-accent-2] opacity-80 sm:right-16"
+        className="absolute right-5 top-28 rotate-[8deg] select-none border-[3px] border-accent-secondary px-4 py-1.5 font-display text-2xl font-bold tracking-wide text-accent-secondary opacity-80 sm:right-16"
         style={{ borderRadius: '14px 8px 16px 8px / 8px 16px 8px 14px' }}
       >
         SHIPPED IT ✓
@@ -73,7 +73,7 @@ export default function HeroSection() {
       >
         {/* availability tag */}
         <motion.div variants={prefersReduced ? {} : fadeUp} className="mb-8 flex justify-center">
-          <span className="sketch-tag inline-flex -rotate-1 items-center gap-2 px-4 py-1.5 font-display text-lg text-[--color-text]">
+          <span className="sketch-tag inline-flex -rotate-1 items-center gap-2 px-4 py-1.5 font-display text-lg text-foreground">
             <span className="relative flex h-2.5 w-2.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-70 motion-reduce:animate-none" />
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
@@ -82,14 +82,14 @@ export default function HeroSection() {
           </span>
         </motion.div>
 
-        <motion.p variants={prefersReduced ? {} : fadeUp} className="mb-1 font-display text-2xl text-[--color-muted]">
+        <motion.p variants={prefersReduced ? {} : fadeUp} className="mb-1 font-display text-2xl text-muted">
           {identity.greeting} <span className="inline-block">👋</span>
         </motion.p>
 
         <motion.h1
           id="hero-heading"
           variants={prefersReduced ? {} : fadeUp}
-          className="font-display text-7xl font-bold leading-[0.85] text-[--color-text] sm:text-8xl lg:text-9xl"
+          className="font-display text-7xl font-bold leading-[0.85] text-foreground sm:text-8xl lg:text-9xl"
         >
           {identity.name}
         </motion.h1>
@@ -97,7 +97,7 @@ export default function HeroSection() {
         {/* hand-drawn underline under the name */}
         <motion.svg
           variants={prefersReduced ? {} : fadeUp}
-          className="mx-auto mt-2 h-4 w-[min(85%,460px)] text-[--color-accent]"
+          className="mx-auto mt-2 h-4 w-[min(85%,460px)] text-accent"
           viewBox="0 0 400 16"
           fill="none"
           preserveAspectRatio="none"
@@ -108,14 +108,14 @@ export default function HeroSection() {
 
         <motion.div
           variants={prefersReduced ? {} : fadeUp}
-          className="mx-auto mb-4 mt-7 max-w-2xl font-sans text-xl font-bold text-[--color-text] sm:text-2xl"
+          className="mx-auto mb-4 mt-7 max-w-2xl font-sans text-xl font-bold text-foreground sm:text-2xl"
         >
           <AnimatedText text={identity.hook} delay={0.3} />
         </motion.div>
 
         <motion.p
           variants={prefersReduced ? {} : fadeUp}
-          className="mx-auto mb-12 max-w-xl font-sans text-lg leading-relaxed text-[--color-muted]"
+          className="mx-auto mb-12 max-w-xl font-sans text-lg leading-relaxed text-muted"
         >
           {identity.tagline}
         </motion.p>
@@ -140,7 +140,7 @@ export default function HeroSection() {
           {/* doodle arrow + note pointing at the primary CTA */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 left-2 hidden rotate-[-4deg] text-[--color-accent] sm:block"
+            className="pointer-events-none absolute -bottom-20 left-2 hidden rotate-[-4deg] text-accent sm:block"
           >
             <span className="mb-1 ml-8 block font-display text-lg">say hi! :)</span>
             <svg className="h-14 w-16" viewBox="0 0 64 56" fill="none">
@@ -155,7 +155,7 @@ export default function HeroSection() {
       <a
         href="#about"
         aria-label="Scroll to About"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 font-display text-lg text-[--color-muted] transition-colors hover:text-[--color-text]"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 font-display text-lg text-muted transition-colors hover:text-foreground"
       >
         <span className="flex flex-col items-center gap-0.5">
           scroll

@@ -24,7 +24,7 @@ export default function Nav({ mobile, onClose }: NavProps) {
             <a
               href={item.href}
               onClick={onClose}
-              className="relative font-display text-xl text-[--color-text] transition-colors hover:text-[--color-accent] after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:bg-[--color-accent] after:transition-all hover:after:w-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-[--color-accent] rounded"
+              className="relative font-display text-xl text-foreground transition-colors hover:text-accent after:absolute after:-bottom-0.5 after:left-0 after:h-0.5 after:w-0 after:bg-accent after:transition-all hover:after:w-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent rounded"
             >
               {item.label}
             </a>
