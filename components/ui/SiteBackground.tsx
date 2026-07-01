@@ -10,7 +10,7 @@ export default function SiteBackground() {
         className="absolute inset-0"
         style={{
           backgroundImage:
-            'linear-gradient(color-mix(in srgb, var(--color-accent) 7%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-accent) 7%, transparent) 1px, transparent 1px)',
+            'linear-gradient(var(--color-grid) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid) 1px, transparent 1px)',
           backgroundSize: '26px 26px',
         }}
       />
@@ -19,7 +19,7 @@ export default function SiteBackground() {
         className="absolute inset-0"
         style={{
           backgroundImage:
-            'linear-gradient(color-mix(in srgb, var(--color-accent) 12%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--color-accent) 12%, transparent) 1px, transparent 1px)',
+            'linear-gradient(var(--color-grid-strong) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid-strong) 1px, transparent 1px)',
           backgroundSize: '130px 130px',
         }}
       />
