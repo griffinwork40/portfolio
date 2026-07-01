@@ -12,9 +12,9 @@ interface BadgeProps {
 // Border follows text color via currentColor (see .sketch-tag), so each
 // variant only needs to set its text colour.
 const variants: Record<BadgeVariant, string> = {
-  accent: 'text-[--color-accent]',
-  mono: 'text-[--color-text]',
-  muted: 'text-[--color-muted]',
+  accent: 'text-accent',
+  mono: 'text-foreground',
+  muted: 'text-muted',
 }
 
 export default function Badge({ children, variant = 'muted', className }: BadgeProps) {

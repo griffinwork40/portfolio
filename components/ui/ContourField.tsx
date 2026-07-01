@@ -22,7 +22,7 @@ export default function ContourField({ id = 'cf', className = '', node = true }:
       <g
         className="contour-field"
         filter={`url(#${id}-jitter)`}
-        stroke="var(--contour-ink)"
+        stroke="var(--color-contour)"
         strokeWidth="1.15"
       >
         {RINGS.map((r, i) => (
@@ -31,8 +31,8 @@ export default function ContourField({ id = 'cf', className = '', node = true }:
       </g>
       {node && (
         <>
-          <circle cx="220" cy="220" r="9" fill="none" stroke="var(--color-accent-2)" strokeWidth="1.4" style={{ opacity: 0.55 }} />
-          <circle cx="220" cy="220" r="3.6" fill="var(--color-accent-2)" />
+          <circle cx="220" cy="220" r="9" fill="none" stroke="var(--color-accent-secondary)" strokeWidth="1.4" style={{ opacity: 0.55 }} />
+          <circle cx="220" cy="220" r="3.6" fill="var(--color-accent-secondary)" />
         </>
       )}
     </svg>

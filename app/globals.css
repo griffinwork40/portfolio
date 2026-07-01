@@ -3,20 +3,69 @@
 @tailwind utilities;
 
 :root {
-  --color-bg: #f6f1e6; /* paper */
-  --color-surface: #fffdf6; /* card paper */
-  --color-accent: #2f5aa8; /* blue ballpoint */
-  --color-accent-2: #c0452f; /* red pen */
-  --color-accent-alt: #e0b400; /* highlighter */
-  --color-text: #2b2a26; /* ink */
-  --color-muted: #5b574e; /* faded pencil (darkened for AA contrast on paper) */
-  --color-border: #2b2a26; /* ink */
-  --ink: #2b2a26;
-  --marker: rgba(224, 180, 0, 0.45);
-  /* signature — cartographic depth system */
-  --contour-ink: rgba(47, 90, 168, 0.2);
-  --route-pencil: rgba(47, 90, 168, 0.34);
-  --route-ink: #2b2a26;
+  /* ── Tier 1 · Primitives ────────────────────────────────────────────────
+     The raw "ink on paper" palette. These are the ONLY place literal color
+     values live — never reference a --palette-* token outside this file or the
+     semantic layer below; reach for a --color-* semantic token instead. */
+  --palette-paper: #f6f1e6; /* cream page */
+  --palette-paper-raised: #fffdf6; /* brighter card stock */
+  --palette-ink: #2b2a26; /* pen/pencil ink */
+  --palette-pencil: #5b574e; /* faded graphite (darkened for AA contrast on paper) */
+  --palette-ballpoint: #2f5aa8; /* blue ballpoint */
+  --palette-red-pen: #c0452f; /* red correction pen */
+  --palette-highlighter: #e0b400; /* yellow highlighter */
+  --palette-photo: #14140f; /* photo matte behind polaroids */
+
+  /* ── Tier 2 · Semantic tokens ───────────────────────────────────────────
+     Named by ROLE, not appearance. Components and the design system below
+     consume only these (directly or via the matching Tailwind color classes:
+     background, surface, foreground, muted, border, accent, accent-secondary,
+     highlight). Re-theming means repointing these at different primitives. */
+  --color-background: var(--palette-paper);
+  --color-surface: var(--palette-paper-raised);
+  --color-foreground: var(--palette-ink);
+  --color-muted: var(--palette-pencil);
+  --color-border: var(--palette-ink);
+  --color-accent: var(--palette-ballpoint); /* primary interactive: links, focus, section marks */
+  --color-accent-secondary: var(--palette-red-pen); /* signature nodes, margin rule, stamp */
+  --color-highlight: var(--palette-highlighter); /* highlighter wash, washi tape, warm glow */
+  --color-photo-matte: var(--palette-photo);
+
+  /* Derived semantic tokens — translucent roles mixed from the tokens above so
+     they retheme automatically. Ad-hoc alphas elsewhere use color-mix() inline
+     against a --color-* token rather than a literal rgba(). */
+  --color-marker: color-mix(in srgb, var(--color-highlight) 45%, transparent); /* selection + text highlight */
+  --color-contour: color-mix(in srgb, var(--color-accent) 20%, transparent); /* cartographic rings */
+  --color-route: color-mix(in srgb, var(--color-accent) 34%, transparent); /* pencil draft passes */
+  --color-divider: color-mix(in srgb, var(--color-border) 40%, transparent); /* dashed section dividers */
+  --color-divider-faint: color-mix(in srgb, var(--color-border) 20%, transparent); /* subtler header rule */
+  --color-grid: color-mix(in srgb, var(--color-accent) 7%, transparent); /* graph-paper fine grid */
+  --color-grid-strong: color-mix(in srgb, var(--color-accent) 12%, transparent); /* heavier grid */
+}
+
+/* ── Dark theme ─────────────────────────────────────────────────────────
+   Repoints Tier 2 semantic tokens only — every derived token above (marker,
+   contour, divider, grid, …) is a color-mix() that resolves var(--color-*)
+   live wherever it's used, so it retheme automatically with no extra rules.
+   Activate by adding class="dark" to <html> (darkMode: 'class' in
+   tailwind.config.ts) — no toggle control is wired up yet. */
+.dark {
+  --palette-slate: #201e1a; /* dark "paper": warm near-black */
+  --palette-slate-raised: #2a2823; /* card stock, one step lighter */
+  --palette-chalk: #f0ead9; /* ink, inverted: warm off-white */
+  --palette-chalk-dim: #a39c8c; /* faded graphite on dark paper */
+  --palette-ballpoint-bright: #79a6e8; /* blue ballpoint, lightened for contrast */
+  --palette-red-pen-bright: #e2775f; /* red pen, lightened for contrast */
+  --palette-highlighter-bright: #f0c419; /* highlighter, slightly softened */
+
+  --color-background: var(--palette-slate);
+  --color-surface: var(--palette-slate-raised);
+  --color-foreground: var(--palette-chalk);
+  --color-muted: var(--palette-chalk-dim);
+  --color-border: var(--palette-chalk);
+  --color-accent: var(--palette-ballpoint-bright);
+  --color-accent-secondary: var(--palette-red-pen-bright);
+  --color-highlight: var(--palette-highlighter-bright);
 }
 
 @layer base {
@@ -40,7 +89,7 @@
        covers every link/button — the wobbly-bordered contact cards flashed a
        jarring grey rectangle on tap. */
     -webkit-tap-highlight-color: transparent;
-    background-color: var(--color-bg);
+    background-color: var(--color-background);
     width: 100%;
     max-width: 100%;
     min-height: 100vh;
@@ -52,7 +101,7 @@
     /* transparent — the cream lives on html (see note above) so the fixed
        -z-10 SiteBackground grid is not covered. */
     background-color: transparent;
-    color: var(--color-text);
+    color: var(--color-foreground);
     width: 100%;
     max-width: 100%;
     min-height: 100vh;
@@ -80,8 +129,8 @@
   }
 
   ::selection {
-    background: var(--marker);
-    color: var(--ink);
+    background: var(--color-marker);
+    color: var(--color-foreground);
   }
 
   *:focus-visible {
@@ -97,9 +146,9 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--ink);
+    background: var(--color-foreground);
     border-radius: 9999px;
-    border: 3px solid var(--color-bg);
+    border: 3px solid var(--color-background);
   }
 }
 
@@ -110,34 +159,34 @@
 /* Paper card: wobbly ink border + hard offset shadow */
 .glass {
   background: var(--color-surface);
-  border: 2px solid var(--ink);
+  border: 2px solid var(--color-foreground);
   border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-  box-shadow: 4px 4px 0 0 rgba(43, 42, 38, 0.9);
+  box-shadow: 4px 4px 0 0 color-mix(in srgb, var(--color-foreground) 90%, transparent);
   transition: box-shadow 0.18s ease;
 }
 .glass:hover {
-  box-shadow: 6px 6px 0 0 rgba(43, 42, 38, 0.9);
+  box-shadow: 6px 6px 0 0 color-mix(in srgb, var(--color-foreground) 90%, transparent);
 }
 /* Nested boxes (tiles inside a card): lighter, flipped wobble, softer shadow */
 .glass .glass {
   border-width: 1.5px;
   border-radius: 15px 225px 15px 225px / 225px 15px 225px 15px;
-  box-shadow: 2px 2px 0 0 rgba(43, 42, 38, 0.5);
+  box-shadow: 2px 2px 0 0 color-mix(in srgb, var(--color-foreground) 50%, transparent);
 }
 .glass .glass:hover {
-  box-shadow: 2px 2px 0 0 rgba(43, 42, 38, 0.5);
+  box-shadow: 2px 2px 0 0 color-mix(in srgb, var(--color-foreground) 50%, transparent);
 }
 
 /* gradient-text is now solid ink (kept for API compatibility) */
 .gradient-text {
   background: none;
   -webkit-text-fill-color: currentColor;
-  color: var(--ink);
+  color: var(--color-foreground);
 }
 
 /* highlighter swipe behind text */
 .marker {
-  background: linear-gradient(transparent 55%, var(--marker) 55%, var(--marker) 92%, transparent 92%);
+  background: linear-gradient(transparent 55%, var(--color-marker) 55%, var(--color-marker) 92%, transparent 92%);
   padding: 0 0.08em;
 }
 
@@ -145,16 +194,16 @@
 .sketch-btn {
   border: 2px solid currentColor;
   border-radius: 14px 8px 16px 6px / 8px 16px 6px 14px;
-  box-shadow: 3px 3px 0 0 var(--ink);
+  box-shadow: 3px 3px 0 0 var(--color-foreground);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
 }
 .sketch-btn:hover {
   transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 0 0 var(--ink);
+  box-shadow: 4px 4px 0 0 var(--color-foreground);
 }
 .sketch-btn:active {
   transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 0 var(--ink);
+  box-shadow: 1px 1px 0 0 var(--color-foreground);
 }
 
 /* hand-drawn tag/pill (border follows text color via currentColor) */
@@ -182,21 +231,21 @@
 /* taped snapshot / polaroid — real photos pinned into the sketchbook */
 .polaroid {
   background: var(--color-surface);
-  border: 1.5px solid var(--ink);
+  border: 1.5px solid var(--color-foreground);
   padding: 10px 10px 0;
   border-radius: 4px 3px 5px 3px;
-  box-shadow: 4px 5px 0 0 rgba(43, 42, 38, 0.82);
+  box-shadow: 4px 5px 0 0 color-mix(in srgb, var(--color-foreground) 82%, transparent);
   transition: box-shadow 0.18s ease, transform 0.18s ease;
 }
 .polaroid:hover {
-  box-shadow: 7px 8px 0 0 rgba(43, 42, 38, 0.82);
+  box-shadow: 7px 8px 0 0 color-mix(in srgb, var(--color-foreground) 82%, transparent);
   transform: translate(-1px, -2px);
 }
 .polaroid .photo {
   display: block;
   overflow: hidden;
-  border: 1px solid rgba(43, 42, 38, 0.22);
-  background: #14140f;
+  border: 1px solid color-mix(in srgb, var(--color-foreground) 22%, transparent);
+  background: var(--color-photo-matte);
 }
 .polaroid img {
   display: block;
@@ -215,10 +264,10 @@
   width: 92px;
   height: 26px;
   transform: translateX(-50%) rotate(-3deg);
-  background: rgba(224, 180, 0, 0.36);
-  border-left: 1px dashed rgba(43, 42, 38, 0.18);
-  border-right: 1px dashed rgba(43, 42, 38, 0.18);
-  box-shadow: 0 1px 2px rgba(43, 42, 38, 0.12);
+  background: color-mix(in srgb, var(--color-highlight) 36%, transparent);
+  border-left: 1px dashed color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  border-right: 1px dashed color-mix(in srgb, var(--color-foreground) 18%, transparent);
+  box-shadow: 0 1px 2px color-mix(in srgb, var(--color-foreground) 12%, transparent);
 }
 
 /* ---- UI signature: cartographic depth system --------------------------- */
@@ -266,7 +315,7 @@
   position: absolute;
   inset: -5rem -8% -3rem;
   z-index: -1;
-  background: radial-gradient(58% 52% at 50% 40%, rgba(224, 180, 0, 0.14), transparent 72%);
+  background: radial-gradient(58% 52% at 50% 40%, color-mix(in srgb, var(--color-highlight) 14%, transparent), transparent 72%);
   pointer-events: none;
 }
 

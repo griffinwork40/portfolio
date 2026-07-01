@@ -10,15 +10,20 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
+      // Semantic color tokens — map role names to the CSS custom properties
+      // defined in app/globals.css. Never add raw hex here; extend the token
+      // layer instead. Usage: bg-background, text-foreground, border-accent, …
       colors: {
-        bg: 'var(--color-bg)',
+        background: 'var(--color-background)',
         surface: 'var(--color-surface)',
-        accent: 'var(--color-accent)',
-        'accent-2': 'var(--color-accent-2)',
-        'accent-alt': 'var(--color-accent-alt)',
-        text: 'var(--color-text)',
+        foreground: 'var(--color-foreground)',
         muted: 'var(--color-muted)',
-        border: 'var(--color-border)',
+        accent: 'var(--color-accent)',
+        'accent-secondary': 'var(--color-accent-secondary)',
+        // Translucent border roles (Tailwind v3 drops the `/opacity` modifier on
+        // var()-based colors, so these are dedicated tokens rather than `/40`).
+        divider: 'var(--color-divider)',
+        'divider-faint': 'var(--color-divider-faint)',
       },
       fontFamily: {
         sans: ['var(--font-kalam)', ...defaultTheme.fontFamily.sans],

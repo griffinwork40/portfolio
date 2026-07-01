@@ -33,15 +33,19 @@ export default function Header() {
     // pushes nav links below the pill while the bar bg fills behind it.
     // Trade-off: no scroll-up reveal; the header returns only when at page top.
     // This is the same trade-off agentafk-landing intentionally makes.
+    //
+    // No bg utility on purpose: the header is transparent so the fixed graph-paper
+    // grid (SiteBackground) reads as continuous through it — only the dashed
+    // border separates it from the page.
     <header
-      className="relative z-40 w-full border-b-2 border-dashed border-[--color-text]/20"
+      className="relative z-40 w-full border-b-2 border-dashed border-divider-faint"
       style={{ paddingTop: 'env(safe-area-inset-top, 0px)' }}
       role="banner"
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <a
           href="#hero"
-          className="font-display text-3xl font-bold text-[--color-text] transition-colors hover:text-[--color-accent] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[--color-accent] rounded"
+          className="font-display text-3xl font-bold text-foreground transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent rounded"
           aria-label="Griffin Long – back to top"
         >
           GL
@@ -56,7 +60,7 @@ export default function Header() {
             icon optically aligned to the edge despite the larger hit area. */}
         <button
           ref={menuButtonRef}
-          className="md:hidden -mr-2 inline-flex min-h-11 min-w-11 items-center justify-center text-[--color-text] transition-colors hover:text-[--color-accent]"
+          className="md:hidden -mr-2 inline-flex min-h-11 min-w-11 items-center justify-center text-foreground transition-colors hover:text-accent"
           onClick={() => setMobileOpen((o) => !o)}
           aria-expanded={mobileOpen}
           aria-controls="mobile-nav"
@@ -75,10 +79,7 @@ export default function Header() {
 
       {/* Mobile nav panel */}
       {mobileOpen && (
-        <div
-          id="mobile-nav"
-          className="md:hidden px-4 pb-4 pt-2 border-t-2 border-dashed border-[--color-text]/40"
-        >
+        <div id="mobile-nav" className="md:hidden px-4 pb-4 pt-2 border-t-2 border-dashed border-divider">
           <Nav mobile onClose={() => setMobileOpen(false)} />
         </div>
       )}

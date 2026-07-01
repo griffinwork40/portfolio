@@ -88,6 +88,8 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
+  // Browser-chrome color, emitted as a <meta> tag at build time — it cannot
+  // reference a runtime CSS var, so keep it in sync with --palette-paper.
   themeColor: '#f6f1e6',
   width: 'device-width',
   initialScale: 1,
@@ -130,14 +132,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       {/* No bg utility here on purpose: the cream lives on <html> (globals.css)
           so the fixed -z-10 SiteBackground grid stays visible and iOS 26 Safari
           samples a solid root color for its toolbar chrome. */}
-      <body className="font-sans text-[--color-text] antialiased">
+      <body className="font-sans text-foreground antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
         />
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[--color-accent] focus:text-white focus:rounded"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-white focus:rounded"
         >
           Skip to main content
         </a>
@@ -154,7 +156,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               // sits right above the footer) fades out instead of clipping the
               // warm tint into a hard horizontal line.
               background:
-                'linear-gradient(180deg, rgba(47,90,168,0.05) 0%, rgba(47,90,168,0.025) 16%, transparent 42%, transparent 74%, rgba(224,180,0,0.06) 88%, transparent 100%)',
+                'linear-gradient(180deg, color-mix(in srgb, var(--color-accent) 5%, transparent) 0%, color-mix(in srgb, var(--color-accent) 2.5%, transparent) 16%, transparent 42%, transparent 74%, color-mix(in srgb, var(--color-highlight) 6%, transparent) 88%, transparent 100%)',
             }}
           />
           {children}

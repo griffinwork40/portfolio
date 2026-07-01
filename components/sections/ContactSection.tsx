@@ -21,7 +21,7 @@ export default function ContactSection() {
         <SectionHeading id="contact-heading" index="05" centered>
           Let’s talk
         </SectionHeading>
-        <p className="text-center text-[--color-muted] max-w-xl mx-auto -mt-6 mb-10 leading-relaxed">
+        <p className="text-center text-muted max-w-xl mx-auto -mt-6 mb-10 leading-relaxed">
           Open to agentic AI engineering, technical leadership, and contract or consulting work — the fastest way to reach me is email.
         </p>
 
@@ -38,11 +38,11 @@ export default function ContactSection() {
               href={link.href}
               target={link.href.startsWith('http') ? '_blank' : undefined}
               rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-              className={`glass rounded-xl p-4 flex flex-col gap-1 hover:border-[--color-accent]/30 transition-colors group ${i % 2 ? 'tilt-b' : 'tilt-a'}`}
+              className={`glass rounded-xl p-4 flex flex-col gap-1 transition-colors group ${i % 2 ? 'tilt-b' : 'tilt-a'}`}
               variants={prefersReduced ? {} : fadeUp}
             >
-              <span className="text-xs text-[--color-muted] uppercase tracking-wider">{link.label}</span>
-              <span className="text-[--color-text] text-sm group-hover:text-[--color-accent] transition-colors">{link.display}</span>
+              <span className="text-xs text-muted uppercase tracking-wider">{link.label}</span>
+              <span className="text-foreground text-sm group-hover:text-accent transition-colors">{link.display}</span>
             </motion.a>
           ))}
         </motion.div>

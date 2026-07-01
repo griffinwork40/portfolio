@@ -12,14 +12,14 @@ export default function SiteBackground() {
       className="pointer-events-none fixed inset-x-0 top-0 min-h-screen h-[100lvh] -z-10 overflow-hidden"
     >
       {/* paper */}
-      <div className="absolute inset-0" style={{ backgroundColor: 'var(--color-bg)' }} />
+      <div className="absolute inset-0" style={{ backgroundColor: 'var(--color-background)' }} />
 
       {/* fine graph grid */}
       <div
         className="absolute inset-0"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(47,90,168,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(47,90,168,0.07) 1px, transparent 1px)',
+            'linear-gradient(var(--color-grid) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid) 1px, transparent 1px)',
           backgroundSize: '26px 26px',
         }}
       />
@@ -28,18 +28,24 @@ export default function SiteBackground() {
         className="absolute inset-0"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(47,90,168,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(47,90,168,0.12) 1px, transparent 1px)',
+            'linear-gradient(var(--color-grid-strong) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid-strong) 1px, transparent 1px)',
           backgroundSize: '130px 130px',
         }}
       />
 
       {/* red notebook margin line */}
-      <div className="absolute bottom-0 left-14 top-0 w-px sm:left-20" style={{ background: 'rgba(192,69,47,0.28)' }} />
+      <div
+        className="absolute bottom-0 left-14 top-0 w-px sm:left-20"
+        style={{ background: 'color-mix(in srgb, var(--color-accent-secondary) 28%, transparent)' }}
+      />
 
       {/* soft edge darkening so the paper feels physical */}
       <div
         className="absolute inset-0"
-        style={{ background: 'radial-gradient(ellipse 92% 82% at 50% 40%, transparent 62%, rgba(43,42,38,0.06) 100%)' }}
+        style={{
+          background:
+            'radial-gradient(ellipse 92% 82% at 50% 40%, transparent 62%, color-mix(in srgb, var(--color-foreground) 6%, transparent) 100%)',
+        }}
       />
     </div>
   )

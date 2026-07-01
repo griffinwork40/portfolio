@@ -37,7 +37,7 @@ export default function Polaroid({
           sizes="(max-width: 640px) 80vw, 320px"
         />
       </div>
-      <figcaption className="font-display text-xl text-[--color-text]">{caption}</figcaption>
+      <figcaption className="font-display text-xl text-foreground">{caption}</figcaption>
     </figure>
   )
 }
