@@ -1,25 +1,28 @@
 import type { Metadata, Viewport } from 'next'
-import { Caveat, Kalam } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 import { siteMetadata, identity, contact, skills } from '@/data/content'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import SiteBackground from '@/components/ui/SiteBackground'
 
-// Only the weights actually used are requested — the hero heading (the LCP
-// element) is Caveat 700, body is Kalam 400/700. Trimming 7 weight-files to 4
-// halves the font payload and gets the heading's font into the preload set,
-// so the hero stops waiting ~5s on a late web font on real phones.
-const caveat = Caveat({
-  subsets: ['latin'],
-  weight: ['400', '700'],
+// Fonts are bundled locally so the first scroll is not competing with late
+// Google Fonts fetches/decodes, and production builds do not depend on network
+// font availability. Only the weights used by the UI are registered.
+const caveat = localFont({
+  src: [
+    { path: '../scripts/fonts/Caveat-Regular.ttf', weight: '400', style: 'normal' },
+    { path: '../scripts/fonts/Caveat-Bold.ttf', weight: '700', style: 'normal' },
+  ],
   variable: '--font-caveat',
   display: 'swap',
 })
 
-const kalam = Kalam({
-  subsets: ['latin'],
-  weight: ['400', '700'],
+const kalam = localFont({
+  src: [
+    { path: '../scripts/fonts/Kalam-Regular.ttf', weight: '400', style: 'normal' },
+    { path: '../scripts/fonts/Kalam-Bold.ttf', weight: '700', style: 'normal' },
+  ],
   variable: '--font-kalam',
   display: 'swap',
 })

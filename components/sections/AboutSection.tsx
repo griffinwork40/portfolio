@@ -3,7 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import SectionHeading from '@/components/ui/SectionHeading'
 import Polaroid from '@/components/ui/Polaroid'
 import { about } from '@/data/content'
-import { staggerContainer, fadeUp } from '@/lib/utils'
+import { fadeUp } from '@/lib/utils'
 
 export default function AboutSection() {
   const prefersReduced = useReducedMotion()
@@ -19,17 +19,13 @@ export default function AboutSection() {
           My story
         </SectionHeading>
 
-        <motion.div
-          className="space-y-5"
-          variants={staggerContainer}
-          initial={prefersReduced ? 'visible' : 'hidden'}
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-        >
+        {/* Keep the first post-hero content static. This is the exact landing zone
+            for the hero scroll cue, so avoiding whileInView observers/animations
+            here prevents a small hitch as the browser settles on #about. */}
+        <div className="space-y-5">
           {about.paragraphs.map((paragraph, i) => (
-            <motion.p
+            <p
               key={i}
-              variants={prefersReduced ? {} : fadeUp}
               className={
                 i === 0
                   ? 'text-lg sm:text-xl text-foreground leading-relaxed'
@@ -37,9 +33,9 @@ export default function AboutSection() {
               }
             >
               {paragraph}
-            </motion.p>
+            </p>
           ))}
-        </motion.div>
+        </div>
 
         {/* taped snapshots of the real workspace — pinned into the sketchbook */}
         <motion.div

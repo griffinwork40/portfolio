@@ -21,9 +21,12 @@ const PASSES: Record<Stage, string[]> = {
 export default function EarnedPath({
   stage = 'compress',
   className = '',
+  animateRoute = true,
 }: {
   stage?: Stage
   className?: string
+  /** disable for the hero-to-about bridge so no scroll-triggered work fires during the first scroll */
+  animateRoute?: boolean
 }) {
   const reduce = useReducedMotion()
   return (
@@ -40,19 +43,34 @@ export default function EarnedPath({
             style={{ opacity: 0.45 }}
           />
         ))}
-        {/* the earned route — inked, revealed on scroll */}
-        <motion.path
-          d={INK}
-          stroke="var(--color-foreground)"
-          strokeWidth="2.25"
-          strokeLinecap="round"
-          initial={reduce ? { pathLength: 1 } : { pathLength: 0 }}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 1.1, ease: 'easeInOut' }}
-        />
-        {stage === 'emerge' && <circle cx="30" cy="8" r="3" fill="var(--color-accent-secondary)" style={{ opacity: 0.75 }} />}
-        {stage === 'arrive' && <circle cx="30" cy="116" r="4.5" fill="var(--color-accent-secondary)" />}
+        {/* the earned route — inked, revealed on scroll except for the first
+            hero-to-about bridge, where it stays static to avoid landing jank. */}
+        {reduce || !animateRoute ? (
+          <path d={INK} stroke="var(--color-foreground)" strokeWidth="2.25" strokeLinecap="round" />
+        ) : (
+          <motion.path
+            d={INK}
+            stroke="var(--color-foreground)"
+            strokeWidth="2.25"
+            strokeLinecap="round"
+            initial={{ pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 1.1, ease: 'easeInOut' }}
+          />
+        )}
+        {stage === 'emerge' && (
+          <circle
+            cx="30"
+            cy="8"
+            r="3"
+            fill="var(--color-accent-secondary)"
+            style={{ opacity: 0.75 }}
+          />
+        )}
+        {stage === 'arrive' && (
+          <circle cx="30" cy="116" r="4.5" fill="var(--color-accent-secondary)" />
+        )}
       </svg>
     </div>
   )

@@ -11,7 +11,7 @@ export default function Home() {
     <>
       <HeroSection />
       {/* the earned path: the signal begins its descent */}
-      <EarnedPath stage="emerge" />
+      <EarnedPath stage="emerge" animateRoute={false} />
       <AboutSection />
       <ProjectsSection />
       {/* repeated passes compress into one route */}
