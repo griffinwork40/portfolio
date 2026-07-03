@@ -1,5 +1,3 @@
-'use client'
-import { motion, useReducedMotion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
 // earned-path — repeated pencil passes compressing into one confident inked route.
@@ -25,7 +23,6 @@ export default function EarnedPath({
   stage?: Stage
   className?: string
 }) {
-  const reduce = useReducedMotion()
   return (
     <div aria-hidden="true" className={cn('flex justify-center', className)}>
       <svg width="60" height="122" viewBox="0 0 60 122" fill="none">
@@ -40,18 +37,11 @@ export default function EarnedPath({
             style={{ opacity: 0.45 }}
           />
         ))}
-        {/* the earned route — inked, revealed on scroll */}
-        <motion.path
-          d={INK}
-          stroke="var(--color-foreground)"
-          strokeWidth="2.25"
-          strokeLinecap="round"
-          initial={reduce ? { pathLength: 1 } : { pathLength: 0 }}
-          whileInView={{ pathLength: 1 }}
-          viewport={{ once: true, margin: '-40px' }}
-          transition={{ duration: 1.1, ease: 'easeInOut' }}
-        />
-        {stage === 'emerge' && <circle cx="30" cy="8" r="3" fill="var(--color-accent-secondary)" style={{ opacity: 0.75 }} />}
+        {/* the earned route — static so it never competes with scroll */}
+        <path d={INK} stroke="var(--color-foreground)" strokeWidth="2.25" strokeLinecap="round" />
+        {stage === 'emerge' && (
+          <circle cx="30" cy="8" r="3" fill="var(--color-accent-secondary)" style={{ opacity: 0.75 }} />
+        )}
         {stage === 'arrive' && <circle cx="30" cy="116" r="4.5" fill="var(--color-accent-secondary)" />}
       </svg>
     </div>
