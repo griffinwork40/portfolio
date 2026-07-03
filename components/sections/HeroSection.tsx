@@ -13,9 +13,15 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative isolate flex h-[100dvh] items-center justify-center overflow-hidden px-4 pb-16 pt-8"
+      // Sized in lvh (large-viewport height), NOT dvh. lvh resolves to the
+      // fully-collapsed-chrome viewport height and is STABLE — it does not
+      // recompute as iOS Safari's URL bar shows/hides during scroll. dvh here
+      // resized the hero every frame the chrome animated, reflowing every
+      // section below it → the scroll-away jank. lvh keeps the same "fills the
+      // screen" look with zero per-frame reflow. (Confirmed by the svh A/B:
+      // any stable unit removes the lag; dvh reintroduces it.)
+      className="relative isolate flex min-h-[100lvh] items-center justify-center overflow-hidden px-4 pb-16 pt-8"
       aria-labelledby="hero-heading"
-      style={{ contain: 'layout style' }}
     >
       {/* signal over depth — a small signal, vast submerged structure */}
       <ContourField
