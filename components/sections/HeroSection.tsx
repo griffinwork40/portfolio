@@ -13,15 +13,14 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      // ISOLATED A/B TEST (dvh). Everything else on this branch is now fixed
-      // (GPU-promoted background layers, hybrid grid, etc.), so this flip from
-      // the known-good lvh back to dvh isolates the SINGLE variable — the hero
-      // height unit — against a smooth baseline. dvh recomputes as iOS Safari's
-      // URL bar shows/hides while scrolling; the hypothesis is that resize
-      // reflows the page and reintroduces the scroll-away lag. If scrolling is
-      // smooth here, dvh was not the cause and we keep it (exact on-load fill);
-      // if the lag returns, dvh is confirmed and we switch to svh.
-      className="relative isolate flex min-h-[100dvh] items-center justify-center overflow-hidden px-4 pb-16 pt-8"
+      // Sized in svh (small-viewport height) — a STABLE unit, so it does not
+      // recompute as iOS Safari's URL bar shows/hides during scroll. Flipping
+      // the hero to dvh (which resizes every URL-bar frame → reflows the page)
+      // brought the scroll stutter back on-device, so we stay on a stable unit.
+      // svh resolves to the toolbar-EXPANDED viewport, so the hero fits fully on
+      // load with nothing hidden under the URL bar (lvh's one downside); the
+      // only cost is a small gap at the very bottom once the toolbar retracts.
+      className="relative isolate flex min-h-[100svh] items-center justify-center overflow-hidden px-4 pb-16 pt-8"
       aria-labelledby="hero-heading"
     >
       {/* signal over depth — a small signal, vast submerged structure */}
