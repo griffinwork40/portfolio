@@ -309,26 +309,17 @@
     transform: scale(1.04);
   }
 }
-/* Breathe only on non-touch pointers (desktop). On phones, animating a
-   transform on a *filtered* SVG forces per-frame filter re-rasterization —
-   a major source of sustained scroll jank / battery drain on iOS Safari. */
+/* Breathe only on non-touch pointers (desktop). The contour SVG is made from
+   plain ellipses so transform animation remains compositor-friendly, but touch
+   devices still skip the decorative motion to keep hero-to-about scrolling
+   responsive. */
 @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
   .contour-field {
     animation: contour-breathe 16s ease-in-out infinite;
-    /* Promote to its own GPU layer so animating the transform doesn't force the
-       feTurbulence/feDisplacementMap filter to re-rasterize every compositor frame. */
     will-change: transform;
   }
 }
 
-/* The feTurbulence + feDisplacementMap filter is very expensive to rasterize
-   on mobile GPUs (slow first paint on real iPhones). Drop the hand-drawn
-   wobble on small screens — the contour rings still render, just clean. */
-@media (max-width: 767px) {
-  .contour-field {
-    filter: none !important;
-  }
-}
 
 /* elevated field: the warm, open arrival zone (embodiment) */
 .elevated-field {
@@ -352,12 +343,6 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-  /* Drop the expensive hand-drawn wobble filter entirely for reduced-motion
-     users — the breathe animation is already gated off, but the static
-     feTurbulence/feDisplacementMap filter can still cause jank. */
-  .contour-field {
-    filter: none !important;
   }
   /* Neutralize the translate-on-hover/active micro-motions (the JS-layer Framer
      animations already respect reduced-motion; these CSS transforms were the gap).

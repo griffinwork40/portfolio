@@ -1,32 +1,39 @@
 // signal-field — a small signal (node) over vast submerged structure (contours).
-// Hand-drawn topographic rings: feTurbulence gives the ink an excavated wobble,
-// so it reads as elevation lines drawn by hand, not a generic glow.
+// The rings are intentionally drawn with plain SVG ellipses instead of SVG
+// turbulence/displacement filters. Filtered SVGs are expensive to rasterize while
+// the hero scrolls away, so the handmade feel comes from slight ellipse offsets,
+// rotations, and opacity changes that stay cheap for the compositor.
 type ContourFieldProps = {
-  /** unique id so multiple instances don't share a filter */
+  /** stable identifier retained for API compatibility */
   id?: string
   className?: string
   node?: boolean
 }
 
-const RINGS = [26, 52, 82, 116, 152, 186, 214]
+const RINGS = [
+  { radius: 26, stretch: 1.1, squish: 0.92, rotation: -8 },
+  { radius: 52, stretch: 0.96, squish: 1.05, rotation: 11 },
+  { radius: 82, stretch: 1.06, squish: 0.97, rotation: -5 },
+  { radius: 116, stretch: 0.98, squish: 1.04, rotation: 7 },
+  { radius: 152, stretch: 1.04, squish: 0.98, rotation: -11 },
+  { radius: 186, stretch: 0.97, squish: 1.03, rotation: 4 },
+  { radius: 214, stretch: 1.02, squish: 0.99, rotation: -3 },
+]
 
-export default function ContourField({ id = 'cf', className = '', node = true }: ContourFieldProps) {
+export default function ContourField({ className = '', node = true }: ContourFieldProps) {
   return (
     <svg aria-hidden="true" viewBox="0 0 440 440" fill="none" className={className}>
-      <defs>
-        <filter id={`${id}-jitter`} x="-25%" y="-25%" width="150%" height="150%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="n" />
-          <feDisplacementMap in="SourceGraphic" in2="n" scale="12" />
-        </filter>
-      </defs>
-      <g
-        className="contour-field"
-        filter={`url(#${id}-jitter)`}
-        stroke="var(--color-contour)"
-        strokeWidth="1.15"
-      >
-        {RINGS.map((r, i) => (
-          <circle key={r} cx="220" cy="220" r={r} style={{ opacity: 0.94 - i * 0.1 }} />
+      <g className="contour-field" stroke="var(--color-contour)" strokeWidth="1.15">
+        {RINGS.map(({ radius, stretch, squish, rotation }, i) => (
+          <ellipse
+            key={radius}
+            cx="220"
+            cy="220"
+            rx={radius * stretch}
+            ry={radius * squish}
+            transform={`rotate(${rotation} 220 220)`}
+            style={{ opacity: 0.94 - i * 0.1 }}
+          />
         ))}
       </g>
       {node && (
