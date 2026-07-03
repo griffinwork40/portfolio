@@ -13,14 +13,15 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      // Sized in lvh (large-viewport height), NOT dvh. lvh resolves to the
-      // fully-collapsed-chrome viewport height and is STABLE — it does not
-      // recompute as iOS Safari's URL bar shows/hides during scroll. dvh here
-      // resized the hero every frame the chrome animated, reflowing every
-      // section below it → the scroll-away jank. lvh keeps the same "fills the
-      // screen" look with zero per-frame reflow. (Confirmed by the svh A/B:
-      // any stable unit removes the lag; dvh reintroduces it.)
-      className="relative isolate flex min-h-[100lvh] items-center justify-center overflow-hidden px-4 pb-16 pt-8"
+      // ISOLATED A/B TEST (dvh). Everything else on this branch is now fixed
+      // (GPU-promoted background layers, hybrid grid, etc.), so this flip from
+      // the known-good lvh back to dvh isolates the SINGLE variable — the hero
+      // height unit — against a smooth baseline. dvh recomputes as iOS Safari's
+      // URL bar shows/hides while scrolling; the hypothesis is that resize
+      // reflows the page and reintroduces the scroll-away lag. If scrolling is
+      // smooth here, dvh was not the cause and we keep it (exact on-load fill);
+      // if the lag returns, dvh is confirmed and we switch to svh.
+      className="relative isolate flex min-h-[100dvh] items-center justify-center overflow-hidden px-4 pb-16 pt-8"
       aria-labelledby="hero-heading"
     >
       {/* signal over depth — a small signal, vast submerged structure */}
