@@ -83,26 +83,26 @@
      above the -z-10 grid and hide it — the original reason html was left bare,
      but that left the root transparent for iOS 26 to fall back to white.)
 
-     The graph grid lives HERE (as the root's background-image) rather than in a
-     position:fixed overlay. A fixed overlay sized to viewport units (100lvh)
-     stops short of the bottom on iOS Safari when the toolbars are visible,
-     leaving a grid-less cream band behind the bottom toolbar. The root
-     background, by contrast, is propagated to the viewport canvas and paints
-     across the entire painting area — the same region the cream fills — so the
-     grid is guaranteed to reach wherever the cream reaches, in every toolbar
-     state.
-
-     Only the CREAM lives here now — the grid itself is a composited
-     position:fixed layer in SiteBackground. Keeping cream on the root is still
-     required (iOS 26 samples it for toolbar chrome; it also backstops the whole
-     scroll canvas so no state can ever reveal a paper-less band). The grid was
-     moved to a fixed layer so it can stay visually pinned to the viewport while
-     content scrolls WITHOUT any per-frame work: a fixed layer is held by the
-     compositor, so it costs nothing on scroll and never lags behind iOS
-     momentum-scroll. (background-attachment: fixed would express the same intent
-     in one line but silently no-ops on iOS/iPadOS Safari — WebKit #275247 — and
-     driving background-position from a scroll listener repaints the root every
-     frame and visibly chases the scroll. The fixed layer avoids both.) */
+     The graph grid is painted in TWO places — a deliberate hybrid — because no
+     single layer can be both pinned AND reach the iOS safe-areas:
+       1. HERE, on the root background-image (below). iOS propagates the root
+          paint to the viewport canvas across the ENTIRE painting area, so the
+          grid reaches wherever the cream reaches — including the notch / Dynamic
+          Island and behind the floating toolbar. A position:fixed overlay
+          cannot paint those OS-composited strips (and background-attachment:
+          fixed silently no-ops on iOS/iPadOS Safari — WebKit #275247).
+       2. As a composited position:fixed layer in SiteBackground, held still by
+          the compositor so the grid reads as PINNED to the viewport with zero
+          per-frame work — no scroll listener, no repaint, no lag behind iOS
+          momentum-scroll.
+     The fixed layer carries an OPAQUE cream background, so it MASKS this root
+     grid everywhere the content is: you only ever see the pinned grid over the
+     page, and the root grid shows through solely in the safe-area strips the
+     fixed layer can't own. Both grids share origin (top-left, 26px cadence) so
+     they align at rest; the fixed one is pinned while the root one scrolls, so a
+     faint seam is only ever possible in the notch strip during active scroll.
+     Cream on the root is still required regardless (iOS 26 samples it for
+     toolbar chrome and it backstops the whole scroll canvas). */
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -112,6 +112,18 @@
        jarring grey rectangle on tap. */
     -webkit-tap-highlight-color: transparent;
     background-color: var(--color-background);
+    /* Grid ALSO on the root (matching the fixed layer's cadence) so iOS
+       propagates it to the viewport canvas and it reaches the notch / Dynamic
+       Island and behind the floating toolbar — the safe-area strips a
+       position:fixed layer can't paint. The fixed layer's opaque cream masks
+       this root grid everywhere the content is, so it only shows in those
+       strips. Origins match (top-left, 26px) so the two align at rest. */
+    background-image:
+      linear-gradient(var(--color-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid) 1px, transparent 1px),
+      linear-gradient(var(--color-grid-strong) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid-strong) 1px, transparent 1px);
+    background-size: 26px 26px, 26px 26px, 130px 130px, 130px 130px;
     width: 100%;
     max-width: 100%;
     min-height: 100vh;

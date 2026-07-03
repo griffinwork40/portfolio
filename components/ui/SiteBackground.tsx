@@ -1,26 +1,32 @@
 // The paper backdrop, drawn as two fixed layers behind all content:
 //   1. the blue graph grid, and
 //   2. decorative accents (a red notebook margin line + soft edge-darkening).
-// The cream paper itself lives on the <html> root (see globals.css) so it
-// backstops the full scroll canvas and iOS 26 Safari can sample it for toolbar
-// chrome. Both layers here are position:fixed, so the compositor holds them
-// still while the page scrolls over them — the grid reads as pinned to the
-// viewport with zero per-frame work (no scroll listener, no repaint, no lag
-// behind iOS momentum-scroll).
+//
+// The grid is painted in TWO places on purpose (a hybrid, see globals.css):
+//   - on the <html> root background, which iOS propagates to the viewport
+//     canvas so it reaches wherever the cream reaches — INCLUDING the notch /
+//     Dynamic Island and behind the floating toolbar (a position:fixed layer
+//     cannot reliably paint those OS-composited safe-area strips), and
+//   - as the composited fixed layer below, which the compositor holds still so
+//     the grid reads as PINNED to the viewport with zero per-frame work.
+// The fixed layer carries an OPAQUE cream background so it masks the scrolling
+// root grid everywhere the content is — you only ever see the pinned grid over
+// the page. The root grid peeks through solely in the safe-area strips the
+// fixed layer can't own, so those stop being cream-only. Both share origin
+// (top-left, 26px cadence) so they align at rest.
 export default function SiteBackground() {
   return (
     <>
-      {/* Graph grid — a composited fixed layer so the grid keeps its pinned
-          scroll feel. The layer deliberately over-covers the visual viewport and
-          is expanded through iOS safe-area insets; this preserves fixed-grid
-          behavior while preventing cream-only strips around the Dynamic Island
-          or bottom toolbar when Safari clips the layout viewport. */}
+      {/* Graph grid — a composited fixed layer (translateZ(0)) so it stays
+          pinned with no scroll repaint. OVER-sized to 140vh from top:0 so it
+          can only ever over-cover the visual viewport, never stop short. The
+          opaque cream background masks the root grid behind it in the content
+          area, so the two grids never double up / moiré during scroll. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 -z-10"
+        className="pointer-events-none fixed inset-x-0 top-0 -z-10 h-[140vh]"
         style={{
-          top: 'calc(env(safe-area-inset-top, 0px) * -1)',
-          height: 'calc(140lvh + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px))',
+          backgroundColor: 'var(--color-background)',
           backgroundImage:
             'linear-gradient(var(--color-grid) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid) 1px, transparent 1px), linear-gradient(var(--color-grid-strong) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid-strong) 1px, transparent 1px)',
           backgroundSize: '26px 26px, 26px 26px, 130px 130px, 130px 130px',
@@ -28,22 +34,16 @@ export default function SiteBackground() {
         }}
       />
 
-      {/* Decorative accents, above the grid. They share the same safe-area
-          over-cover strategy so the margin line and vignette fail by clipping
-          off-screen, not by stopping short inside Safari chrome.
-          translateZ(0) promotes this to its own compositor layer — matching the
-          grid layer above. Without it, this fixed layer (a radial-gradient
-          vignette) gets re-rasterized against the moving page on every scroll
-          frame in iOS Safari, which reads as a faint continuous scroll stutter.
-          Promoted, the compositor just holds it still with zero per-frame paint. */}
+      {/* Decorative accents, above the grid. translateZ(0) promotes this to its
+          own compositor layer — matching the grid layer above. Without it, this
+          fixed layer (a radial-gradient vignette) gets re-rasterized against the
+          moving page on every scroll frame in iOS Safari, which reads as a faint
+          continuous scroll stutter. Promoted, the compositor just holds it still
+          with zero per-frame paint. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 -z-10 overflow-hidden"
-        style={{
-          top: 'calc(env(safe-area-inset-top, 0px) * -1)',
-          height: 'calc(100lvh + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px))',
-          transform: 'translateZ(0)',
-        }}
+        className="pointer-events-none fixed inset-x-0 top-0 min-h-screen h-[100lvh] -z-10 overflow-hidden"
+        style={{ transform: 'translateZ(0)' }}
       >
         {/* red notebook margin line */}
         <div
