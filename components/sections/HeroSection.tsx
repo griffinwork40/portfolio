@@ -18,7 +18,6 @@ export default function HeroSection() {
     >
       {/* signal over depth — a small signal, vast submerged structure */}
       <ContourField
-        id="hero"
         className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[520px] w-[520px] -translate-x-1/2 -translate-y-[64%] opacity-40 sm:h-[660px] sm:w-[660px]"
       />
       {/* scope rule — one precise measure across the organic field */}

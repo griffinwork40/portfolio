@@ -1,32 +1,38 @@
 // signal-field — a small signal (node) over vast submerged structure (contours).
-// Hand-drawn topographic rings: feTurbulence gives the ink an excavated wobble,
-// so it reads as elevation lines drawn by hand, not a generic glow.
+// Keep the hero decoration cheap while scrolling: these rings used to be warped
+// with an SVG turbulence/displacement filter, but that forces browsers to
+// rasterize a large filtered layer as the hero leaves the viewport. Slightly
+// broken strokes preserve the hand-drawn/read-as-topography feel without a
+// runtime filter in the scroll path.
 type ContourFieldProps = {
-  /** unique id so multiple instances don't share a filter */
-  id?: string
   className?: string
   node?: boolean
 }
 
-const RINGS = [26, 52, 82, 116, 152, 186, 214]
+const RINGS = [
+  { r: 26, dash: '118 13 18 9', offset: 0 },
+  { r: 52, dash: '184 18 28 12', offset: -12 },
+  { r: 82, dash: '240 22 38 14', offset: 17 },
+  { r: 116, dash: '292 28 46 18', offset: -24 },
+  { r: 152, dash: '348 32 58 20', offset: 31 },
+  { r: 186, dash: '410 36 68 24', offset: -38 },
+  { r: 214, dash: '468 42 76 28', offset: 45 },
+]
 
-export default function ContourField({ id = 'cf', className = '', node = true }: ContourFieldProps) {
+export default function ContourField({ className = '', node = true }: ContourFieldProps) {
   return (
     <svg aria-hidden="true" viewBox="0 0 440 440" fill="none" className={className}>
-      <defs>
-        <filter id={`${id}-jitter`} x="-25%" y="-25%" width="150%" height="150%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="2" seed="7" result="n" />
-          <feDisplacementMap in="SourceGraphic" in2="n" scale="12" />
-        </filter>
-      </defs>
-      <g
-        className="contour-field"
-        filter={`url(#${id}-jitter)`}
-        stroke="var(--color-contour)"
-        strokeWidth="1.15"
-      >
-        {RINGS.map((r, i) => (
-          <circle key={r} cx="220" cy="220" r={r} style={{ opacity: 0.94 - i * 0.1 }} />
+      <g className="contour-field" stroke="var(--color-contour)" strokeWidth="1.15" strokeLinecap="round">
+        {RINGS.map(({ r, dash, offset }, i) => (
+          <circle
+            key={r}
+            cx="220"
+            cy="220"
+            r={r}
+            strokeDasharray={dash}
+            strokeDashoffset={offset}
+            style={{ opacity: 0.94 - i * 0.1 }}
+          />
         ))}
       </g>
       {node && (
