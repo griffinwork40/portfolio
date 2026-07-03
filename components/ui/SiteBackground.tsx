@@ -10,20 +10,17 @@
 export default function SiteBackground() {
   return (
     <>
-      {/* Graph grid — a composited fixed layer, anchored at the top and
-          deliberately OVER-sized (140vh). Earlier attempts sized the grid layer
-          to exactly one viewport and fell short in the opposite toolbar state on
-          iOS Safari: inset-0 left a gap at the bottom when the toolbar retracted,
-          and 100lvh left a gap when the toolbar was visible. Anchoring at top:0
-          and running well past the tallest possible viewport means it can only
-          ever OVER-cover — the grid always reaches past the visible bottom in
-          every toolbar state, and the surplus is simply clipped off-screen.
-          translateZ(0) pins it to its own GPU layer so scrolling never repaints
-          it. Transparent background: the cream shows through from <html>. */}
+      {/* Graph grid — a composited fixed layer so the grid keeps its pinned
+          scroll feel. The layer deliberately over-covers the visual viewport and
+          is expanded through iOS safe-area insets; this preserves fixed-grid
+          behavior while preventing cream-only strips around the Dynamic Island
+          or bottom toolbar when Safari clips the layout viewport. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 top-0 -z-10 h-[140vh]"
+        className="pointer-events-none fixed inset-x-0 -z-10"
         style={{
+          top: 'calc(env(safe-area-inset-top, 0px) * -1)',
+          height: 'calc(140lvh + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px))',
           backgroundImage:
             'linear-gradient(var(--color-grid) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid) 1px, transparent 1px), linear-gradient(var(--color-grid-strong) 1px, transparent 1px), linear-gradient(90deg, var(--color-grid-strong) 1px, transparent 1px)',
           backgroundSize: '26px 26px, 26px 26px, 130px 130px, 130px 130px',
@@ -31,13 +28,16 @@ export default function SiteBackground() {
         }}
       />
 
-      {/* Decorative accents, above the grid. Sized to the large viewport (100lvh,
-          100vh fallback); if this stops short at the very bottom on iOS Safari
-          it only means an accent falls off the edge — the grid layer above still
-          fills, and the cream on <html> backstops everything. */}
+      {/* Decorative accents, above the grid. They share the same safe-area
+          over-cover strategy so the margin line and vignette fail by clipping
+          off-screen, not by stopping short inside Safari chrome. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none fixed inset-x-0 top-0 min-h-screen h-[100lvh] -z-10 overflow-hidden"
+        className="pointer-events-none fixed inset-x-0 -z-10 overflow-hidden"
+        style={{
+          top: 'calc(env(safe-area-inset-top, 0px) * -1)',
+          height: 'calc(100lvh + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px))',
+        }}
       >
         {/* red notebook margin line */}
         <div
