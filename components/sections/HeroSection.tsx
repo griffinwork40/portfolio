@@ -13,8 +13,9 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative isolate flex min-h-[100svh] items-center justify-center overflow-hidden px-4 pb-16 pt-8"
+      className="relative isolate flex h-[100dvh] items-center justify-center overflow-hidden px-4 pb-16 pt-8"
       aria-labelledby="hero-heading"
+      style={{ contain: 'layout style' }}
     >
       {/* signal over depth — a small signal, vast submerged structure */}
       <ContourField
