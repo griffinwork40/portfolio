@@ -30,13 +30,19 @@ export default function SiteBackground() {
 
       {/* Decorative accents, above the grid. They share the same safe-area
           over-cover strategy so the margin line and vignette fail by clipping
-          off-screen, not by stopping short inside Safari chrome. */}
+          off-screen, not by stopping short inside Safari chrome.
+          translateZ(0) promotes this to its own compositor layer — matching the
+          grid layer above. Without it, this fixed layer (a radial-gradient
+          vignette) gets re-rasterized against the moving page on every scroll
+          frame in iOS Safari, which reads as a faint continuous scroll stutter.
+          Promoted, the compositor just holds it still with zero per-frame paint. */}
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-x-0 -z-10 overflow-hidden"
         style={{
           top: 'calc(env(safe-area-inset-top, 0px) * -1)',
           height: 'calc(100lvh + env(safe-area-inset-top, 0px) + env(safe-area-inset-bottom, 0px))',
+          transform: 'translateZ(0)',
         }}
       >
         {/* red notebook margin line */}
