@@ -92,17 +92,11 @@
      grid is guaranteed to reach wherever the cream reaches, in every toolbar
      state.
 
-     Only the CREAM lives here now — the grid itself is a composited
-     position:fixed layer in SiteBackground. Keeping cream on the root is still
-     required (iOS 26 samples it for toolbar chrome; it also backstops the whole
-     scroll canvas so no state can ever reveal a paper-less band). The grid was
-     moved to a fixed layer so it can stay visually pinned to the viewport while
-     content scrolls WITHOUT any per-frame work: a fixed layer is held by the
-     compositor, so it costs nothing on scroll and never lags behind iOS
-     momentum-scroll. (background-attachment: fixed would express the same intent
-     in one line but silently no-ops on iOS/iPadOS Safari — WebKit #275247 — and
-     driving background-position from a scroll listener repaints the root every
-     frame and visibly chases the scroll. The fixed layer avoids both.) */
+     The grid lives on the root again so Safari paints it into the whole viewport
+     canvas, including safe-area/toolbar overscroll regions above the Dynamic
+     Island and below the footer. Do not move the grid back to a fixed child: iOS
+     can clip fixed descendants during toolbar transitions, leaving cream-only
+     bands at the top or bottom even though the root background still fills. */
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -112,6 +106,12 @@
        jarring grey rectangle on tap. */
     -webkit-tap-highlight-color: transparent;
     background-color: var(--color-background);
+    background-image:
+      linear-gradient(var(--color-grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid) 1px, transparent 1px),
+      linear-gradient(var(--color-grid-strong) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-grid-strong) 1px, transparent 1px);
+    background-size: 26px 26px, 26px 26px, 130px 130px, 130px 130px;
     width: 100%;
     max-width: 100%;
     min-height: 100vh;
