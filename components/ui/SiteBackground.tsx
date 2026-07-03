@@ -2,26 +2,23 @@
 //   1. the blue graph grid, and
 //   2. decorative accents (a red notebook margin line + soft edge-darkening).
 //
-// The grid is painted in TWO places on purpose (a hybrid, see globals.css):
-//   - on the <html> root background, which iOS propagates to the viewport
-//     canvas so it reaches wherever the cream reaches — INCLUDING the notch /
-//     Dynamic Island and behind the floating toolbar (a position:fixed layer
-//     cannot reliably paint those OS-composited safe-area strips), and
-//   - as the composited fixed layer below, which the compositor holds still so
-//     the grid reads as PINNED to the viewport with zero per-frame work.
-// The fixed layer carries an OPAQUE cream background so it masks the scrolling
-// root grid everywhere the content is — you only ever see the pinned grid over
-// the page. The root grid peeks through solely in the safe-area strips the
-// fixed layer can't own, so those stop being cream-only. Both share origin
-// (top-left, 26px cadence) so they align at rest.
+// The grid is a single composited position:fixed layer, held still by the
+// compositor (translateZ(0)) so it reads as PINNED to the viewport with zero
+// per-frame work — no scroll listener, no repaint, no lag behind iOS
+// momentum-scroll. It carries an opaque cream background so the paper field is
+// solid behind the page content.
+//
+// It deliberately does NOT try to fill the top notch / Dynamic Island: that
+// strip is browser chrome painted from the theme-color meta (a solid color,
+// never an image/pattern), so no page-level layer can put a grid there. It
+// reads as solid cream by design. See the long note in globals.css.
 export default function SiteBackground() {
   return (
     <>
       {/* Graph grid — a composited fixed layer (translateZ(0)) so it stays
           pinned with no scroll repaint. OVER-sized to 140vh from top:0 so it
           can only ever over-cover the visual viewport, never stop short. The
-          opaque cream background masks the root grid behind it in the content
-          area, so the two grids never double up / moiré during scroll. */}
+          opaque cream background gives the paper field a solid base. */}
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-x-0 top-0 -z-10 h-[140vh]"
