@@ -127,11 +127,17 @@ export default function HeroSection() {
           variants={prefersReduced ? {} : fadeUp}
           className="relative flex flex-col items-center gap-6 sm:flex-row sm:justify-center sm:gap-6"
         >
-          <Button href={`mailto:${identity.email}`} variant="primary">
-            Get in touch →
-          </Button>
+          {/* primary actions */}
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Button href={`mailto:${identity.email}`} variant="primary">
+              Get in touch →
+            </Button>
+            <Button href={identity.github} variant="secondary">
+              GitHub
+            </Button>
+          </div>
 
-          {/* secondary links — demoted to a tidy stack set off beside the CTA */}
+          {/* other links — set off in a tidy stack beside the CTAs */}
           <nav
             aria-label="Find me elsewhere"
             className="flex flex-col items-center gap-1 sm:items-start sm:border-l sm:border-dashed sm:border-divider sm:pl-6"
@@ -139,9 +145,6 @@ export default function HeroSection() {
             <span aria-hidden="true" className="font-display text-sm leading-none text-muted">
               elsewhere
             </span>
-            <Button href={identity.github} variant="ghost" className="px-0">
-              GitHub
-            </Button>
             <Button href={identity.agentAfkUrl} variant="ghost" className="px-0">
               agentafk.com
             </Button>
