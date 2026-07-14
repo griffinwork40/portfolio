@@ -27,7 +27,14 @@ export default function HeroSection() {
         className="pointer-events-none absolute bottom-24 right-6 hidden sm:block"
         style={{ color: 'var(--color-muted)', opacity: 0.5 }}
       >
-        <svg width="88" height="34" viewBox="0 0 88 34" fill="none" stroke="currentColor" strokeWidth="1">
+        <svg
+          width="88"
+          height="34"
+          viewBox="0 0 88 34"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1"
+        >
           <path d="M2 26 H86" />
           <path d="M2 21 V31 M23 23 V29 M44 21 V31 M65 23 V29 M86 21 V31" />
           <path d="M44 6 V26" strokeWidth="1.2" />
@@ -69,114 +76,133 @@ export default function HeroSection() {
           section) lets the corner "elsewhere" stack sit in normal flow below and
           never overlap the CTA, while staying pinned to the bottom-left. */}
       <div className="flex w-full flex-1 items-center justify-center">
-      {/* Hero renders VISIBLE by default so it paints from static HTML — never
+        {/* Hero renders VISIBLE by default so it paints from static HTML — never
           gated behind JS hydration. On a slow phone, gating the hero on
           framer-motion left it blank for seconds. Below-the-fold sections keep
           their scroll-triggered (whileInView) reveals. */}
-      <motion.div
-        className="relative z-10 mx-auto max-w-4xl text-center"
-        variants={staggerContainer}
-        initial="visible"
-        animate="visible"
-      >
-        {/* availability + one credibility stat — paired so the "available" claim
-            arrives with proof. The stat text/number is sourced from data/content.ts. */}
         <motion.div
-          variants={prefersReduced ? {} : fadeUp}
-          className="mb-8 flex flex-wrap items-center justify-center gap-3"
+          className="relative z-10 mx-auto max-w-4xl text-center"
+          variants={staggerContainer}
+          initial="visible"
+          animate="visible"
         >
-          <span className="sketch-tag inline-flex -rotate-1 items-center gap-2 px-4 py-1.5 font-display text-lg text-foreground">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-70 motion-reduce:animate-none" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+          {/* availability + one credibility stat — paired so the "available" claim
+            arrives with proof. The stat text/number is sourced from data/content.ts. */}
+          <motion.div
+            variants={prefersReduced ? {} : fadeUp}
+            className="mb-8 flex flex-wrap items-center justify-center gap-3"
+          >
+            <span className="sketch-tag inline-flex -rotate-1 items-center gap-2 px-4 py-1.5 font-display text-lg text-foreground">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-70 motion-reduce:animate-none" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+              </span>
+              Available for new work
             </span>
-            Available for new work
-          </span>
-          <span className="sketch-tag inline-flex rotate-1 items-center px-4 py-1.5 font-display text-lg text-muted">
-            {identity.heroStat}
-          </span>
-        </motion.div>
+            <span className="sketch-tag inline-flex rotate-1 items-center px-4 py-1.5 font-display text-lg text-muted">
+              {identity.heroStat}
+            </span>
+          </motion.div>
 
-        <motion.p variants={prefersReduced ? {} : fadeUp} className="mb-1 font-display text-2xl text-muted">
-          {identity.greeting} <span className="inline-block">👋</span>
-        </motion.p>
+          <motion.p
+            variants={prefersReduced ? {} : fadeUp}
+            className="mb-1 font-display text-2xl text-muted"
+          >
+            {identity.greeting} <span className="inline-block">👋</span>
+          </motion.p>
 
-        <motion.h1
-          id="hero-heading"
-          variants={prefersReduced ? {} : fadeUp}
-          className="font-display text-7xl font-bold leading-[0.85] text-foreground sm:text-8xl lg:text-9xl"
-        >
-          {identity.name}
-        </motion.h1>
+          <motion.h1
+            id="hero-heading"
+            variants={prefersReduced ? {} : fadeUp}
+            className="font-display text-7xl font-bold leading-[0.85] text-foreground sm:text-8xl lg:text-9xl"
+          >
+            {identity.name}
+          </motion.h1>
 
-        {/* hand-drawn underline under the name */}
-        <motion.svg
-          variants={prefersReduced ? {} : fadeUp}
-          className="mx-auto mt-2 h-4 w-[min(85%,460px)] text-accent"
-          viewBox="0 0 400 16"
-          fill="none"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path d="M4 9 C 90 3, 170 15, 250 7 S 360 4, 396 11" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-        </motion.svg>
+          {/* hand-drawn underline under the name */}
+          <motion.svg
+            variants={prefersReduced ? {} : fadeUp}
+            className="mx-auto mt-2 h-4 w-[min(85%,460px)] text-accent"
+            viewBox="0 0 400 16"
+            fill="none"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <path
+              d="M4 9 C 90 3, 170 15, 250 7 S 360 4, 396 11"
+              stroke="currentColor"
+              strokeWidth="4"
+              strokeLinecap="round"
+            />
+          </motion.svg>
 
-        {/* role — a handwritten subtitle directly under the name, so name → role →
+          {/* role — a handwritten subtitle directly under the name, so name → role →
             hook reads in order (source of truth: content.ts). Caveat + a middot keep it
             in the sketch aesthetic and consistent with the stat tag's separator. */}
-        <motion.p
-          variants={prefersReduced ? {} : fadeUp}
-          className="mt-3 font-display text-xl text-muted sm:text-2xl"
-        >
-          {identity.title.replace(' | ', ' · ')}
-        </motion.p>
+          <motion.p
+            variants={prefersReduced ? {} : fadeUp}
+            className="mt-3 font-display text-xl text-muted sm:text-2xl"
+          >
+            {identity.title.replace(' | ', ' · ')}
+          </motion.p>
 
-        <motion.div
-          variants={prefersReduced ? {} : fadeUp}
-          className="mx-auto mb-4 mt-5 max-w-2xl font-sans text-xl font-bold text-foreground sm:text-2xl"
-        >
-          <AnimatedText text={identity.hook} delay={0.3} />
-        </motion.div>
+          <motion.div
+            variants={prefersReduced ? {} : fadeUp}
+            className="mx-auto mb-4 mt-5 max-w-2xl font-sans text-xl font-bold text-foreground sm:text-2xl"
+          >
+            <AnimatedText text={identity.hook} delay={0.3} />
+          </motion.div>
 
-        <motion.p
-          variants={prefersReduced ? {} : fadeUp}
-          className="mx-auto mb-8 max-w-xl font-sans text-lg leading-relaxed text-muted"
-        >
-          {identity.tagline}
-        </motion.p>
+          <motion.p
+            variants={prefersReduced ? {} : fadeUp}
+            className="mx-auto mb-8 max-w-xl font-sans text-lg leading-relaxed text-muted"
+          >
+            {identity.tagline}
+          </motion.p>
 
-        <motion.div
-          variants={prefersReduced ? {} : fadeUp}
-          className="relative flex flex-col items-center gap-6 sm:flex-row sm:justify-center sm:gap-6"
-        >
-          {/* primary actions */}
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Button href={`mailto:${identity.email}`} variant="primary">
-              Get in touch →
-            </Button>
-            <Button href={identity.github} variant="secondary">
-              GitHub
-            </Button>
-          </div>
+          <motion.div
+            variants={prefersReduced ? {} : fadeUp}
+            className="relative flex flex-col items-center gap-6 sm:flex-row sm:justify-center sm:gap-6"
+          >
+            {/* primary actions */}
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <Button href={`mailto:${identity.email}`} variant="primary">
+                Get in touch →
+              </Button>
+              <Button href={identity.github} variant="secondary">
+                GitHub
+              </Button>
+            </div>
 
-          {/* other links — desktop/tablet only: set off in a tidy stack beside
+            {/* other links — desktop/tablet only: set off in a tidy stack beside
               the CTAs. On phones this copy is hidden; the same links are parked
               in the hero's bottom-left corner (rendered after this content). */}
-          <ElsewhereNav className="hidden flex-col items-start gap-1 border-l border-dashed border-divider pl-6 sm:flex" />
+            <ElsewhereNav className="hidden flex-col items-start gap-1 border-l border-dashed border-divider pl-6 sm:flex" />
 
-          {/* doodle arrow + note pointing at the primary CTA */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -bottom-20 left-2 hidden rotate-[-4deg] text-accent sm:block"
-          >
-            <span className="mb-1 ml-8 block font-display text-lg">say hi! :)</span>
-            <svg className="h-14 w-16" viewBox="0 0 64 56" fill="none">
-              <path d="M52 6 C 22 8, 12 26, 16 48" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
-              <path d="M7 37 L16 50 L27 41" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
+            {/* doodle arrow + note pointing at the primary CTA */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -bottom-20 left-2 hidden rotate-[-4deg] text-accent sm:block"
+            >
+              <span className="mb-1 ml-8 block font-display text-lg">say hi! :)</span>
+              <svg className="h-14 w-16" viewBox="0 0 64 56" fill="none">
+                <path
+                  d="M52 6 C 22 8, 12 26, 16 48"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                />
+                <path
+                  d="M7 37 L16 50 L27 41"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+          </motion.div>
         </motion.div>
-      </motion.div>
       </div>
 
       {/* mobile: "elsewhere" parked in the hero's bottom-left corner — the intended
