@@ -13,7 +13,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative isolate flex min-h-[100dvh] items-center justify-center overflow-hidden px-4 pb-16 pt-8"
+      className="relative isolate flex min-h-[100dvh] items-center justify-center overflow-hidden px-4 pb-32 pt-8 sm:pb-16"
       aria-labelledby="hero-heading"
     >
       {/* signal over depth — a small signal, vast submerged structure */}
@@ -137,21 +137,10 @@ export default function HeroSection() {
             </Button>
           </div>
 
-          {/* other links — set off in a tidy stack beside the CTAs */}
-          <nav
-            aria-label="Find me elsewhere"
-            className="flex flex-col items-center gap-1 sm:items-start sm:border-l sm:border-dashed sm:border-divider sm:pl-6"
-          >
-            <span aria-hidden="true" className="font-display text-sm leading-none text-muted">
-              elsewhere
-            </span>
-            <Button href={identity.agentAfkUrl} variant="ghost" className="px-0">
-              agentafk.com
-            </Button>
-            <Button href={identity.graisolUrl} variant="ghost" className="px-0">
-              graisol.com
-            </Button>
-          </nav>
+          {/* other links — desktop/tablet only: set off in a tidy stack beside
+              the CTAs. On phones this copy is hidden and the same links are
+              re-placed in the hero's empty bottom-left corner (see below). */}
+          <ElsewhereNav className="hidden flex-col items-start gap-1 border-l border-dashed border-divider pl-6 sm:flex" />
 
           {/* doodle arrow + note pointing at the primary CTA */}
           <div
@@ -167,6 +156,12 @@ export default function HeroSection() {
         </motion.div>
       </motion.div>
 
+      {/* secondary links — parked in the hero's empty bottom-left corner on
+          phones; on sm+ they live in the side stack beside the CTAs above.
+          A dashed rule on the right mirrors the desktop divider and reads as a
+          notebook margin against the graph-paper background. */}
+      <ElsewhereNav className="absolute bottom-24 left-5 z-10 flex flex-col items-start gap-1 border-r border-dashed border-divider pr-5 sm:hidden" />
+
       {/* scroll cue */}
       <a
         href="#about"
@@ -179,5 +174,25 @@ export default function HeroSection() {
         </span>
       </a>
     </section>
+  )
+}
+
+/** The "elsewhere" link stack. Rendered twice by the hero — once in the desktop
+ *  side stack, once pinned to the bottom-left corner on phones — so the two
+ *  placements share a single source of truth for the links. Only one instance
+ *  is ever displayed (and thus in the a11y tree) at a given breakpoint. */
+function ElsewhereNav({ className }: { className: string }) {
+  return (
+    <nav aria-label="Find me elsewhere" className={className}>
+      <span aria-hidden="true" className="font-display text-sm leading-none text-muted">
+        elsewhere
+      </span>
+      <Button href={identity.agentAfkUrl} variant="ghost" className="px-0">
+        agentafk.com
+      </Button>
+      <Button href={identity.graisolUrl} variant="ghost" className="px-0">
+        graisol.com
+      </Button>
+    </nav>
   )
 }
