@@ -19,6 +19,7 @@ type Identity = {
   greeting: string
   hook: string
   tagline: string
+  heroStat: string
 }
 
 type About = { paragraphs: readonly string[] }
@@ -64,6 +65,9 @@ export const identity = {
   hook: 'A self-taught AI engineer who went from line cook to shipping production agent systems.',
   // Voice line, verbatim from profile.md Positioning Summary B.
   tagline: "I don't out-type teams — I build and direct the AI agent tooling that lets one person ship at team scale.",
+  // Hero credibility stat — matches About ("roughly 10,800 commits across 100+ repos")
+  // and Experience ("~10,800 GitHub commit contributions ... 107 repos"). Verified vs profile.md.
+  heroStat: '~10,800 commits · 100+ repos',
 } as const satisfies Identity
 
 // About — first-person story, drawn STRICTLY from profile.md (self-taught, line-cook

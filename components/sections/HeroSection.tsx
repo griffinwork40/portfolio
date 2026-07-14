@@ -74,14 +74,21 @@ export default function HeroSection() {
         initial="visible"
         animate="visible"
       >
-        {/* availability tag */}
-        <motion.div variants={prefersReduced ? {} : fadeUp} className="mb-8 flex justify-center">
+        {/* availability + one credibility stat — paired so the "available" claim
+            arrives with proof. The stat text/number is sourced from data/content.ts. */}
+        <motion.div
+          variants={prefersReduced ? {} : fadeUp}
+          className="mb-8 flex flex-wrap items-center justify-center gap-3"
+        >
           <span className="sketch-tag inline-flex -rotate-1 items-center gap-2 px-4 py-1.5 font-display text-lg text-foreground">
             <span className="relative flex h-2.5 w-2.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-70 motion-reduce:animate-none" />
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
             </span>
             Available for new work
+          </span>
+          <span className="sketch-tag inline-flex rotate-1 items-center px-4 py-1.5 font-display text-lg text-muted">
+            {identity.heroStat}
           </span>
         </motion.div>
 
@@ -109,16 +116,26 @@ export default function HeroSection() {
           <path d="M4 9 C 90 3, 170 15, 250 7 S 360 4, 396 11" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
         </motion.svg>
 
+        {/* role — a handwritten subtitle directly under the name, so name → role →
+            hook reads in order (source of truth: content.ts). Caveat + a middot keep it
+            in the sketch aesthetic and consistent with the stat tag's separator. */}
+        <motion.p
+          variants={prefersReduced ? {} : fadeUp}
+          className="mt-3 font-display text-xl text-muted sm:text-2xl"
+        >
+          {identity.title.replace(' | ', ' · ')}
+        </motion.p>
+
         <motion.div
           variants={prefersReduced ? {} : fadeUp}
-          className="mx-auto mb-4 mt-7 max-w-2xl font-sans text-xl font-bold text-foreground sm:text-2xl"
+          className="mx-auto mb-4 mt-5 max-w-2xl font-sans text-xl font-bold text-foreground sm:text-2xl"
         >
           <AnimatedText text={identity.hook} delay={0.3} />
         </motion.div>
 
         <motion.p
           variants={prefersReduced ? {} : fadeUp}
-          className="mx-auto mb-12 max-w-xl font-sans text-lg leading-relaxed text-muted"
+          className="mx-auto mb-8 max-w-xl font-sans text-lg leading-relaxed text-muted"
         >
           {identity.tagline}
         </motion.p>
