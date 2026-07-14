@@ -154,9 +154,15 @@ export default function HeroSection() {
             </Button>
           </div>
 
+          {/* mobile: elsewhere links in normal flow just below the CTAs. Kept in
+              flow (not absolutely parked in the corner) because the centered
+              min-h hero pushed the CTA row into the corner stack and they
+              overlapped on real phones. */}
+          <ElsewhereNav className="flex flex-col items-center gap-1 sm:hidden" />
+
           {/* other links — desktop/tablet only: set off in a tidy stack beside
-              the CTAs. On phones this copy is hidden and the same links are
-              re-placed in the hero's empty bottom-left corner (see below). */}
+              the CTAs. On phones this copy is hidden and the same links render
+              in normal flow below the CTAs (above). */}
           <ElsewhereNav className="hidden flex-col items-start gap-1 border-l border-dashed border-divider pl-6 sm:flex" />
 
           {/* doodle arrow + note pointing at the primary CTA */}
@@ -172,12 +178,6 @@ export default function HeroSection() {
           </div>
         </motion.div>
       </motion.div>
-
-      {/* secondary links — parked in the hero's empty bottom-left corner on
-          phones; on sm+ they live in the side stack beside the CTAs above.
-          A dashed rule on the right mirrors the desktop divider and reads as a
-          notebook margin against the graph-paper background. */}
-      <ElsewhereNav className="absolute bottom-24 left-5 z-10 flex flex-col items-start gap-1 border-r border-dashed border-divider pr-5 sm:hidden" />
 
       {/* scroll cue */}
       <a
@@ -195,7 +195,7 @@ export default function HeroSection() {
 }
 
 /** The "elsewhere" link stack. Rendered twice by the hero — once in the desktop
- *  side stack, once pinned to the bottom-left corner on phones — so the two
+ *  side stack, once in normal flow below the CTAs on phones — so the two
  *  placements share a single source of truth for the links. Only one instance
  *  is ever displayed (and thus in the a11y tree) at a given breakpoint. */
 function ElsewhereNav({ className }: { className: string }) {
