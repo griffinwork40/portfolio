@@ -67,7 +67,7 @@ export const identity = {
   tagline: "I don't out-type teams — I build and direct the AI agent tooling that lets one person ship at team scale.",
   // Hero credibility stat — matches About/Experience contribution copy.
   // Verified against GitHub GraphQL on 2026-07-14.
-  heroStat: '~13,000 GitHub contributions · 100 repos',
+  heroStat: '~13,000 GitHub contributions · 100+ repos',
 } as const satisfies Identity
 
 // About — first-person story, drawn STRICTLY from profile.md (self-taught, line-cook
@@ -75,7 +75,7 @@ export const identity = {
 export const about = {
   paragraphs: [
     "I didn't take the traditional route into software. I taught myself to build with AI while working as a line cook and taking college classes — experimenting with ChatGPT on the side until it turned into something real.",
-    "In March 2025 I turned that into GRAIsol. In the ~15 months since, it's grown into roughly 13,000 GitHub contributions across 100 repos: an open-source agent runtime (agent-afk), a 369K-LOC AI GTM-automation platform, and 9 published open-source packages.",
+    "In March 2025 I turned that into GRAIsol. In the ~15 months since, it's grown into roughly 13,000 GitHub contributions across 100+ repos: an open-source agent runtime (agent-afk), a 369K-LOC AI GTM-automation platform, and 9 published open-source packages.",
     "The throughline: I don't out-type teams — I build and direct the AI agent tooling that lets one person ship at team scale. Same energy I brought to the kitchen — high tempo, reliable under pressure — now pointed at shipping software end to end.",
   ],
 } as const satisfies About
@@ -273,7 +273,7 @@ export const experience: readonly ExperienceEntry[] = [
       'Extended it with a Gmail outbound engine (multi-inbox rotation, AI sequences, open/click tracking, AI reply classification) and an AI SDR layer with ICP scoring and human-handoff routing.',
       'Published 9 open-source packages across npm and GitHub: 7 MCP servers (ElevenLabs Voice – 23 tools, ClickUp – 19 tools, Cursor Agent – 40 merged PRs / SSE on Vercel, E2B, Twilio, Smartlead, GPT Image), plus agent-afk and gadscli.',
       'Ran a one-person AI-leveraged studio delivering 30+ client and product builds.',
-      'Accumulated ~13,000 GitHub contributions and 100 repos since Mar 2025.',
+      'Accumulated ~13,000 GitHub contributions across 100+ repos since Mar 2025.',
     ],
   },
   {
