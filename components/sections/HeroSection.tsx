@@ -86,11 +86,12 @@ export default function HeroSection() {
           initial="visible"
           animate="visible"
         >
-          {/* availability + one credibility stat — paired so the "available" claim
-            arrives with proof. The stat text/number is sourced from data/content.ts. */}
+          {/* availability first, proof second — keep the availability badge as the
+            only boxed element, with the credibility stat as loose handwritten
+            marginalia underneath so it does not compete visually. */}
           <motion.div
             variants={prefersReduced ? {} : fadeUp}
-            className="mb-5 flex flex-wrap items-center justify-center gap-2 sm:mb-8 sm:gap-3"
+            className="mb-5 flex flex-col items-center justify-center gap-1.5 sm:mb-8 sm:gap-2"
           >
             <span className="sketch-tag inline-flex -rotate-1 items-center gap-2 px-3 py-1 font-display text-base text-foreground sm:px-4 sm:py-1.5 sm:text-lg">
               <span className="relative flex h-2.5 w-2.5">
@@ -99,7 +100,7 @@ export default function HeroSection() {
               </span>
               Available for new work
             </span>
-            <span className="sketch-tag inline-flex rotate-1 items-center px-3 py-1 font-display text-base text-muted sm:px-4 sm:py-1.5 sm:text-lg">
+            <span className="inline-flex rotate-[-1deg] items-center font-display text-base leading-none text-muted sm:text-lg">
               {identity.heroStat}
             </span>
           </motion.div>
