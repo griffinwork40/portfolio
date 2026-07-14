@@ -93,8 +93,12 @@ export default function HeroSection() {
             variants={prefersReduced ? {} : fadeUp}
             className="mb-5 flex flex-col items-center justify-center gap-1.5 sm:mb-8 sm:gap-2"
           >
-            <span className="sketch-tag inline-flex -rotate-1 items-center gap-2 px-3 py-1 font-display text-base text-foreground sm:px-4 sm:py-1.5 sm:text-lg">
-              <span className="relative flex h-2.5 w-2.5">
+            <span
+              role="status"
+              aria-label="Available for new work"
+              className="sketch-tag inline-flex -rotate-1 items-center gap-2 px-3 py-1 font-display text-base text-foreground sm:px-4 sm:py-1.5 sm:text-lg"
+            >
+              <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-70 motion-reduce:animate-none" />
                 <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
               </span>
