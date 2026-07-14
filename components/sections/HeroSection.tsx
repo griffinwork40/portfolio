@@ -90,16 +90,16 @@ export default function HeroSection() {
             arrives with proof. The stat text/number is sourced from data/content.ts. */}
           <motion.div
             variants={prefersReduced ? {} : fadeUp}
-            className="mb-8 flex flex-wrap items-center justify-center gap-3"
+            className="mb-5 flex flex-wrap items-center justify-center gap-2 sm:mb-8 sm:gap-3"
           >
-            <span className="sketch-tag inline-flex -rotate-1 items-center gap-2 px-4 py-1.5 font-display text-lg text-foreground">
+            <span className="sketch-tag inline-flex -rotate-1 items-center gap-2 px-3 py-1 font-display text-base text-foreground sm:px-4 sm:py-1.5 sm:text-lg">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-70 motion-reduce:animate-none" />
                 <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
               </span>
               Available for new work
             </span>
-            <span className="sketch-tag inline-flex rotate-1 items-center px-4 py-1.5 font-display text-lg text-muted">
+            <span className="sketch-tag inline-flex rotate-1 items-center px-3 py-1 font-display text-base text-muted sm:px-4 sm:py-1.5 sm:text-lg">
               {identity.heroStat}
             </span>
           </motion.div>
@@ -114,7 +114,7 @@ export default function HeroSection() {
           <motion.h1
             id="hero-heading"
             variants={prefersReduced ? {} : fadeUp}
-            className="font-display text-7xl font-bold leading-[0.85] text-foreground sm:text-8xl lg:text-9xl"
+            className="font-display text-6xl font-bold leading-[0.85] text-foreground sm:text-8xl lg:text-9xl"
           >
             {identity.name}
           </motion.h1>
@@ -141,21 +141,21 @@ export default function HeroSection() {
             in the sketch aesthetic and consistent with the stat tag's separator. */}
           <motion.p
             variants={prefersReduced ? {} : fadeUp}
-            className="mt-3 font-display text-xl text-muted sm:text-2xl"
+            className="mt-2 font-display text-lg text-muted sm:mt-3 sm:text-2xl"
           >
             {identity.title.replace(' | ', ' · ')}
           </motion.p>
 
           <motion.div
             variants={prefersReduced ? {} : fadeUp}
-            className="mx-auto mb-4 mt-5 max-w-2xl font-sans text-xl font-bold text-foreground sm:text-2xl"
+            className="mx-auto mb-3 mt-3 max-w-2xl font-sans text-xl font-bold text-foreground sm:mb-4 sm:mt-5 sm:text-2xl"
           >
             <AnimatedText text={identity.hook} delay={0.3} />
           </motion.div>
 
           <motion.p
             variants={prefersReduced ? {} : fadeUp}
-            className="mx-auto mb-8 max-w-xl font-sans text-lg leading-relaxed text-muted"
+            className="mx-auto mb-5 max-w-xl font-sans text-base leading-relaxed text-muted sm:mb-8 sm:text-lg"
           >
             {identity.tagline}
           </motion.p>
@@ -208,7 +208,7 @@ export default function HeroSection() {
       {/* mobile: "elsewhere" parked in the hero's bottom-left corner — the intended
           personal touch — but in NORMAL FLOW (after all content) so it can never
           overlap the CTA the way the old absolute placement did on real phones. */}
-      <ElsewhereNav className="relative z-10 mb-2 ml-1 mt-10 flex flex-col items-start gap-1 self-start border-r border-dashed border-divider pr-5 sm:hidden" />
+      <ElsewhereNav className="relative z-10 mb-2 ml-1 mt-5 flex flex-col items-start gap-0.5 self-start border-r border-dashed border-divider pr-5 sm:hidden" />
 
       {/* scroll cue */}
       <a
