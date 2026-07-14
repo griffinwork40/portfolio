@@ -13,7 +13,7 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative isolate flex min-h-[100dvh] items-center justify-center overflow-hidden px-4 pb-32 pt-8 sm:pb-16"
+      className="relative isolate flex min-h-[100dvh] flex-col overflow-hidden px-4 pb-32 pt-8 sm:pb-16"
       aria-labelledby="hero-heading"
     >
       {/* signal over depth — a small signal, vast submerged structure */}
@@ -64,6 +64,11 @@ export default function HeroSection() {
         />
       </motion.div>
 
+      {/* Content group, centered in the space ABOVE the bottom-left corner links.
+          A flex-1 wrapper (replacing the old items-center/justify-center on the
+          section) lets the corner "elsewhere" stack sit in normal flow below and
+          never overlap the CTA, while staying pinned to the bottom-left. */}
+      <div className="flex w-full flex-1 items-center justify-center">
       {/* Hero renders VISIBLE by default so it paints from static HTML — never
           gated behind JS hydration. On a slow phone, gating the hero on
           framer-motion left it blank for seconds. Below-the-fold sections keep
@@ -154,15 +159,9 @@ export default function HeroSection() {
             </Button>
           </div>
 
-          {/* mobile: elsewhere links in normal flow just below the CTAs. Kept in
-              flow (not absolutely parked in the corner) because the centered
-              min-h hero pushed the CTA row into the corner stack and they
-              overlapped on real phones. */}
-          <ElsewhereNav className="flex flex-col items-center gap-1 sm:hidden" />
-
           {/* other links — desktop/tablet only: set off in a tidy stack beside
-              the CTAs. On phones this copy is hidden and the same links render
-              in normal flow below the CTAs (above). */}
+              the CTAs. On phones this copy is hidden; the same links are parked
+              in the hero's bottom-left corner (rendered after this content). */}
           <ElsewhereNav className="hidden flex-col items-start gap-1 border-l border-dashed border-divider pl-6 sm:flex" />
 
           {/* doodle arrow + note pointing at the primary CTA */}
@@ -178,6 +177,12 @@ export default function HeroSection() {
           </div>
         </motion.div>
       </motion.div>
+      </div>
+
+      {/* mobile: "elsewhere" parked in the hero's bottom-left corner — the intended
+          personal touch — but in NORMAL FLOW (after all content) so it can never
+          overlap the CTA the way the old absolute placement did on real phones. */}
+      <ElsewhereNav className="relative z-10 mb-2 ml-1 mt-10 flex flex-col items-start gap-1 self-start border-r border-dashed border-divider pr-5 sm:hidden" />
 
       {/* scroll cue */}
       <a
@@ -195,9 +200,10 @@ export default function HeroSection() {
 }
 
 /** The "elsewhere" link stack. Rendered twice by the hero — once in the desktop
- *  side stack, once in normal flow below the CTAs on phones — so the two
- *  placements share a single source of truth for the links. Only one instance
- *  is ever displayed (and thus in the a11y tree) at a given breakpoint. */
+ *  side stack beside the CTAs, once parked in the bottom-left corner (in normal
+ *  flow, so it can't overlap the CTA) on phones — so the two placements share a
+ *  single source of truth for the links. Only one instance is ever displayed
+ *  (and thus in the a11y tree) at a given breakpoint. */
 function ElsewhereNav({ className }: { className: string }) {
   return (
     <nav aria-label="Find me elsewhere" className={className}>
