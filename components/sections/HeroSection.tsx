@@ -13,9 +13,14 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative isolate flex min-h-[100dvh] flex-col overflow-hidden px-4 pb-32 pt-8 sm:pb-16"
+      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden px-4 pb-32 pt-8 sm:pb-16"
       aria-labelledby="hero-heading"
     >
+      {/* Height uses svh (static), not dvh (dynamic): dvh recomputes as the mobile
+          URL bar collapses on first scroll, reflowing the hero every frame and
+          producing the visible scroll jank/bounce. svh stays pinned to the
+          bar-visible height — the tiny bottom gap when the bar hides is the trade
+          for a rock-steady hero. Do not revert to dvh. */}
       {/* signal over depth — a small signal, vast submerged structure */}
       <ContourField
         id="hero"
