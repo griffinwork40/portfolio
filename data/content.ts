@@ -1,5 +1,5 @@
 // data/content.ts — SINGLE SOURCE OF TRUTH
-// All content drawn verbatim from profile.md verified 2026-06-20.
+// All content drawn verbatim from profile.md verified 2026-08-20.
 // NEVER edit metrics here without re-verifying against profile.md.
 
 // --- Named contracts for the plain content objects. `satisfies` verifies shape
@@ -75,7 +75,7 @@ export const identity = {
 export const about = {
   paragraphs: [
     "I didn't take the traditional route into software. I taught myself to build with AI while working as a line cook and taking college classes — experimenting with ChatGPT on the side until it turned into something real.",
-    "In March 2025 I turned that into GRAIsol. In the ~15 months since, it's grown into roughly 13,000 GitHub contributions across 100+ repos: an open-source agent runtime (agent-afk), a 369K-LOC AI GTM-automation platform, and 9 published open-source packages.",
+    "In March 2025 I turned that into GRAIsol. In the ~15 months since, it's grown into roughly 13,000 GitHub contributions across 100+ repos: an open-source agent runtime (agent-afk), a 369K-LOC AI GTM-automation platform, and 12 published open-source packages.",
     "The throughline: I don't out-type teams — I build and direct the AI agent tooling that lets one person ship at team scale. Same energy I brought to the kitchen — high tempo, reliable under pressure — now pointed at shipping software end to end.",
   ],
 } as const satisfies About
@@ -192,6 +192,41 @@ export const projects: readonly Project[] = [
     featured: false,
   },
   {
+    id: 'substack-cli',
+    name: 'substack-cli',
+    description: 'Full Python CLI wrapping Substack\'s unofficial API with write-safety gates and destructive-op guards',
+    url: 'https://github.com/griffinwork40/substack-cli',
+    metrics: [
+      { label: 'LOC', value: '~7,142' },
+      { label: 'tests', value: '234' },
+      { label: 'commands', value: '50+' },
+    ],
+    tags: ['Python', 'Substack API', 'CLI'],
+    featured: true,
+  },
+  {
+    id: 'x-api-cli',
+    name: 'x-api-cli',
+    description: 'Full TypeScript CLI for the X/Twitter API v2 with OAuth 1.0a, OAuth 2.0, and Bearer auth',
+    url: 'https://github.com/griffinwork40/x-api-cli',
+    metrics: [
+      { label: 'LOC', value: '~6,143' },
+    ],
+    tags: ['TypeScript', 'X API', 'CLI'],
+    featured: false,
+  },
+  {
+    id: 'ga-cli',
+    name: 'ga-cli',
+    description: 'Python CLI for the Google Analytics 4 API covering properties, reports, acquisition, referrers, and trends',
+    url: 'https://github.com/griffinwork40/ga-cli',
+    metrics: [
+      { label: 'LOC', value: '~633' },
+    ],
+    tags: ['Python', 'Google Analytics', 'CLI'],
+    featured: false,
+  },
+  {
     id: 'agent-framework',
     name: 'agent-framework',
     description: 'Claude Code / agent-afk plugin for autonomous task execution through composable skills, subagents, and hooks',
@@ -260,6 +295,20 @@ export type ExperienceEntry = {
 
 export const experience: readonly ExperienceEntry[] = [
   {
+    id: 'capital-mischief',
+    role: 'AI Operations Engineer (Contract)',
+    company: 'Capital Mischief / Charlie Garcia',
+    location: 'Remote (Daytona Beach)',
+    period: 'Jul 2026 – Present',
+    status: 'current',
+    bullets: [
+      'Built a daily editorial intelligence pipeline (~7,960 LOC Python, 3 packages) for a 22K-subscriber finance Substack (~$1.76M ARR): prep, editorial judgment, brief generation, essay drafting, publish verdicts, and post-hoc scorecards.',
+      'Designed deterministic anti-fabrication guards that drop any AI-drafted content whose facts, numbers, or named entities are not verbatim in the author\'s published words; human-in-the-loop approval required before anything ships.',
+      'Built and run 7 automated cron/daemon tasks delivering daily research briefs, analytics pulses, desk dashboards, and Monday team briefings to 3 Telegram channels.',
+      'Built a 4-panel HTML desk dashboard (fleet health, workflows, review queue, signal desk) with daily email delivery; packaged all systems as an agent-afk plugin with 100 test functions.',
+    ],
+  },
+  {
     id: 'graisol',
     role: 'Founder and AI Systems Engineer',
     company: 'GRAIsol',
@@ -271,7 +320,7 @@ export const experience: readonly ExperienceEntry[] = [
       'Built and open-sourced agent-afk (agentafk.com), a TypeScript agentic coding-agent runtime/harness: ~308K LOC, 1,542 commits, 408 published npm versions, Apache-2.0.',
       'Architected AgentGRAI, a modular Next.js / React AI lead-intelligence and outbound platform (~369K LOC, ~1,900 commits in ~5 months): multi-stage enrichment on async QStash queues with Redis-semaphore concurrency control.',
       'Extended it with a Gmail outbound engine (multi-inbox rotation, AI sequences, open/click tracking, AI reply classification) and an AI SDR layer with ICP scoring and human-handoff routing.',
-      'Published 9 open-source packages across npm and GitHub: 7 MCP servers (ElevenLabs Voice – 23 tools, ClickUp – 19 tools, Cursor Agent – 40 merged PRs / SSE on Vercel, E2B, Twilio, Smartlead, GPT Image), plus agent-afk and gadscli.',
+      'Published 12 open-source packages across npm and GitHub: 7 MCP servers (ElevenLabs Voice – 23 tools, ClickUp – 19 tools, Cursor Agent – 40 merged PRs / SSE on Vercel, E2B, Twilio, Smartlead, GPT Image), plus agent-afk, gadscli, substack-cli, x-api-cli, and ga-cli.',
       'Ran a one-person AI-leveraged studio delivering 30+ client and product builds.',
       'Accumulated ~13,000 GitHub contributions across 100+ repos since Mar 2025.',
     ],
