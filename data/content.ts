@@ -296,8 +296,8 @@ export type ExperienceEntry = {
 export const experience: readonly ExperienceEntry[] = [
   {
     id: 'capital-mischief',
-    role: 'AI Operations Engineer (Contract)',
-    company: 'Capital Mischief / Charlie Garcia',
+    role: 'Special Projects Engineer (Contract)',
+    company: 'Capital Mischief / R360 / Charlie Garcia',
     location: 'Remote (Daytona Beach)',
     period: 'Jul 2026 – Present',
     status: 'current',
