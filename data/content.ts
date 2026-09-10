@@ -210,9 +210,14 @@ export const projects: readonly Project[] = [
   {
     id: 'umber',
     name: 'Umber',
-    description: 'Native macOS terminal in Swift 6 / AppKit — built to host the agent-afk REPL properly, with a file-tree sidebar, syntax-highlighted editor, and dual terminal cores (SwiftTerm + libghostty)',
+    description: 'Native macOS terminal in Swift 6 / AppKit — no Electron, no Xcode project — with a file-tree sidebar, 22-language syntax-highlighted editor, git status badges, split panes, shell integration, and 10 color themes gated by 345 contrast assertions',
     url: 'https://github.com/griffinwork40/umber',
-    tags: ['Swift', 'AppKit', 'macOS', 'SwiftTerm'],
+    metrics: [
+      { label: 'source files', value: '91' },
+      { label: 'editor languages', value: '22' },
+      { label: 'color themes', value: '10' },
+    ],
+    tags: ['Swift 6', 'AppKit', 'SwiftTerm', 'Metal'],
     featured: true,
   },
   {
