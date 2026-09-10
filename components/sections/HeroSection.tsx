@@ -67,12 +67,12 @@ export default function HeroSection() {
         className="absolute left-6 top-28 hidden w-[208px] lg:block xl:left-16"
       >
         <Polaroid
-          src="/photos/memory-oom.webp"
-          alt="A monitor mid-session showing the macOS 'your system has run out of application memory' dialog"
-          caption="out of memory again"
+          src="/photos/griffin.webp"
+          alt="Griffin Long outdoors at golden hour, backwards cap, calm expression"
+          caption="hey hey!"
           rotate={-6}
-          width={500}
-          height={460}
+          width={1000}
+          height={750}
         />
       </motion.div>
 
