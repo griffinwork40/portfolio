@@ -9,6 +9,8 @@ import { cn, staggerContainer, fadeUp } from '@/lib/utils'
 
 export default function ProjectsSection() {
   const prefersReduced = useReducedMotion()
+  const headliners = new Set(['agent-afk', 'agent-grai'])
+  const featuredOther = projects.filter((p) => p.featured && !headliners.has(p.id))
   const mcpServers = projects.filter((p) => p.id.startsWith('mcp-'))
   const other = projects.filter((p) => !p.featured && !p.id.startsWith('mcp-'))
 
@@ -85,6 +87,46 @@ export default function ProjectsSection() {
               </div>
             </Card>
           </motion.div>
+        </motion.div>
+
+        {/* Featured — secondary row */}
+        <motion.div
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10"
+          variants={staggerContainer}
+          initial={prefersReduced ? 'visible' : 'hidden'}
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          {featuredOther.map((p, i) => (
+            <motion.div key={p.id} variants={prefersReduced ? {} : fadeUp}>
+              <Card className={cn('h-full flex flex-col gap-3', i % 2 ? 'tilt-b' : 'tilt-a')}>
+                <div className="flex items-start justify-between">
+                  <h3 className="font-semibold text-foreground">{p.name}</h3>
+                  {p.url && (
+                    <a href={p.url} target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline">
+                      ↗<span className="sr-only"> (opens in new tab)</span>
+                    </a>
+                  )}
+                </div>
+                <p className="text-sm text-muted flex-1">{p.description}</p>
+                {p.metrics && p.metrics.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {p.metrics.map((m) => (
+                      <div key={m.label} className="glass rounded-lg px-2 py-1">
+                        <span className="text-xs text-muted uppercase">{m.label}</span>{' '}
+                        <span className="text-sm font-bold text-foreground">{m.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div className="flex flex-wrap gap-1.5 mt-auto">
+                  {p.tags.map((t) => (
+                    <Badge key={t} variant="accent">{t}</Badge>
+                  ))}
+                </div>
+              </Card>
+            </motion.div>
+          ))}
         </motion.div>
 
         {/* MCP Servers compact grid */}
