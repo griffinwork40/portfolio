@@ -9,6 +9,7 @@ const socialLinks = [
   { label: 'GitHub', href: contact.github, display: 'github.com/griffinwork40' },
   { label: 'LinkedIn', href: contact.linkedin, display: 'linkedin.com/in/griffindev' },
   { label: 'Threads', href: contact.threads, display: 'threads.com/@griffinlong.dev' },
+  { label: 'The Goblin Files', href: contact.substack, display: 'griffinlong.substack.com' },
   { label: 'agent-afk', href: contact.agentAfk, display: 'agentafk.com' },
   { label: 'GRAIsol', href: contact.graisol, display: 'graisol.com' },
 ]
@@ -30,7 +31,7 @@ export default function ContactSection() {
   return (
     <section id="contact" className="section-padding px-4" aria-labelledby="contact-heading">
       <div className="elevated-field max-w-3xl mx-auto text-center">
-        <SectionHeading id="contact-heading" index="05" centered>
+        <SectionHeading id="contact-heading" index="06" centered>
           Let’s talk
         </SectionHeading>
         <p className="text-center text-muted max-w-xl mx-auto -mt-6 mb-10 leading-relaxed">

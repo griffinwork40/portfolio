@@ -3,6 +3,7 @@ import AboutSection from '@/components/sections/AboutSection'
 import ProjectsSection from '@/components/sections/ProjectsSection'
 import SkillsSection from '@/components/sections/SkillsSection'
 import ExperienceSection from '@/components/sections/ExperienceSection'
+import NowSection from '@/components/sections/NowSection'
 import ContactSection from '@/components/sections/ContactSection'
 import EarnedPath from '@/components/ui/EarnedPath'
 
@@ -18,6 +19,7 @@ export default function Home() {
       <EarnedPath stage="compress" />
       <SkillsSection />
       <ExperienceSection />
+      <NowSection />
       {/* the route resolves — rise into embodiment */}
       <EarnedPath stage="arrive" />
       <ContactSection />

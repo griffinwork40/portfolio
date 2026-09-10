@@ -14,6 +14,7 @@ type Identity = {
   github: string
   linkedin: string
   threads: string
+  substack: string
   agentAfkUrl: string
   graisolUrl: string
   greeting: string
@@ -37,6 +38,7 @@ type Contact = {
   github: string
   linkedin: string
   threads: string
+  substack: string
   agentAfk: string
   graisol: string
 }
@@ -58,6 +60,7 @@ export const identity = {
   github: 'https://github.com/griffinwork40',
   linkedin: 'https://linkedin.com/in/griffindev',
   threads: 'https://www.threads.com/@griffinlong.dev',
+  substack: 'https://griffinlong.substack.com',
   agentAfkUrl: 'https://agentafk.com',
   graisolUrl: 'https://graisol.com',
   greeting: "Hey, I'm",
@@ -202,6 +205,13 @@ export const projects: readonly Project[] = [
       { label: 'commands', value: '50+' },
     ],
     tags: ['Python', 'Substack API', 'CLI'],
+    featured: true,
+  },
+  {
+    id: 'umber',
+    name: 'Umber',
+    description: 'Native macOS terminal in Swift 6 / AppKit — built to host the agent-afk REPL properly, with a file-tree sidebar, syntax-highlighted editor, and dual terminal cores (SwiftTerm + libghostty)',
+    tags: ['Swift', 'AppKit', 'macOS', 'SwiftTerm'],
     featured: true,
   },
   {
@@ -351,12 +361,29 @@ export const experience: readonly ExperienceEntry[] = [
   },
 ] as const
 
+// "Now" section — a living snapshot. Update when priorities shift.
+// Keep it real and short — this is the pulse check visitors see.
+type NowItem = { readonly text: string; readonly link?: string }
+type Now = { readonly updated: string; readonly items: readonly NowItem[] }
+
+export const now = {
+  updated: 'Sep 2026',
+  items: [
+    { text: 'Building Umber, a native macOS terminal in Swift', link: '#projects' },
+    { text: 'Shipping agent-afk releases weekly on npm', link: 'https://agentafk.com' },
+    { text: 'Engineering for Capital Mischief / Charlie Garcia', link: '#experience' },
+    { text: 'Writing The Goblin Files on Substack', link: 'https://griffinlong.substack.com' },
+    { text: 'Based in Daytona Beach, FL — remote-first' },
+  ],
+} as const satisfies Now
+
 export const contact = {
   email: 'griffinwork40@gmail.com',
   phone: '(978) 806-6657',
   github: 'https://github.com/griffinwork40',
   linkedin: 'https://linkedin.com/in/griffindev',
   threads: 'https://www.threads.com/@griffinlong.dev',
+  substack: 'https://griffinlong.substack.com',
   agentAfk: 'https://agentafk.com',
   graisol: 'https://graisol.com',
 } as const satisfies Contact
