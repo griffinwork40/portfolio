@@ -1,6 +1,7 @@
 'use client'
 import { motion, useReducedMotion } from 'framer-motion'
 import SectionHeading from '@/components/ui/SectionHeading'
+import SubstackEmbed from '@/components/ui/SubstackEmbed'
 import { now } from '@/data/content'
 import { staggerContainer, fadeUp } from '@/lib/utils'
 
@@ -50,6 +51,23 @@ export default function NowSection() {
             </motion.li>
           ))}
         </motion.ul>
+
+        {/* Substack subscribe card */}
+        <motion.div
+          className="glass tilt-a mt-10 rounded-2xl p-5 text-center sm:p-6"
+          variants={prefersReduced ? {} : fadeUp}
+          initial={prefersReduced ? 'visible' : 'hidden'}
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <p className="mb-1 font-display text-xl text-foreground">
+            The Goblin Files
+          </p>
+          <p className="mb-4 text-sm text-muted">
+            Beachy code goblin building shit in Daytona. Subscribe on Substack.
+          </p>
+          <SubstackEmbed />
+        </motion.div>
       </div>
     </section>
   )
