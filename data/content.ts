@@ -211,6 +211,7 @@ export const projects: readonly Project[] = [
     id: 'umber',
     name: 'Umber',
     description: 'Native macOS terminal in Swift 6 / AppKit — built to host the agent-afk REPL properly, with a file-tree sidebar, syntax-highlighted editor, and dual terminal cores (SwiftTerm + libghostty)',
+    url: 'https://github.com/griffinwork40/umber',
     tags: ['Swift', 'AppKit', 'macOS', 'SwiftTerm'],
     featured: true,
   },
