@@ -216,6 +216,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
 // Write SVG first
 const svgPath = join(__dirname, '../public/og.svg')
 const pngPath = join(__dirname, '../public/og.png')
+const webpPath = join(__dirname, '../public/og.webp')
 writeFileSync(svgPath, svg)
 console.log('✓ OG SVG written to public/og.svg')
 
@@ -265,6 +266,26 @@ for (const r of renderers) {
 
 if (rendered) {
   console.log(`✓ OG PNG written to public/og.png (via ${rendered})`)
+
+  // Convert PNG → WebP for social-card delivery (16x smaller than RGBA PNG).
+  // og.png is kept as a fallback for crawlers with patchy WebP support.
+  let webpOk = false
+  try {
+    const { default: sharp } = await import('sharp')
+    await sharp(pngPath).webp({ quality: 85 }).toFile(webpPath)
+    webpOk = true
+  } catch {
+    // sharp unavailable — try cwebp CLI
+    try {
+      const r = spawnSync('cwebp', ['-q', '85', pngPath, '-o', webpPath], { stdio: 'inherit' })
+      if (!r.error && r.status === 0) webpOk = true
+    } catch { /* no cwebp either */ }
+  }
+  if (webpOk) {
+    console.log('✓ OG WebP written to public/og.webp')
+  } else {
+    console.warn('⚠ WebP conversion skipped (no sharp or cwebp available)')
+  }
 } else {
   console.error(
     '✗ No SVG→PNG renderer available (tried sharp, rsvg-convert, magick, convert).\n' +
