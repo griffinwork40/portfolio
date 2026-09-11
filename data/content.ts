@@ -398,6 +398,6 @@ export const siteMetadata = {
   title: 'Griffin Long — Agentic AI Engineer',
   description: "I'm Griffin — a self-taught AI engineer who went from line cook to shipping production agent systems. I build the tooling that lets one person ship at team scale.",
   url: 'https://griffinlong.dev',
-  ogImage: '/og.png',
+  ogImage: '/og.webp',
   twitterHandle: undefined,
 } as const satisfies SiteMetadata

@@ -73,6 +73,7 @@ export default function HeroSection() {
           rotate={-6}
           width={1000}
           height={750}
+          priority
         />
       </motion.div>
 
