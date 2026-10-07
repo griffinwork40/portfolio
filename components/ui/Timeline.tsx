@@ -23,10 +23,11 @@ export default function Timeline({ entries }: TimelineProps) {
 
       {entries.map((entry) => (
         <motion.div key={entry.id} variants={prefersReduced ? {} : fadeUp} className="relative pl-10">
-          {/* hand-drawn node */}
+          {/* D10: vertically center dot on the h3 line at sm+ using top-[0.6em] */}
           <div
             className={cn(
               'absolute left-0 top-1.5 flex h-6 w-6 items-center justify-center rounded-full border-2 border-foreground bg-surface',
+              'sm:top-[0.6em]',
               entry.status === 'current' && 'border-accent',
             )}
             aria-hidden="true"
@@ -47,8 +48,10 @@ export default function Timeline({ entries }: TimelineProps) {
                   ) : (
                     entry.company
                   )}
-                  {' · '}
-                  {entry.location}
+                  {/* D10: show · location only when location !== company */}
+                  {entry.location !== entry.company && (
+                    <>{' · '}{entry.location}</>
+                  )}
                 </p>
                 {/* mobile-only: period + badge flush left under company */}
                 <div className="mt-1 flex items-center gap-2 sm:hidden">
