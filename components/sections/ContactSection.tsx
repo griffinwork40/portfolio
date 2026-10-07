@@ -74,7 +74,7 @@ export default function ContactSection() {
 
         <p className="mb-4 font-display text-lg text-muted">Elsewhere</p>
         <motion.div
-          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
+          className="grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4"
           variants={staggerContainer}
           initial={prefersReduced ? 'visible' : 'hidden'}
           whileInView="visible"
@@ -87,8 +87,8 @@ export default function ContactSection() {
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
-                'glass flex min-h-11 flex-col gap-1 rounded-xl p-4 transition-colors group',
-                i < PRIMARY_LINKS && 'sm:p-5 lg:col-span-2',
+                'glass flex min-h-11 flex-col gap-1 rounded-xl px-4 py-3 transition-colors group',
+                i < PRIMARY_LINKS && 'sm:p-4 lg:col-span-2',
                 i % 2 ? 'tilt-b' : 'tilt-a',
               )}
               variants={prefersReduced ? {} : fadeUp}
@@ -96,7 +96,7 @@ export default function ContactSection() {
               <span className="text-xs uppercase tracking-wider text-muted">{link.label}</span>
               <span
                 className={cn(
-                  'text-foreground transition-colors [overflow-wrap:anywhere] group-hover:text-accent',
+                  'text-foreground transition-colors [overflow-wrap:anywhere] group-hover:text-accent group-hover:underline decoration-2 underline-offset-4',
                   i < PRIMARY_LINKS ? 'font-display text-xl' : 'text-sm',
                 )}
               >

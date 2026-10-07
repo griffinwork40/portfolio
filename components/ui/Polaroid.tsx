@@ -15,6 +15,7 @@ type PolaroidProps = {
   /** set on above-the-fold (LCP) images so they load eagerly with high fetch priority */
   priority?: boolean
   className?: string
+  captionClassName?: string
 }
 
 export default function Polaroid({
@@ -27,6 +28,7 @@ export default function Polaroid({
   height = 1000,
   priority = false,
   className = '',
+  captionClassName,
 }: PolaroidProps) {
   return (
     <figure className={cn('polaroid relative', className)} style={{ rotate: `${rotate}deg` }}>
@@ -42,7 +44,7 @@ export default function Polaroid({
           sizes="(max-width: 640px) 80vw, 320px"
         />
       </div>
-      <figcaption className="font-display text-xl text-foreground">{caption}</figcaption>
+      <figcaption className={cn('font-display text-xl text-foreground', captionClassName)}>{caption}</figcaption>
     </figure>
   )
 }

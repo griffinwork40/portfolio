@@ -53,7 +53,7 @@ export default function HeroSection() {
           md+ where the hero has room for it. */}
       <div
         aria-hidden="true"
-        className="hidden sm:block absolute right-16 top-28 rotate-[8deg] select-none border-[3px] border-accent-secondary px-3 py-1 sm:px-4 sm:py-1.5 font-display text-xl md:text-2xl font-bold tracking-wide text-accent-secondary opacity-80"
+        className="hidden sm:block absolute right-6 md:right-16 top-28 rotate-[8deg] select-none border-[3px] border-accent-secondary px-3 py-1 sm:px-4 sm:py-1.5 font-display text-xl md:text-2xl font-bold tracking-wide text-accent-secondary opacity-80 dark:opacity-100"
         style={{ borderRadius: '14px 8px 16px 8px / 8px 16px 8px 14px' }}
       >
         SHIPPED IT ✓
@@ -145,9 +145,8 @@ export default function HeroSection() {
               strokeWidth="4"
               strokeLinecap="round"
               initial={prefersReduced ? { pathLength: 1 } : { pathLength: 0 }}
-              whileInView={{ pathLength: 1 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 1.1, ease: 'easeInOut' }}
+              animate={{ pathLength: 1 }}
+              transition={prefersReduced ? { duration: 0 } : { duration: 1.1, ease: 'easeInOut' }}
             />
           </motion.svg>
 

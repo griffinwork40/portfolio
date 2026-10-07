@@ -24,7 +24,11 @@ export default function SubstackEmbed({ className }: SubstackEmbedProps) {
   }, [])
 
   return (
-    <div className={className}>
+    <div
+      className={className}
+      aria-label="Subscribe to The Goblin Files newsletter on Substack"
+      style={{ colorScheme: 'light dark' }}
+    >
       <div
         data-supascribe-embed-id="287508345408"
         data-supascribe-subscribe=""

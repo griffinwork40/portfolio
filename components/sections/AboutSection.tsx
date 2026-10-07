@@ -74,13 +74,14 @@ export default function AboutSection() {
             </svg>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-8 sm:justify-start">
+          <div className="flex flex-nowrap justify-center gap-3 sm:flex-wrap sm:gap-8 sm:justify-start">
             <Polaroid
               src="/photos/desk-night.webp"
               alt="Dual monitors glowing in a dim room — the workspace where the agent tooling gets built"
               caption="where the work happens"
               rotate={-3}
-              className="w-[min(78vw,320px)]"
+              className="w-[min(42vw,320px)]"
+              captionClassName="text-base sm:text-xl"
             />
             <Polaroid
               src="/photos/desk-mess.webp"
@@ -89,7 +90,8 @@ export default function AboutSection() {
               rotate={2}
               width={640}
               height={854}
-              className="mt-6 w-[min(78vw,320px)]"
+              className="mt-6 w-[min(42vw,320px)]"
+              captionClassName="text-base sm:text-xl"
             />
           </div>
         </motion.div>

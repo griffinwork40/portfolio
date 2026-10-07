@@ -26,7 +26,7 @@ export default function ProjectsSection() {
 
         {/* Featured — bento headliners */}
         <motion.div
-          className="grid md:grid-cols-[3fr_2fr] gap-6 mb-10 items-stretch"
+          className="grid lg:grid-cols-[3fr_2fr] gap-6 mb-10 items-stretch"
           variants={staggerContainer}
           initial={prefersReduced ? 'visible' : 'hidden'}
           whileInView="visible"
@@ -38,7 +38,7 @@ export default function ProjectsSection() {
             <Card className="glass-featured h-full flex flex-col gap-4 tilt-a">
               <div className="flex items-start justify-between">
                 <h3 className="text-xl font-bold text-foreground">agent-afk</h3>
-                <a href="https://agentafk.com" target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline">
+                <a href="https://agentafk.com" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 min-w-11 items-center justify-center -mr-2 -mt-2 text-xs text-accent hover:underline">
                   agentafk.com ↗<span className="sr-only"> (opens in new tab)</span>
                 </a>
               </div>
@@ -73,12 +73,12 @@ export default function ProjectsSection() {
             <Card className="h-full flex flex-col gap-4 tilt-b">
               <h3 className="text-xl font-bold text-foreground">AgentGRAI</h3>
               <p className="text-muted text-sm">{agentGrai.description}</p>
-              {/* Stacked metric cells (agent-afk style) so the equal-height card fills its column */}
-              <div className="grid grid-cols-1 gap-3">
+              {/* 3-col compact row on mobile; single stacked column at md+ (beside flagship) */}
+              <div className="grid grid-cols-3 md:grid-cols-1 gap-3">
                 {agentGrai.metrics!.map((m) => (
-                  <div key={m.label} className="glass rounded-lg p-3">
+                  <div key={m.label} className="glass rounded-lg p-2 sm:p-3">
                     <p className="text-xs text-muted uppercase tracking-wider">{m.label}</p>
-                    <p className="text-lg font-bold text-foreground">{m.value}</p>
+                    <p className="whitespace-nowrap text-sm font-bold text-foreground sm:text-lg">{m.value}</p>
                   </div>
                 ))}
               </div>
@@ -105,12 +105,12 @@ export default function ProjectsSection() {
                 <div className="flex items-start justify-between">
                   <h3 className="font-semibold text-foreground">{p.name}</h3>
                   {p.url && (
-                    <a href={p.url} target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline">
+                    <a href={p.url} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 min-w-11 items-center justify-center -mr-2 -mt-2 text-xs text-accent hover:underline">
                       ↗<span className="sr-only"> (opens in new tab)</span>
                     </a>
                   )}
                 </div>
-                <p className="text-sm text-muted flex-1">{p.description}</p>
+                <p className="text-sm text-muted">{p.description}</p>
                 {p.metrics && p.metrics.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {p.metrics.map((m) => (
@@ -134,22 +134,29 @@ export default function ProjectsSection() {
         {/* MCP Servers compact grid */}
         <h3 className="text-lg font-semibold text-foreground mb-4">7 MCP Servers</h3>
         <motion.div
-          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 mb-10"
+          className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-10"
           variants={staggerContainer}
           initial={prefersReduced ? 'visible' : 'hidden'}
           whileInView="visible"
           viewport={{ once: true }}
         >
-          {mcpServers.map((p, i) => (
-            <motion.div key={p.id} variants={prefersReduced ? {} : fadeUp} className="h-full">
-              <Card hover={false} className={cn('p-4 h-full', ['tilt-a', 'tilt-b', 'tilt-c', 'tilt-d'][i % 4])}>
-                <p className="font-medium text-foreground text-sm">{p.name}</p>
-                {p.metrics?.[0] && (
-                  <p className="text-xs text-muted mt-1">{p.metrics[0].label}: {p.metrics[0].value}</p>
-                )}
-              </Card>
-            </motion.div>
-          ))}
+          {mcpServers.map((p, i) => {
+            const isLastOdd = i === mcpServers.length - 1 && mcpServers.length % 2 !== 0
+            return (
+              <motion.div
+                key={p.id}
+                variants={prefersReduced ? {} : fadeUp}
+                className={cn('h-full', isLastOdd && 'col-span-2 sm:col-span-1')}
+              >
+                <Card hover={false} className={cn('p-4 h-full', ['tilt-a', 'tilt-b', 'tilt-c', 'tilt-d'][i % 4])}>
+                  <p className="font-medium text-foreground text-sm">{p.name}</p>
+                  {p.metrics?.[0] && (
+                    <p className="text-xs text-muted mt-1">{p.metrics[0].label}: {p.metrics[0].value}</p>
+                  )}
+                </Card>
+              </motion.div>
+            )
+          })}
         </motion.div>
 
         {/* "more work" divider */}
@@ -173,12 +180,12 @@ export default function ProjectsSection() {
                 <div className="flex items-start justify-between">
                   <h3 className="font-semibold text-foreground">{p.name}</h3>
                   {p.url && (
-                    <a href={p.url} target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline">
+                    <a href={p.url} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 min-w-11 items-center justify-center -mr-2 -mt-2 text-xs text-accent hover:underline">
                       ↗<span className="sr-only"> (opens in new tab)</span>
                     </a>
                   )}
                 </div>
-                <p className="text-sm text-muted flex-1">{p.description}</p>
+                <p className="text-sm text-muted">{p.description}</p>
                 {p.metrics && p.metrics.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {p.metrics.map((m) => (

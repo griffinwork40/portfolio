@@ -17,10 +17,10 @@ export default function Footer() {
           </svg>
         </p>
         <div className="flex items-center gap-4">
-          <a href={identity.graisolUrl} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-accent hover:underline">
+          <a href={identity.graisolUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center transition-colors hover:text-accent hover:underline">
             graisol.com<span className="sr-only"> (opens in new tab)</span>
           </a>
-          <a href={identity.agentAfkUrl} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-accent hover:underline">
+          <a href={identity.agentAfkUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center transition-colors hover:text-accent hover:underline">
             agentafk.com<span className="sr-only"> (opens in new tab)</span>
           </a>
         </div>

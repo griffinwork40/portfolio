@@ -18,7 +18,7 @@
   --palette-red-pen: #c0452f; /* red correction pen */
   --palette-highlighter: #e0b400; /* yellow highlighter */
   --palette-photo: #14140f; /* photo matte behind polaroids */
-  --palette-emerald: #22c55e;
+  --palette-emerald: #1a9e4a; /* darkened from #22c55e for >=3:1 contrast on paper bg */
   --palette-emerald-bright: #4ade80;
 
   /* ── Tier 2 · Semantic tokens ───────────────────────────────────────────
@@ -74,6 +74,35 @@
   --color-accent-secondary: var(--palette-red-pen-bright);
   --color-highlight: var(--palette-highlighter-bright);
   --color-status-available: var(--palette-emerald-bright);
+  /* K5: muted brightened to >=6:1 on surface */
+  --palette-chalk-dim: #bdb5a4;
+  /* K6: stronger grid tokens */
+  --color-grid: color-mix(in srgb, var(--color-accent) 11%, transparent);
+  --color-grid-strong: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  /* K7: stronger marker */
+  --color-marker: color-mix(in srgb, var(--color-highlight) 62%, transparent);
+}
+
+/* K2: .dark .tape — higher highlight mix (~55%) */
+.dark .tape {
+  background: color-mix(in srgb, var(--color-highlight) 55%, transparent);
+}
+
+
+/* K7: text inside .marker must be foreground, not muted */
+.dark .marker {
+  color: var(--color-foreground);
+}
+
+/* K1: Supascribe embed dark mode retheme via CSS custom property overrides.
+   The embed injects a <style> with selector [data-supascribe-embed-id="…"] .csw-theme-custom
+   at specificity [0,2,0]. We use .dark + the same attribute + class at [0,3,0] to win.
+   color-scheme on the container signals to the browser subtree that it is dark. */
+.dark [data-supascribe-embed-id="287508345408"] .csw-theme-custom {
+  --csw-primary-color: var(--color-accent);
+  --csw-input-color: var(--color-surface);
+  --csw-text-color: var(--color-foreground);
+  --csw-input-text-color: var(--color-foreground);
 }
 
 @layer base {
@@ -157,6 +186,15 @@
     scroll-margin-top: 1rem;
   }
 
+  /* Typographic wrapping quality — improves line breaks with no layout cost */
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  p, li, figcaption {
+    text-wrap: pretty;
+  }
+
   ::selection {
     background: var(--color-marker);
     color: var(--color-foreground);
@@ -234,8 +272,15 @@
 }
 
 .section-padding {
-  padding-top: 6rem;
-  padding-bottom: 6rem;
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
