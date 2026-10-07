@@ -76,7 +76,7 @@ export default function ProjectsSection() {
               <h3 className="font-display text-3xl font-bold leading-none text-foreground">AgentGRAI</h3>
               <p className="text-muted text-sm">{agentGrai.description}</p>
               {/* 3-col compact row on mobile; single stacked column at md+ (beside flagship) */}
-              <div className="grid grid-cols-3 md:grid-cols-1 gap-3">
+              <div className="grid grid-cols-3 lg:grid-cols-1 gap-3">
                 {agentGrai.metrics!.map((m) => (
                   <div key={m.label} className="glass rounded-lg p-2 sm:p-3">
                     <p className="text-xs text-muted uppercase tracking-wider">{m.label}</p>
@@ -94,9 +94,11 @@ export default function ProjectsSection() {
         </motion.div>
 
         {/* D2: Featured secondary — sm:2 col, lg:3 col only when length >= 3, gap-6 */}
+        {/* F6: items-start so short cards don't stretch to match a taller sibling,
+            avoiding a dead gap above the tags; mt-auto on tags still works per-card */}
         <motion.div
           className={cn(
-            'grid gap-6 mb-10',
+            'grid gap-6 mb-10 items-start',
             featuredOther.length >= 3 ? 'sm:grid-cols-2 lg:grid-cols-3' : 'sm:grid-cols-2',
           )}
           variants={staggerContainer}
@@ -183,10 +185,10 @@ export default function ProjectsSection() {
           <div className="flex-1 border-t-2 border-dashed border-divider" />
         </div>
 
-        {/* D2: tail cards — sm:2 col, lg:3 col only when length >= 3, gap-6 */}
+        {/* D2: tail cards — sm:2 col, lg:3 col only when length >= 3, gap-6; items-start prevents gaps */}
         <motion.div
           className={cn(
-            'grid gap-6',
+            'grid gap-6 items-start',
             other.length >= 3 ? 'sm:grid-cols-2 lg:grid-cols-3' : 'sm:grid-cols-2',
           )}
           variants={staggerContainer}

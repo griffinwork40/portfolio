@@ -32,7 +32,8 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="section-padding px-4" aria-labelledby="contact-heading">
-      <div className="elevated-field max-w-3xl mx-auto text-center">
+      {/* F9: max-w-4xl so the 4 secondary tiles render single-line at lg */}
+      <div className="elevated-field max-w-4xl mx-auto text-center">
         <SectionHeading id="contact-heading" index="06" centered>
           Let’s talk
         </SectionHeading>

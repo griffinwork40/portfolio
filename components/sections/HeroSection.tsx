@@ -208,8 +208,10 @@ export default function HeroSection() {
         </motion.div>
       </div>
 
-      {/* mobile: "elsewhere" parked in the hero's bottom-left corner */}
-      <ElsewhereNav className="relative z-10 mb-2 ml-1 mt-5 flex flex-col items-start gap-0.5 self-start border-r border-dashed border-divider pr-5 sm:hidden" />
+      {/* F3: mobile "elsewhere" — centered horizontal row, no dangling divider */}
+      <div className="relative z-10 mt-5 flex flex-col items-center gap-2 self-stretch sm:hidden">
+        <ElsewhereNav className="flex flex-row items-center gap-6" />
+      </div>
 
       {/* D9: hand-drawn scroll cue — Caveat label + wobbly arrow SVG with pathLength animation */}
       <ScrollCue prefersReduced={prefersReduced ?? false} />
@@ -224,7 +226,7 @@ function ScrollCue({ prefersReduced }: { prefersReduced: boolean }) {
     <a
       href="#about"
       aria-label="Scroll to About"
-      className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted transition-colors hover:text-foreground"
+      className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted transition-colors hover:text-foreground z-20"
     >
       <span className="font-display text-lg text-muted -rotate-3 leading-none">scroll</span>
       <motion.div
@@ -257,7 +259,7 @@ function ScrollCue({ prefersReduced }: { prefersReduced: boolean }) {
   )
 }
 
-/** The "elsewhere" link stack. Rendered twice — desktop absolute side stack and mobile bottom-left.
+/** The "elsewhere" link stack. Rendered twice — desktop absolute side stack and mobile centered row.
  *  Only one instance is ever displayed at a given breakpoint. */
 function ElsewhereNav({ className }: { className: string }) {
   return (

@@ -52,7 +52,10 @@ export default function AboutSection() {
             ))}
           </motion.div>
 
-          {/* right column — desktop: doodle label + stacked polaroids; mobile: hidden here, shown below */}
+          {/* F7: right column — desktop: doodle label + side-by-side polaroids so both columns
+              end near the same y (stacked caused the text to end ~600px before the polaroids).
+              Polaroids are smaller (max-w-[180px]) and placed side by side with a slight
+              vertical offset — doodle arrow still points at them. */}
           <motion.div
             className="hidden lg:block"
             variants={prefersReduced ? {} : fadeUp}
@@ -78,24 +81,27 @@ export default function AboutSection() {
                 />
               </svg>
             </div>
-            <Polaroid
-              src="/photos/desk-night.webp"
-              alt="Dual monitors glowing in a dim room — the workspace where the agent tooling gets built"
-              caption="where the work happens"
-              rotate={-3}
-              className="w-full max-w-[280px]"
-              captionClassName="text-base sm:text-xl"
-            />
-            <Polaroid
-              src="/photos/desk-mess.webp"
-              alt="A desk lit by a monitor at night — notes and papers scattered across it, mid-build"
-              caption="deep in it"
-              rotate={2}
-              width={640}
-              height={854}
-              className="mt-6 ml-10 w-full max-w-[280px]"
-              captionClassName="text-base sm:text-xl"
-            />
+            {/* Side-by-side, smaller polaroids with stagger so they fit in the right col */}
+            <div className="flex gap-4 items-start">
+              <Polaroid
+                src="/photos/desk-night.webp"
+                alt="Dual monitors glowing in a dim room — the workspace where the agent tooling gets built"
+                caption="where the work happens"
+                rotate={-3}
+                className="w-full max-w-[180px] flex-1"
+                captionClassName="text-sm"
+              />
+              <Polaroid
+                src="/photos/desk-mess.webp"
+                alt="A desk lit by a monitor at night — notes and papers scattered across it, mid-build"
+                caption="deep in it"
+                rotate={2}
+                width={640}
+                height={854}
+                className="mt-8 w-full max-w-[180px] flex-1"
+                captionClassName="text-sm"
+              />
+            </div>
           </motion.div>
         </div>
 

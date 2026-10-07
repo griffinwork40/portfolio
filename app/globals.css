@@ -94,56 +94,8 @@
   color: var(--color-foreground);
 }
 
-/* D3: Supascribe embed sketch-system restyle — light + dark.
-   The embed injects a <style> with selector [data-supascribe-embed-id="…"] .csw-theme-custom
-   at specificity [0,2,0]. We use the attribute + class at [0,2,0] for light and
-   .dark + attribute + class at [0,3,0] for dark to win the cascade.
-   Input: Kalam font, surface bg, foreground text, wobbly 2px foreground border.
-   Button: Caveat font, foreground fill, background text, wobbly radius, hard 3px offset shadow. */
-[data-supascribe-embed-id="287508345408"] .csw-theme-custom {
-  --csw-primary-color: var(--color-foreground);
-  --csw-input-color: var(--color-surface);
-  --csw-text-color: var(--color-foreground);
-  --csw-input-text-color: var(--color-foreground);
-}
-/* Input field: Kalam, foreground border */
-[data-supascribe-embed-id="287508345408"] .csw-theme-custom input {
-  font-family: var(--font-kalam), cursive !important;
-  border: 2px solid var(--color-foreground) !important;
-  border-radius: 8px 6px 9px 7px / 7px 9px 6px 8px !important;
-  background: var(--color-surface) !important;
-  color: var(--color-foreground) !important;
-}
-/* Button: Caveat, foreground fill, background text, wobbly, hard shadow */
-[data-supascribe-embed-id="287508345408"] .csw-theme-custom button[type="submit"],
-[data-supascribe-embed-id="287508345408"] .csw-theme-custom button.csw-submit {
-  font-family: var(--font-caveat), cursive !important;
-  background: var(--color-foreground) !important;
-  color: var(--color-background) !important;
-  border: 2px solid var(--color-foreground) !important;
-  border-radius: 10px 7px 11px 8px / 8px 11px 7px 10px !important;
-  box-shadow: 3px 3px 0 var(--color-foreground) !important;
-  font-size: 1.1rem !important;
-}
-/* Dark mode: brighter accent overrides */
-.dark [data-supascribe-embed-id="287508345408"] .csw-theme-custom {
-  --csw-primary-color: var(--color-accent);
-  --csw-input-color: var(--color-surface);
-  --csw-text-color: var(--color-foreground);
-  --csw-input-text-color: var(--color-foreground);
-}
-.dark [data-supascribe-embed-id="287508345408"] .csw-theme-custom input {
-  border-color: var(--color-foreground) !important;
-  background: var(--color-surface) !important;
-  color: var(--color-foreground) !important;
-}
-.dark [data-supascribe-embed-id="287508345408"] .csw-theme-custom button[type="submit"],
-.dark [data-supascribe-embed-id="287508345408"] .csw-theme-custom button.csw-submit {
-  background: var(--color-foreground) !important;
-  color: var(--color-background) !important;
-  border-color: var(--color-foreground) !important;
-  box-shadow: 3px 3px 0 var(--color-foreground) !important;
-}
+/* Supascribe embed CSS has been moved to app/embed.css (imported from app/layout.tsx)
+   to stay within the 350-LOC limit for this file. */
 
 @layer base {
   /* iOS 26 (Safari 26 "Liquid Glass") viewport fix.

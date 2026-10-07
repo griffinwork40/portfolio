@@ -1,0 +1,83 @@
+/* Supascribe embed sketch-system restyle — light + dark.
+   The embed injects a <style> with selector [data-supascribe-embed-id="…"] .csw-theme-custom
+   at specificity [0,2,0]. We use the attribute + class at [0,2,0] for light and
+   .dark + attribute + class at [0,3,0] for dark to win the cascade.
+   Input: Kalam font, surface bg, foreground text, wobbly 2px foreground border.
+   Button: Caveat font, foreground fill, background text, wobbly radius, hard 3px offset shadow.
+
+   F4: kill the straight-edged blue rectangle (wrapper border/outline/ring) injected
+   by the embed. The form wrapper .csw-theme-custom gets border:none, outline:none,
+   box-shadow:none. Input height matches button so they sit flush on one baseline. */
+[data-supascribe-embed-id="287508345408"] .csw-theme-custom {
+  --csw-primary-color: var(--color-foreground);
+  --csw-input-color: var(--color-surface);
+  --csw-text-color: var(--color-foreground);
+  --csw-input-text-color: var(--color-foreground);
+}
+/* F4: strip the wrapper's border/outline/ring/box-shadow — targets any inner
+   wrapper div or form that Supascribe wraps the controls in */
+[data-supascribe-embed-id="287508345408"] form.csw-theme-custom,
+[data-supascribe-embed-id="287508345408"] .csw-theme-custom > *,
+[data-supascribe-embed-id="287508345408"] .csw-theme-custom form,
+[data-supascribe-embed-id="287508345408"] .csw-theme-custom .csw-input-wrapper,
+[data-supascribe-embed-id="287508345408"] .csw-theme-custom .csw-form-wrapper,
+[data-supascribe-embed-id="287508345408"] .csw-theme-custom .csw-subscribe-form {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+/* Input field: Kalam, foreground border, height aligned with button */
+[data-supascribe-embed-id="287508345408"] .csw-theme-custom input {
+  font-family: var(--font-kalam), cursive !important;
+  border: 2px solid var(--color-foreground) !important;
+  border-radius: 8px 6px 9px 7px / 7px 9px 6px 8px !important;
+  background: var(--color-surface) !important;
+  color: var(--color-foreground) !important;
+  height: 2.75rem !important;
+  min-height: 2.75rem !important;
+  box-sizing: border-box !important;
+}
+/* F4: focus ring on input only — no ring on wrapper */
+[data-supascribe-embed-id="287508345408"] .csw-theme-custom input:focus,
+[data-supascribe-embed-id="287508345408"] .csw-theme-custom input:focus-visible {
+  outline: 2px solid var(--color-accent) !important;
+  outline-offset: 2px !important;
+  border-color: var(--color-foreground) !important;
+  box-shadow: none !important;
+}
+/* Button: Caveat, foreground fill, background text, wobbly, hard shadow,
+   height matched to input */
+[data-supascribe-embed-id="287508345408"] .csw-theme-custom button[type="submit"],
+[data-supascribe-embed-id="287508345408"] .csw-theme-custom button.csw-submit {
+  font-family: var(--font-caveat), cursive !important;
+  background: var(--color-foreground) !important;
+  color: var(--color-background) !important;
+  border: 2px solid var(--color-foreground) !important;
+  border-radius: 10px 7px 11px 8px / 8px 11px 7px 10px !important;
+  box-shadow: 3px 3px 0 var(--color-foreground) !important;
+  font-size: 1.1rem !important;
+  height: 2.75rem !important;
+  min-height: 2.75rem !important;
+  box-sizing: border-box !important;
+}
+/* Dark mode: brighter accent overrides */
+.dark [data-supascribe-embed-id="287508345408"] .csw-theme-custom {
+  --csw-primary-color: var(--color-accent);
+  --csw-input-color: var(--color-surface);
+  --csw-text-color: var(--color-foreground);
+  --csw-input-text-color: var(--color-foreground);
+}
+.dark [data-supascribe-embed-id="287508345408"] .csw-theme-custom input {
+  border-color: var(--color-foreground) !important;
+  background: var(--color-surface) !important;
+  color: var(--color-foreground) !important;
+}
+.dark [data-supascribe-embed-id="287508345408"] .csw-theme-custom button[type="submit"],
+.dark [data-supascribe-embed-id="287508345408"] .csw-theme-custom button.csw-submit {
+  background: var(--color-foreground) !important;
+  color: var(--color-background) !important;
+  border-color: var(--color-foreground) !important;
+  box-shadow: 3px 3px 0 var(--color-foreground) !important;
+}
