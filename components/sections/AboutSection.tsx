@@ -36,7 +36,12 @@ export default function AboutSection() {
                   : 'text-base sm:text-lg text-muted leading-relaxed'
               }
             >
-              {paragraph}
+              {i === 0 ? (
+                <>
+                  <span className="marker">I didn&rsquo;t take the traditional route</span>
+                  {paragraph.slice('I didn\u2019t take the traditional route'.length)}
+                </>
+              ) : paragraph}
             </motion.p>
           ))}
         </motion.div>

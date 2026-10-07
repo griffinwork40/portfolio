@@ -2,7 +2,7 @@
 
 ## What This Is
 
-Griffin Long's personal portfolio — a single-page marketing site built with **Next.js 15** (App Router), **React 19**, **TypeScript** (strict), **Tailwind CSS 3**, and **Framer Motion**. It is **statically exported** (`output: 'export'` → `out/`) and deployed to **Vercel** (remote: `griffinwork40/portfolio`). The design is a hand-drawn / paper aesthetic ("ink on paper" palette, wobbly card borders, Caveat + Kalam handwriting fonts) with a signature cartographic "earned path" motif threaded between sections. Package manager is **pnpm**.
+Griffin Long's personal portfolio — a single-page marketing site built with **Next.js 16** (App Router), **React 19**, **TypeScript** (strict), **Tailwind CSS 3**, and **Framer Motion**. It is **statically exported** (`output: 'export'` → `out/`) and deployed to **Vercel** (remote: `griffinwork40/portfolio`). The design is a hand-drawn / paper aesthetic ("ink on paper" palette, wobbly card borders, Caveat + Kalam handwriting fonts) with a signature cartographic "earned path" motif threaded between sections. Package manager is **pnpm**.
 
 ## Commands
 
@@ -10,11 +10,11 @@ Griffin Long's personal portfolio — a single-page marketing site built with **
 pnpm dev        # local dev server (http://localhost:3000)
 pnpm build      # production static export → out/
 pnpm start      # serve the production build
-pnpm lint       # next lint (ESLint) — the ONLY automated check; no test suite
+pnpm lint && pnpm typecheck && pnpm test
 pnpm gen-og     # regenerate public/og.{svg,png} from scripts/generate-og.mjs
 ```
 
-There is no test framework — `pnpm lint` + `pnpm build` are the gates. Always run both before considering work done.
+Gates: `pnpm lint && pnpm typecheck && pnpm test && pnpm build`. Vitest covers `data/content.ts` schema integrity and `lib/utils.ts`.
 
 ## Architecture
 

@@ -24,6 +24,7 @@ const config: Config = {
         // var()-based colors, so these are dedicated tokens rather than `/40`).
         divider: 'var(--color-divider)',
         'divider-faint': 'var(--color-divider-faint)',
+        'status-available': 'var(--color-status-available)',
       },
       fontFamily: {
         sans: ['var(--font-kalam)', ...defaultTheme.fontFamily.sans],

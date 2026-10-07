@@ -37,7 +37,7 @@ export default function Timeline({ entries }: TimelineProps) {
           <div className="glass p-6">
             <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
               <div>
-                <h3 className="font-display text-2xl leading-none text-foreground">{entry.role}</h3>
+                <h3 className="font-display text-3xl font-bold leading-none text-foreground">{entry.role}</h3>
                 <p className="mt-1 text-sm text-muted">
                   {entry.companyUrl ? (
                     <a href={entry.companyUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">

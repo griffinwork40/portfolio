@@ -26,15 +26,16 @@ export default function ProjectsSection() {
 
         {/* Featured — bento headliners */}
         <motion.div
-          className="grid md:grid-cols-2 gap-6 mb-10 items-start"
+          className="grid md:grid-cols-[3fr_2fr] gap-6 mb-10 items-stretch"
           variants={staggerContainer}
           initial={prefersReduced ? 'visible' : 'hidden'}
           whileInView="visible"
           viewport={{ once: true, margin: '-80px' }}
         >
           {/* agent-afk — MetricBadge enforces SWE-bench qualifier */}
-          <motion.div variants={prefersReduced ? {} : fadeUp}>
-            <Card className="h-full flex flex-col gap-4 tilt-a">
+          <motion.div variants={prefersReduced ? {} : fadeUp} className="h-full relative">
+            <span aria-hidden="true" className="absolute -top-8 right-6 z-10 -rotate-3 font-display text-xl text-accent">flagship ✦</span>
+            <Card className="glass-featured h-full flex flex-col gap-4 tilt-a">
               <div className="flex items-start justify-between">
                 <h3 className="text-xl font-bold text-foreground">agent-afk</h3>
                 <a href="https://agentafk.com" target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline">
@@ -68,15 +69,16 @@ export default function ProjectsSection() {
           </motion.div>
 
           {/* AgentGRAI */}
-          <motion.div variants={prefersReduced ? {} : fadeUp}>
+          <motion.div variants={prefersReduced ? {} : fadeUp} className="h-full">
             <Card className="h-full flex flex-col gap-4 tilt-b">
               <h3 className="text-xl font-bold text-foreground">AgentGRAI</h3>
               <p className="text-muted text-sm">{agentGrai.description}</p>
-              <div className="grid grid-cols-3 gap-2">
+              {/* Stacked metric cells (agent-afk style) so the equal-height card fills its column */}
+              <div className="grid grid-cols-1 gap-3">
                 {agentGrai.metrics!.map((m) => (
-                  <div key={m.label} className="glass rounded-lg p-2 text-center">
-                    <p className="text-xs text-muted uppercase">{m.label}</p>
-                    <p className="font-bold text-foreground text-sm">{m.value}</p>
+                  <div key={m.label} className="glass rounded-lg p-3">
+                    <p className="text-xs text-muted uppercase tracking-wider">{m.label}</p>
+                    <p className="text-lg font-bold text-foreground">{m.value}</p>
                   </div>
                 ))}
               </div>
@@ -139,8 +141,8 @@ export default function ProjectsSection() {
           viewport={{ once: true }}
         >
           {mcpServers.map((p, i) => (
-            <motion.div key={p.id} variants={prefersReduced ? {} : fadeUp}>
-              <Card hover className={cn('p-4', ['tilt-a', 'tilt-b', 'tilt-c', 'tilt-d'][i % 4])}>
+            <motion.div key={p.id} variants={prefersReduced ? {} : fadeUp} className="h-full">
+              <Card hover={false} className={cn('p-4 h-full', ['tilt-a', 'tilt-b', 'tilt-c', 'tilt-d'][i % 4])}>
                 <p className="font-medium text-foreground text-sm">{p.name}</p>
                 {p.metrics?.[0] && (
                   <p className="text-xs text-muted mt-1">{p.metrics[0].label}: {p.metrics[0].value}</p>
@@ -149,6 +151,13 @@ export default function ProjectsSection() {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* "more work" divider */}
+        <div className="my-8 flex items-center gap-4" aria-hidden="true">
+          <div className="flex-1 border-t-2 border-dashed border-divider" />
+          <span className="font-display text-xl text-muted -rotate-1">more work</span>
+          <div className="flex-1 border-t-2 border-dashed border-divider" />
+        </div>
 
         {/* Other projects */}
         <motion.div
@@ -161,8 +170,25 @@ export default function ProjectsSection() {
           {other.map((p, i) => (
             <motion.div key={p.id} variants={prefersReduced ? {} : fadeUp}>
               <Card className={cn('h-full flex flex-col gap-3', i % 2 ? 'tilt-b' : 'tilt-a')}>
-                <h3 className="font-semibold text-foreground">{p.name}</h3>
+                <div className="flex items-start justify-between">
+                  <h3 className="font-semibold text-foreground">{p.name}</h3>
+                  {p.url && (
+                    <a href={p.url} target="_blank" rel="noopener noreferrer" className="text-xs text-accent hover:underline">
+                      ↗<span className="sr-only"> (opens in new tab)</span>
+                    </a>
+                  )}
+                </div>
                 <p className="text-sm text-muted flex-1">{p.description}</p>
+                {p.metrics && p.metrics.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {p.metrics.map((m) => (
+                      <div key={m.label} className="glass rounded-lg px-2 py-1">
+                        <span className="text-xs text-muted uppercase">{m.label}</span>{' '}
+                        <span className="text-sm font-bold text-foreground">{m.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <div className="flex flex-wrap gap-1.5 mt-auto">
                   {p.tags.slice(0, 3).map((t) => (
                     <Badge key={t} variant="muted">{t}</Badge>

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Caveat, Kalam } from 'next/font/google'
 import './globals.css'
+import './paper-cards.css'
 import { siteMetadata, identity, contact, skills } from '@/data/content'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'

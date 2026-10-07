@@ -3,7 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import Badge from '@/components/ui/Badge'
 import SectionHeading from '@/components/ui/SectionHeading'
 import { skills } from '@/data/content'
-import { staggerContainer, fadeUp } from '@/lib/utils'
+import { cn, staggerContainer, fadeUp } from '@/lib/utils'
 
 const categories = [
   { label: 'Languages', items: skills.languages, variant: 'accent' as const },
@@ -22,14 +22,18 @@ export default function SkillsSection() {
           Tools I build with
         </SectionHeading>
         <motion.div
-          className="space-y-8"
+          className="grid gap-6 md:grid-cols-2"
           variants={staggerContainer}
           initial={prefersReduced ? 'visible' : 'hidden'}
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
         >
-          {categories.map((cat) => (
-            <motion.div key={cat.label} variants={prefersReduced ? {} : fadeUp}>
+          {categories.map((cat, i) => (
+            <motion.div
+              key={cat.label}
+              variants={prefersReduced ? {} : fadeUp}
+              className={cn('glass p-5', i % 2 ? 'tilt-b' : 'tilt-a')}
+            >
               <h3 className="text-xs font-mono text-muted uppercase tracking-widest mb-3">{cat.label}</h3>
               <div className="flex flex-wrap gap-2">
                 {cat.items.map((skill) => (

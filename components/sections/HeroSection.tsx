@@ -53,7 +53,7 @@ export default function HeroSection() {
           md+ where the hero has room for it. */}
       <div
         aria-hidden="true"
-        className="hidden md:block absolute right-16 top-28 rotate-[8deg] select-none border-[3px] border-accent-secondary px-4 py-1.5 font-display text-2xl font-bold tracking-wide text-accent-secondary opacity-80"
+        className="hidden sm:block absolute right-16 top-28 rotate-[8deg] select-none border-[3px] border-accent-secondary px-3 py-1 sm:px-4 sm:py-1.5 font-display text-xl md:text-2xl font-bold tracking-wide text-accent-secondary opacity-80"
         style={{ borderRadius: '14px 8px 16px 8px / 8px 16px 8px 14px' }}
       >
         SHIPPED IT ✓
@@ -105,8 +105,8 @@ export default function HeroSection() {
               className="sketch-tag inline-flex -rotate-1 items-center gap-2 px-3 py-1 font-display text-base text-foreground sm:px-4 sm:py-1.5 sm:text-lg"
             >
               <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-70 motion-reduce:animate-none" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-status-available opacity-70 motion-reduce:animate-none" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-status-available" />
               </span>
               Available for new work
             </span>
@@ -139,11 +139,15 @@ export default function HeroSection() {
             preserveAspectRatio="none"
             aria-hidden="true"
           >
-            <path
+            <motion.path
               d="M4 9 C 90 3, 170 15, 250 7 S 360 4, 396 11"
               stroke="currentColor"
               strokeWidth="4"
               strokeLinecap="round"
+              initial={prefersReduced ? { pathLength: 1 } : { pathLength: 0 }}
+              whileInView={{ pathLength: 1 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 1.1, ease: 'easeInOut' }}
             />
           </motion.svg>
 
@@ -177,7 +181,7 @@ export default function HeroSection() {
           >
             {/* primary actions */}
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <Button href={`mailto:${identity.email}`} variant="primary">
+              <Button href={`mailto:${identity.email}`} variant="primary" className="px-7 py-3.5 text-xl">
                 Get in touch →
               </Button>
               <Button href={identity.github} variant="secondary">
@@ -193,24 +197,24 @@ export default function HeroSection() {
             {/* doodle arrow + note pointing at the primary CTA */}
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute -bottom-20 left-2 hidden rotate-[-4deg] text-accent sm:block"
+              className="pointer-events-none absolute left-6 top-0 hidden rotate-[-4deg] text-accent sm:block"
             >
-              <span className="mb-1 ml-8 block font-display text-lg">say hi! :)</span>
               <svg className="h-14 w-16" viewBox="0 0 64 56" fill="none">
                 <path
-                  d="M52 6 C 22 8, 12 26, 16 48"
+                  d="M6 44 C 18 20, 36 14, 59 22"
                   stroke="currentColor"
                   strokeWidth="2.5"
                   strokeLinecap="round"
                 />
                 <path
-                  d="M7 37 L16 50 L27 41"
+                  d="M49 12 L60 22 L47 29"
                   stroke="currentColor"
                   strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
               </svg>
+              <span className="-mt-1 block font-display text-lg">say hi! :)</span>
             </div>
           </motion.div>
         </motion.div>
@@ -225,12 +229,23 @@ export default function HeroSection() {
       <a
         href="#about"
         aria-label="Scroll to About"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 font-display text-lg text-muted transition-colors hover:text-foreground"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted transition-colors hover:text-foreground"
       >
-        <span className="flex flex-col items-center gap-0.5">
-          scroll
-          <span className="animate-bounce motion-reduce:animate-none">↓</span>
-        </span>
+        <svg className="h-10 w-6" viewBox="0 0 24 40" fill="none" aria-hidden="true">
+          <rect x="7" y="1" width="10" height="18" rx="5" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          {prefersReduced ? (
+            <line x1="12" y1="5" x2="12" y2="12" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          ) : (
+            <motion.line
+              x1="12" y1="5" x2="12" y2="12"
+              stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+              animate={{ y: [0, 4, 0] }}
+              transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          )}
+          <path d="M5 26 L12 34 L19 26" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+        <span className="sr-only">scroll down</span>
       </a>
     </section>
   )

@@ -19,38 +19,40 @@ export default function NowSection() {
           Right now
         </SectionHeading>
 
-        <motion.ul
-          className="space-y-4"
-          variants={staggerContainer}
-          initial={prefersReduced ? 'visible' : 'hidden'}
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-        >
-          {now.items.map((item) => (
-            <motion.li
-              key={item.text}
-              variants={prefersReduced ? {} : fadeUp}
-              className="flex items-start gap-3 text-base sm:text-lg leading-relaxed"
-            >
-              {/* hand-drawn bullet dot */}
-              <span
-                aria-hidden="true"
-                className="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-accent"
-              />
-              {'link' in item && item.link ? (
-                <a
-                  href={item.link}
-                  {...(item.link.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  className="text-foreground transition-colors hover:text-accent"
-                >
-                  {item.text}
-                </a>
-              ) : (
-                <span className="text-muted">{item.text}</span>
-              )}
-            </motion.li>
-          ))}
-        </motion.ul>
+        <div className="glass p-5 tilt-a">
+          <motion.ul
+            className="space-y-4"
+            variants={staggerContainer}
+            initial={prefersReduced ? 'visible' : 'hidden'}
+            whileInView="visible"
+            viewport={{ once: true, margin: '-80px' }}
+          >
+            {now.items.map((item) => (
+              <motion.li
+                key={item.text}
+                variants={prefersReduced ? {} : fadeUp}
+                className="flex items-start gap-3 text-base sm:text-lg leading-relaxed"
+              >
+                {/* hand-drawn bullet dot */}
+                <span
+                  aria-hidden="true"
+                  className="mt-2.5 h-2 w-2 shrink-0 rounded-full bg-accent"
+                />
+                {'link' in item && item.link ? (
+                  <a
+                    href={item.link}
+                    {...(item.link.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    className="text-foreground transition-colors hover:text-accent"
+                  >
+                    {item.text}
+                  </a>
+                ) : (
+                  <span className="text-muted">{item.text}</span>
+                )}
+              </motion.li>
+            ))}
+          </motion.ul>
+        </div>
 
         {/* Substack subscribe card */}
         <motion.div

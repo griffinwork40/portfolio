@@ -1,10 +1,12 @@
 'use client'
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import SectionHeading from '@/components/ui/SectionHeading'
 import { contact } from '@/data/content'
 import { cn, staggerContainer, fadeUp } from '@/lib/utils'
 
+// The first PRIMARY_LINKS entries (GitHub, LinkedIn) render as larger cards.
+const PRIMARY_LINKS = 2
 const socialLinks = [
   { label: 'GitHub', href: contact.github, display: 'github.com/griffinwork40' },
   { label: 'LinkedIn', href: contact.linkedin, display: 'linkedin.com/in/griffindev' },
@@ -72,7 +74,7 @@ export default function ContactSection() {
 
         <p className="mb-4 font-display text-lg text-muted">Elsewhere</p>
         <motion.div
-          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+          className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4"
           variants={staggerContainer}
           initial={prefersReduced ? 'visible' : 'hidden'}
           whileInView="visible"
@@ -86,13 +88,29 @@ export default function ContactSection() {
               rel="noopener noreferrer"
               className={cn(
                 'glass flex min-h-11 flex-col gap-1 rounded-xl p-4 transition-colors group',
+                i < PRIMARY_LINKS && 'sm:p-5 lg:col-span-2',
                 i % 2 ? 'tilt-b' : 'tilt-a',
               )}
               variants={prefersReduced ? {} : fadeUp}
             >
               <span className="text-xs uppercase tracking-wider text-muted">{link.label}</span>
-              <span className="text-sm text-foreground transition-colors group-hover:text-accent">
-                {link.display}
+              <span
+                className={cn(
+                  'text-foreground transition-colors [overflow-wrap:anywhere] group-hover:text-accent',
+                  i < PRIMARY_LINKS ? 'font-display text-xl' : 'text-sm',
+                )}
+              >
+                {/* <wbr> after each '/' so long handles wrap at the slash, not mid-word */}
+                {link.display.split('/').map((part, j) => (
+                  <Fragment key={j}>
+                    {j > 0 && (
+                      <>
+                        /<wbr />
+                      </>
+                    )}
+                    {part}
+                  </Fragment>
+                ))}
               </span>
               <span className="sr-only"> (opens in new tab)</span>
             </motion.a>
