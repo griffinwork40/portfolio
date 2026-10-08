@@ -1,6 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* The hand-drawn card system lives in app/paper-cards.css, imported from
+   app/layout.tsx immediately after this file (a CSS @import here would land
+   mid-file once Tailwind expands its directives, which is invalid). */
 
 :root {
   /* ── Tier 1 · Primitives ────────────────────────────────────────────────
@@ -15,6 +18,8 @@
   --palette-red-pen: #c0452f; /* red correction pen */
   --palette-highlighter: #e0b400; /* yellow highlighter */
   --palette-photo: #14140f; /* photo matte behind polaroids */
+  --palette-emerald: #1a9e4a; /* darkened from #22c55e for >=3:1 contrast on paper bg */
+  --palette-emerald-bright: #4ade80;
 
   /* ── Tier 2 · Semantic tokens ───────────────────────────────────────────
      Named by ROLE, not appearance. Components and the design system below
@@ -30,6 +35,7 @@
   --color-accent-secondary: var(--palette-red-pen); /* signature nodes, margin rule, stamp */
   --color-highlight: var(--palette-highlighter); /* highlighter wash, washi tape, warm glow */
   --color-photo-matte: var(--palette-photo);
+  --color-status-available: var(--palette-emerald);
 
   /* Derived semantic tokens — translucent roles mixed from the tokens above so
      they retheme automatically. Ad-hoc alphas elsewhere use color-mix() inline
@@ -67,7 +73,29 @@
   --color-accent: var(--palette-ballpoint-bright);
   --color-accent-secondary: var(--palette-red-pen-bright);
   --color-highlight: var(--palette-highlighter-bright);
+  --color-status-available: var(--palette-emerald-bright);
+  /* K5: muted brightened to >=6:1 on surface */
+  --palette-chalk-dim: #bdb5a4;
+  /* K6: stronger grid tokens */
+  --color-grid: color-mix(in srgb, var(--color-accent) 11%, transparent);
+  --color-grid-strong: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  /* K7: stronger marker */
+  --color-marker: color-mix(in srgb, var(--color-highlight) 62%, transparent);
 }
+
+/* K2: .dark .tape — higher highlight mix (~55%) */
+.dark .tape {
+  background: color-mix(in srgb, var(--color-highlight) 55%, transparent);
+}
+
+
+/* K7: text inside .marker must be foreground, not muted */
+.dark .marker {
+  color: var(--color-foreground);
+}
+
+/* Supascribe embed CSS has been moved to app/embed.css (imported from app/layout.tsx)
+   to stay within the 350-LOC limit for this file. */
 
 @layer base {
   /* iOS 26 (Safari 26 "Liquid Glass") viewport fix.
@@ -150,6 +178,15 @@
     scroll-margin-top: 1rem;
   }
 
+  /* Typographic wrapping quality — improves line breaks with no layout cost */
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+
+  p, li, figcaption {
+    text-wrap: pretty;
+  }
+
   ::selection {
     background: var(--color-marker);
     color: var(--color-foreground);
@@ -172,124 +209,6 @@
     border-radius: 9999px;
     border: 3px solid var(--color-background);
   }
-}
-
-/* ---- Hand-drawn design system ------------------------------------------ */
-/* These are intentionally plain (un-layered) rules so they override Tailwind
-   utilities like rounded-*, border, and bg-* on the shared primitives. */
-
-/* Paper card: wobbly ink border + hard offset shadow */
-.glass {
-  background: var(--color-surface);
-  border: 2px solid var(--color-foreground);
-  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
-  box-shadow: 4px 4px 0 0 color-mix(in srgb, var(--color-foreground) 90%, transparent);
-  transition: box-shadow 0.18s ease;
-}
-.glass:hover {
-  box-shadow: 6px 6px 0 0 color-mix(in srgb, var(--color-foreground) 90%, transparent);
-}
-/* Nested boxes (tiles inside a card): lighter, flipped wobble, softer shadow */
-.glass .glass {
-  border-width: 1.5px;
-  border-radius: 15px 225px 15px 225px / 225px 15px 225px 15px;
-  box-shadow: 2px 2px 0 0 color-mix(in srgb, var(--color-foreground) 50%, transparent);
-}
-.glass .glass:hover {
-  box-shadow: 2px 2px 0 0 color-mix(in srgb, var(--color-foreground) 50%, transparent);
-}
-
-/* gradient-text is now solid ink (kept for API compatibility) */
-.gradient-text {
-  background: none;
-  -webkit-text-fill-color: currentColor;
-  color: var(--color-foreground);
-}
-
-/* highlighter swipe behind text */
-.marker {
-  background: linear-gradient(transparent 55%, var(--color-marker) 55%, var(--color-marker) 92%, transparent 92%);
-  padding: 0 0.08em;
-}
-
-/* hand-drawn button */
-.sketch-btn {
-  border: 2px solid currentColor;
-  border-radius: 14px 8px 16px 6px / 8px 16px 6px 14px;
-  box-shadow: 3px 3px 0 0 var(--color-foreground);
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
-}
-.sketch-btn:hover {
-  transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 0 0 var(--color-foreground);
-}
-.sketch-btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 0 var(--color-foreground);
-}
-
-/* hand-drawn tag/pill (border follows text color via currentColor) */
-.sketch-tag {
-  border: 1.5px solid currentColor;
-  border-radius: 12px 6px 14px 6px / 6px 14px 6px 12px;
-  background: var(--color-surface);
-}
-
-/* subtle hand-placed rotation variety — the standalone `rotate` property composes
-   with Framer Motion's `transform` (translateY on hover) instead of fighting it */
-.tilt-a {
-  rotate: -0.8deg;
-}
-.tilt-b {
-  rotate: 0.7deg;
-}
-.tilt-c {
-  rotate: -0.4deg;
-}
-.tilt-d {
-  rotate: 1deg;
-}
-
-/* taped snapshot / polaroid — real photos pinned into the sketchbook */
-.polaroid {
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-foreground);
-  padding: 10px 10px 0;
-  border-radius: 4px 3px 5px 3px;
-  box-shadow: 4px 5px 0 0 color-mix(in srgb, var(--color-foreground) 82%, transparent);
-  transition: box-shadow 0.18s ease, transform 0.18s ease;
-}
-.polaroid:hover {
-  box-shadow: 7px 8px 0 0 color-mix(in srgb, var(--color-foreground) 82%, transparent);
-  transform: translate(-1px, -2px);
-}
-.polaroid .photo {
-  display: block;
-  overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--color-foreground) 22%, transparent);
-  background: var(--color-photo-matte);
-}
-.polaroid img {
-  display: block;
-  filter: contrast(1.03) saturate(0.94);
-}
-.polaroid figcaption {
-  padding: 9px 4px 12px;
-  text-align: center;
-  line-height: 1;
-}
-/* translucent "washi tape" holding the photo to the page */
-.tape {
-  position: absolute;
-  top: -13px;
-  left: 50%;
-  width: 92px;
-  height: 26px;
-  transform: translateX(-50%) rotate(-3deg);
-  background: color-mix(in srgb, var(--color-highlight) 36%, transparent);
-  border-left: 1px dashed color-mix(in srgb, var(--color-foreground) 18%, transparent);
-  border-right: 1px dashed color-mix(in srgb, var(--color-foreground) 18%, transparent);
-  box-shadow: 0 1px 2px color-mix(in srgb, var(--color-foreground) 12%, transparent);
 }
 
 /* ---- UI signature: cartographic depth system --------------------------- */
@@ -345,8 +264,15 @@
 }
 
 .section-padding {
-  padding-top: 6rem;
-  padding-bottom: 6rem;
+  padding-top: 3.5rem;
+  padding-bottom: 3.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-padding {
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -359,15 +285,6 @@
   .contour-field {
     filter: none !important;
   }
-  /* Neutralize the translate-on-hover/active micro-motions (the JS-layer Framer
-     animations already respect reduced-motion; these CSS transforms were the gap).
-     The hand-placed rotate/tilt uses the `rotate` property, so it is preserved. */
-  .sketch-btn,
-  .sketch-btn:hover,
-  .sketch-btn:active,
-  .polaroid,
-  .polaroid:hover {
-    transition: none;
-    transform: none;
-  }
+  /* The .sketch-btn / .polaroid reduced-motion override lives at the end of
+     app/paper-cards.css so it still wins the cascade over those rules. */
 }

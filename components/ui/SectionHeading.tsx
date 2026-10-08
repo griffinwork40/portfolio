@@ -18,7 +18,7 @@ export default function SectionHeading({
   centered,
 }: SectionHeadingProps) {
   return (
-    <div className={cn('mb-12', centered && 'text-center', className)}>
+    <div className={cn('mb-8 sm:mb-12', centered && 'text-center', className)}>
       {index && (
         <span className={cn('mb-1 flex items-center gap-2', centered && 'justify-center')}>
           {/* scope-rule: a crisp measure crossing the organic field */}

@@ -13,7 +13,8 @@ export default function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden px-4 pb-32 pt-8 sm:pb-16"
+      // D9: min-h-[calc(100svh-4.5rem)] so scroll cue sits above 1280x800 fold
+      className="relative isolate flex min-h-[calc(100svh-4.5rem)] flex-col overflow-hidden px-4 pb-32 pt-8 sm:pb-16"
       aria-labelledby="hero-heading"
     >
       {/* Height uses svh (static), not dvh (dynamic): dvh recomputes as the mobile
@@ -21,9 +22,10 @@ export default function HeroSection() {
           producing the visible scroll jank/bounce. svh stays pinned to the
           bar-visible height — the tiny bottom gap when the bar hides is the trade
           for a rock-steady hero. Do not revert to dvh. */}
-      {/* signal over depth — a small signal, vast submerged structure */}
+      {/* D5: ContourField node={false} — EarnedPath already draws the coral start node */}
       <ContourField
         id="hero"
+        node={false}
         className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[520px] w-[520px] -translate-x-1/2 -translate-y-[64%] opacity-40 sm:h-[660px] sm:w-[660px]"
       />
       {/* scope rule — one precise measure across the organic field */}
@@ -53,7 +55,7 @@ export default function HeroSection() {
           md+ where the hero has room for it. */}
       <div
         aria-hidden="true"
-        className="hidden md:block absolute right-16 top-28 rotate-[8deg] select-none border-[3px] border-accent-secondary px-4 py-1.5 font-display text-2xl font-bold tracking-wide text-accent-secondary opacity-80"
+        className="hidden sm:block absolute right-6 md:right-16 top-28 rotate-[8deg] select-none border-[3px] border-accent-secondary px-3 py-1 sm:px-4 sm:py-1.5 font-display text-xl md:text-2xl font-bold tracking-wide text-accent-secondary opacity-80 dark:opacity-100"
         style={{ borderRadius: '14px 8px 16px 8px / 8px 16px 8px 14px' }}
       >
         SHIPPED IT ✓
@@ -77,24 +79,15 @@ export default function HeroSection() {
         />
       </motion.div>
 
-      {/* Content group, centered in the space ABOVE the bottom-left corner links.
-          A flex-1 wrapper (replacing the old items-center/justify-center on the
-          section) lets the corner "elsewhere" stack sit in normal flow below and
-          never overlap the CTA, while staying pinned to the bottom-left. */}
+      {/* Content group, centered in the space ABOVE the bottom-left corner links. */}
       <div className="flex w-full flex-1 items-center justify-center">
-        {/* Hero renders VISIBLE by default so it paints from static HTML — never
-          gated behind JS hydration. On a slow phone, gating the hero on
-          framer-motion left it blank for seconds. Below-the-fold sections keep
-          their scroll-triggered (whileInView) reveals. */}
         <motion.div
           className="relative z-10 mx-auto max-w-4xl text-center"
           variants={staggerContainer}
           initial="visible"
           animate="visible"
         >
-          {/* availability first, proof second — keep the availability badge as the
-            only boxed element, with the credibility stat as loose handwritten
-            marginalia underneath so it does not compete visually. */}
+          {/* availability first, proof second */}
           <motion.div
             variants={prefersReduced ? {} : fadeUp}
             className="mb-5 flex flex-col items-center justify-center gap-1.5 sm:mb-8 sm:gap-2"
@@ -105,8 +98,8 @@ export default function HeroSection() {
               className="sketch-tag inline-flex -rotate-1 items-center gap-2 px-3 py-1 font-display text-base text-foreground sm:px-4 sm:py-1.5 sm:text-lg"
             >
               <span className="relative flex h-2.5 w-2.5" aria-hidden="true">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-70 motion-reduce:animate-none" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-status-available opacity-70 motion-reduce:animate-none" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-status-available" />
               </span>
               Available for new work
             </span>
@@ -139,17 +132,17 @@ export default function HeroSection() {
             preserveAspectRatio="none"
             aria-hidden="true"
           >
-            <path
+            <motion.path
               d="M4 9 C 90 3, 170 15, 250 7 S 360 4, 396 11"
               stroke="currentColor"
               strokeWidth="4"
               strokeLinecap="round"
+              initial={prefersReduced ? { pathLength: 1 } : { pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={prefersReduced ? { duration: 0 } : { duration: 1.1, ease: 'easeInOut' }}
             />
           </motion.svg>
 
-          {/* role — a handwritten subtitle directly under the name, so name → role →
-            hook reads in order (source of truth: content.ts). Caveat + a middot keep it
-            in the sketch aesthetic and consistent with the stat tag's separator. */}
           <motion.p
             variants={prefersReduced ? {} : fadeUp}
             className="mt-2 font-display text-lg text-muted sm:mt-3 sm:text-2xl"
@@ -171,87 +164,115 @@ export default function HeroSection() {
             {identity.tagline}
           </motion.p>
 
+          {/* D4: primary actions centered; ElsewhereNav absolutely positioned to the right */}
           <motion.div
             variants={prefersReduced ? {} : fadeUp}
-            className="relative flex flex-col items-center gap-6 sm:flex-row sm:justify-center sm:gap-6"
+            className="flex flex-col items-center gap-6 sm:block"
           >
-            {/* primary actions */}
-            <div className="flex flex-wrap items-center justify-center gap-4">
-              <Button href={`mailto:${identity.email}`} variant="primary">
+            {/* primary-actions wrapper: relative so ElsewhereNav can anchor to it */}
+            <div className="relative inline-flex flex-wrap items-center justify-center gap-4">
+              <Button href={`mailto:${identity.email}`} variant="primary" className="px-7 py-3.5 text-xl">
                 Get in touch →
               </Button>
               <Button href={identity.github} variant="secondary">
                 GitHub
               </Button>
-            </div>
 
-            {/* other links — desktop/tablet only: set off in a tidy stack beside
-              the CTAs. On phones this copy is hidden; the same links are parked
-              in the hero's bottom-left corner (rendered after this content). */}
-            <ElsewhereNav className="hidden flex-col items-start gap-1 border-l border-dashed border-divider pl-6 sm:flex" />
+              {/* D4: desktop ElsewhereNav — absolute right of primary buttons */}
+              <ElsewhereNav className="hidden sm:flex absolute left-[calc(100%+1.75rem)] top-1/2 -translate-y-1/2 flex-col items-start gap-0 border-l border-dashed border-divider pl-6" />
 
-            {/* doodle arrow + note pointing at the primary CTA */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -bottom-20 left-2 hidden rotate-[-4deg] text-accent sm:block"
-            >
-              <span className="mb-1 ml-8 block font-display text-lg">say hi! :)</span>
-              <svg className="h-14 w-16" viewBox="0 0 64 56" fill="none">
-                <path
-                  d="M52 6 C 22 8, 12 26, 16 48"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M7 37 L16 50 L27 41"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              {/* D4: "say hi" doodle re-anchored left of this wrapper, pointing at Get in touch */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute right-[calc(100%+1rem)] top-0 hidden -rotate-[4deg] text-accent sm:block"
+              >
+                <svg className="h-14 w-16" viewBox="0 0 64 56" fill="none">
+                  <path
+                    d="M6 44 C 18 20, 36 14, 59 22"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M49 12 L60 22 L47 29"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+                <span className="-mt-1 block font-display text-lg">say hi! :)</span>
+              </div>
             </div>
           </motion.div>
         </motion.div>
       </div>
 
-      {/* mobile: "elsewhere" parked in the hero's bottom-left corner — the intended
-          personal touch — but in NORMAL FLOW (after all content) so it can never
-          overlap the CTA the way the old absolute placement did on real phones. */}
-      <ElsewhereNav className="relative z-10 mb-2 ml-1 mt-5 flex flex-col items-start gap-0.5 self-start border-r border-dashed border-divider pr-5 sm:hidden" />
+      {/* F3: mobile "elsewhere" — centered horizontal row, no dangling divider */}
+      <div className="relative z-10 mt-5 flex flex-col items-center gap-2 self-stretch sm:hidden">
+        <ElsewhereNav className="flex flex-row items-center gap-6" />
+      </div>
 
-      {/* scroll cue */}
-      <a
-        href="#about"
-        aria-label="Scroll to About"
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 font-display text-lg text-muted transition-colors hover:text-foreground"
-      >
-        <span className="flex flex-col items-center gap-0.5">
-          scroll
-          <span className="animate-bounce motion-reduce:animate-none">↓</span>
-        </span>
-      </a>
+      {/* D9: hand-drawn scroll cue — Caveat label + wobbly arrow SVG with pathLength animation */}
+      <ScrollCue prefersReduced={prefersReduced ?? false} />
     </section>
   )
 }
 
-/** The "elsewhere" link stack. Rendered twice by the hero — once in the desktop
- *  side stack beside the CTAs, once parked in the bottom-left corner (in normal
- *  flow, so it can't overlap the CTA) on phones — so the two placements share a
- *  single source of truth for the links. Only one instance is ever displayed
- *  (and thus in the a11y tree) at a given breakpoint. */
+/** D9: Hand-drawn scroll cue. No <rect>/<line>. Stem pathLength 0→1 on mount.
+ *  Gentle y-bob on wrapper only when !prefersReduced, static otherwise. */
+function ScrollCue({ prefersReduced }: { prefersReduced: boolean }) {
+  return (
+    <a
+      href="#about"
+      aria-label="Scroll to About"
+      className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted transition-colors hover:text-foreground z-20"
+    >
+      <span className="font-display text-lg text-muted -rotate-3 leading-none">scroll</span>
+      <motion.div
+        animate={prefersReduced ? {} : { y: [0, 4, 0] }}
+        transition={prefersReduced ? {} : { duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <svg
+          className="h-10 w-6"
+          viewBox="0 0 24 36"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.25"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          {/* wobbly stem: M12 2 C 8 12, 16 21, 11 33 */}
+          <motion.path
+            d="M12 2 C 8 12, 16 21, 11 33"
+            initial={prefersReduced ? { pathLength: 1 } : { pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={prefersReduced ? { duration: 0 } : { duration: 0.9, ease: 'easeOut' }}
+          />
+          {/* arrowhead */}
+          <path d="M5 26 L11 34 L18 27" />
+        </svg>
+      </motion.div>
+      <span className="sr-only">scroll down</span>
+    </a>
+  )
+}
+
+/** The "elsewhere" link stack. Rendered twice — desktop absolute side stack and mobile centered row.
+ *  Only one instance is ever displayed at a given breakpoint. */
 function ElsewhereNav({ className }: { className: string }) {
   return (
     <nav aria-label="Find me elsewhere" className={className}>
       <span aria-hidden="true" className="font-display text-sm leading-none text-muted">
         elsewhere
       </span>
-      <Button href={identity.agentAfkUrl} variant="ghost" className="px-0">
-        agentafk.com
+      {/* D4: tighter ghost buttons on sm+ — sm:min-h-0 sm:py-1; >=44px on mobile */}
+      <Button href={identity.agentAfkUrl} variant="ghost" className="px-0 sm:min-h-0 sm:py-1">
+        <span className="text-base">agentafk.com</span>
       </Button>
-      <Button href={identity.graisolUrl} variant="ghost" className="px-0">
-        graisol.com
+      <Button href={identity.graisolUrl} variant="ghost" className="px-0 sm:min-h-0 sm:py-1">
+        <span className="text-base">graisol.com</span>
       </Button>
     </nav>
   )

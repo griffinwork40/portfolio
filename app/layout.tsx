@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import { Caveat, Kalam } from 'next/font/google'
 import './globals.css'
+import './paper-cards.css'
+import './embed.css'
 import { siteMetadata, identity, contact, skills } from '@/data/content'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
@@ -153,7 +155,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${caveat.variable} ${kalam.variable}`}>
+    <html lang="en" className={`${caveat.variable} ${kalam.variable}`} suppressHydrationWarning>
       <head>
         {/* Sync .dark with the OS/browser color-scheme preference before paint,
             so it applies on load and follows live changes (no manual toggle
@@ -179,7 +181,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-white focus:rounded"
+          className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-4 focus-visible:left-4 focus-visible:z-50 focus-visible:px-4 focus-visible:py-2 focus-visible:bg-accent focus-visible:text-background focus-visible:rounded"
         >
           Skip to main content
         </a>

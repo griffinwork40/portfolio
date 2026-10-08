@@ -20,7 +20,9 @@ export default function Badge({ children, variant = 'muted', className }: BadgeP
   return (
     <span
       className={cn(
-        'sketch-tag inline-flex items-center px-2.5 py-0.5 text-sm font-sans -rotate-1',
+        // F5: whitespace-nowrap prevents internal wrapping; text-xs/px-1.5 at mobile
+        // so long chips fit at 390px without overflowing the card
+        'sketch-tag inline-flex items-center whitespace-nowrap px-1.5 py-0.5 text-xs font-sans -rotate-1 sm:px-2.5 sm:text-sm',
         variants[variant],
         className,
       )}

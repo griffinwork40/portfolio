@@ -23,10 +23,11 @@ export default function Timeline({ entries }: TimelineProps) {
 
       {entries.map((entry) => (
         <motion.div key={entry.id} variants={prefersReduced ? {} : fadeUp} className="relative pl-10">
-          {/* hand-drawn node */}
+          {/* D10: vertically center dot on the h3 line at sm+ using top-[0.6em] */}
           <div
             className={cn(
               'absolute left-0 top-1.5 flex h-6 w-6 items-center justify-center rounded-full border-2 border-foreground bg-surface',
+              'sm:top-[0.6em]',
               entry.status === 'current' && 'border-accent',
             )}
             aria-hidden="true"
@@ -37,21 +38,31 @@ export default function Timeline({ entries }: TimelineProps) {
           <div className="glass p-6">
             <div className="mb-3 flex flex-wrap items-start justify-between gap-2">
               <div>
-                <h3 className="font-display text-2xl leading-none text-foreground">{entry.role}</h3>
+                <h3 className="font-display text-3xl font-bold leading-none text-foreground">{entry.role}</h3>
                 <p className="mt-1 text-sm text-muted">
                   {entry.companyUrl ? (
-                    <a href={entry.companyUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+                    <a href={entry.companyUrl} target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-accent hover:underline">
                       {entry.company}
                       <span className="sr-only"> (opens in new tab)</span>
                     </a>
                   ) : (
                     entry.company
                   )}
-                  {' · '}
-                  {entry.location}
+                  {/* D10: show · location only when location !== company */}
+                  {entry.location !== entry.company && (
+                    <>{' · '}{entry.location}</>
+                  )}
                 </p>
+                {/* mobile-only: period + badge flush left under company */}
+                <div className="mt-1 flex items-center gap-2 sm:hidden">
+                  <span className="text-sm text-muted">{entry.period}</span>
+                  {entry.status === 'current' && (
+                    <span className="sketch-tag px-2 py-0.5 font-display text-base text-accent">Current</span>
+                  )}
+                </div>
               </div>
-              <div className="flex flex-col items-end gap-1">
+              {/* sm+: right-aligned column */}
+              <div className="hidden sm:flex flex-col items-end gap-1">
                 <span className="text-sm text-muted">{entry.period}</span>
                 {/* Atlas Digital status: 'past' renders nothing; 'current' renders badge */}
                 {entry.status === 'current' && (
