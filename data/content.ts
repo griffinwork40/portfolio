@@ -208,10 +208,10 @@ export const projects: readonly Project[] = [
     featured: true,
   },
   {
-    id: 'umber',
-    name: 'Umber',
+    id: 'goblin-portal',
+    name: 'Goblin Portal',
     description: 'Native macOS terminal in Swift 6 / AppKit — no Electron, no Xcode project — with a file-tree sidebar, 22-language syntax-highlighted editor, git status badges, split panes, shell integration, and 10 color themes gated by 345 contrast assertions',
-    url: 'https://github.com/griffinwork40/umber',
+    url: 'https://goblinportal.app',
     metrics: [
       { label: 'source files', value: '91' },
       { label: 'editor languages', value: '22' },
@@ -375,7 +375,7 @@ type Now = { readonly updated: string; readonly items: readonly NowItem[] }
 export const now = {
   updated: 'Sep 2026',
   items: [
-    { text: 'Building Umber, a native macOS terminal in Swift', link: '#projects' },
+    { text: 'Building Goblin Portal, a native macOS terminal in Swift', link: 'https://goblinportal.app' },
     { text: 'Shipping agent-afk releases weekly on npm', link: 'https://agentafk.com' },
     { text: 'Engineering for Capital Mischief / Charlie Garcia', link: '#experience' },
     { text: 'Writing The Goblin Files on Substack', link: 'https://griffinlong.substack.com' },
